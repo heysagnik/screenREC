@@ -1,10 +1,10 @@
 import recorderClass from "./components/recorder";
 import themeTogglerClass from "./components/themeToggler";
 
-const screenHive = {};
+const screenRec = {};
 //instance
-screenHive.recorder = new recorderClass();
-screenHive.theme = new themeTogglerClass();
+screenRec.recorder = new recorderClass();
+screenRec.theme = new themeTogglerClass();
 // init
-screenHive.recorder.init();
-screenHive.theme.init();
+screenRec.recorder.init();
+screenRec.theme.init();
