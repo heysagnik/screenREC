@@ -5,6 +5,10 @@
 
 A realy simple web screen recorder.
 
+<a href="https://www.producthunt.com/posts/screenrec?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-screenrec" target="_blank">
+ <img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=322532&theme=light" alt="ScreenREC - A simple web screen recorder | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" />
+</a>
+
 ## 🎯 About
 
 The project is developed with Vanilla JS and HTML.<br/>
