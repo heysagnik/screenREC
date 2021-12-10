@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Screenhive.app</title>
+    <link href="./styles.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <section class="sh sh__wrp">
+      <h1 class="sh__logo">Screenhive</h1>
+
+      <div class="sh__text--wrp">
+        <h4 class="sh__text--choose">Choose the video format</h4>
+        <select id="mimetype-select" class="sh__select">
+          <option class="sh__select--option" value="">
+            Please select an option
+          </option>
+          <option class="sh__select--option" value="webm">
+            webm - optimized for web
+          </option>
+          <option class="sh__select--option" value="mp4">
+            mp4 - optimized for compatibility
+          </option>
+        </select>
+      </div>
+
+      <video
+        class="sh__video"
+        id="preview"
+        width="100%"
+        height="100%"
+        autoplay
+        muted
+      ></video>
+
+      <div class="sh__btn--wrp">
+        <button class="sh__btn sh__btn--start" id="start">Start</button>
+        <button class="sh__btn sh__btn--stop" id="stop">Stop</button>
+      </div>
+    </section>
+
+    <script src="./script.js"></script>
+  </body>
+</html>

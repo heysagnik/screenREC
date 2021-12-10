@@ -1,0 +1,434 @@
+&__recorder {
+  .sh {
+    &__wrp {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &__logo {
+      position: absolute;
+      left: 3%;
+      top: 2%;
+      width: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: inherit;
+      transform: scale(0.9);
+      transition: all 0.4s $bezier-curve;
+
+      @include mq(md) {
+        width: 100%;
+        left: 50%;
+        transform: translateX(-50%) scale(0.7);
+      }
+
+      &--img {
+        img {
+          width: 100%;
+          max-width: 20vw;
+          transform: scale(1);
+
+          @include mq(md) {
+            max-width: 10vw;
+          }
+        }
+      }
+
+      &--text {
+        @include mq(null, md) {
+          display: none;
+        }
+
+        margin: 0;
+        margin-left: 0.8rem;
+        @include fluid-type(768px, 1920px, 40px, 56px);
+        font-weight: 900;
+
+        span {
+          background: $red-gradient;
+          background-clip: text;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+      }
+    }
+
+    &__dropdown {
+      position: relative;
+      display: flex;
+      width: 90%;
+
+      @include mq(md) {
+        width: 100%;
+        max-width: 35rem;
+      }
+
+      &--btn {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        background-color: $light-grey;
+        color: $grey;
+        font-family: $main-font;
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin: 1.5rem 0;
+        padding: 1.2rem 1rem;
+        border: 2px solid transparent;
+        border-radius: $default-radius;
+        outline: none;
+        cursor: pointer;
+        transition: all 0.3s $bezier-curve;
+
+        @include mq(md) {
+          padding: 1.2rem 1.8rem;
+          @include fluid-type(768px, 1920px, 14px, 18px);
+        }
+
+        &:hover {
+          background-color: darken($light-grey, 4%);
+        }
+
+        span {
+          margin-left: 2%;
+          margin-right: auto;
+        }
+
+        &.toggled {
+          border: 2px solid $grey;
+        }
+      }
+
+      &--icon {
+        width: 100%;
+        max-width: 1.2rem;
+        transition: transform 0.3s $bezier-curve;
+
+        &.camera {
+          max-width: 1.5rem;
+          @include mq(lg) {
+            max-width: 2rem;
+          }
+        }
+
+        &.toggled {
+          transform: rotate(180deg);
+        }
+      }
+
+      &__list {
+        overflow: hidden;
+        position: absolute;
+        top: 100%;
+        z-index: 11;
+        width: 100%;
+        margin: 0;
+        padding: 0.6rem 0.8rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background-color: $light-grey;
+        border-radius: $default-radius;
+        list-style-type: none;
+        text-align: center;
+        pointer-events: all;
+        opacity: 0;
+        transform: scale(0.01);
+        transition: all 0.4s $bezier-curve;
+        transform-origin: top;
+
+        &--item {
+          padding: 0.8rem;
+          display: block;
+          @include fluid-type(768px, 1920px, 14px, 16px);
+          font-weight: 500;
+          color: $grey;
+          background-color: transparent;
+          border-radius: $default-radius;
+          cursor: pointer;
+          transition: all 0.3s $bezier-curve;
+
+          &:hover {
+            background-color: darken(#C3C1C1, 4%);
+          }
+        }
+
+        &.open {
+          transform: scaleY(1);
+          opacity: 1;
+          pointer-events: all;
+        }
+      }
+    }
+
+    &__header {
+      display: flex;
+      flex-direction: column;
+
+      &--title {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+        @include fluid-type(768px, 1920px, 20px, 28px);
+        line-height: 1.4;
+        font-weight: 600;
+        text-align: center;
+
+        span {
+          display: inline-block;
+          transition: transform 0.8s $bezier-curve;
+          will-change: transform;
+
+          &.red--text {
+            color: $red;
+            font-weight: 700;
+          }
+        }
+
+        &.recording {
+          span {
+            transform: translateY(100%);
+          }
+        }
+        &.outro {
+          span {
+            transform: translateY(200%);
+          }
+        }
+      }
+
+      &.is-recording {
+        .intro {
+          span {
+            transform: translateY(-100%);
+          }
+        }
+        .recording {
+          span {
+            transform: translateY(0);
+          }
+        }
+        .outro {
+          span {
+            transform: translateY(100%);
+          }
+        }
+      }
+
+      &.is-reviewing {
+        .intro {
+          span {
+            transform: translateY(-200%);
+          }
+        }
+        .recording {
+          span {
+            transform: translateY(-100%);
+          }
+        }
+        .outro {
+          span {
+            transform: translateY(0);
+          }
+        }
+      }
+    }
+
+    &__choice {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      &.hide {
+        display: none;
+      }
+
+      .record {
+        display: flex;
+        align-items: center;
+
+        .pulse {
+          position: relative;
+          margin-right: 1.3rem;
+          width: 0.8rem;
+          height: 0.8rem;
+          display: inline-block;
+          background-color: $white;
+          border-radius: 50%;
+
+          &:after {
+            content: "";
+            position: absolute;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            border-radius: inherit;
+            background-color: transparent;
+            animation: pulse 2s infinite;
+          }
+        }
+      }
+    }
+
+    &__btn {
+      padding: 1rem 2.5rem;
+      border-radius: 12px;
+      min-width: 140px;
+      background: $red-gradient;
+      color: $white;
+      @include fluid-type(768px, 1920px, 14px, 16px);
+      font-family: $main-font;
+      font-weight: 600;
+      text-align: center;
+      text-decoration: none;
+      white-space: nowrap;
+      border: none;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(1rem);
+      transition: all 0.4s $bezier-curve;
+
+      &.visible {
+        pointer-events: all;
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      &:hover {
+        transform: scale(0.94);
+        background-position: right center;
+      }
+
+      &--wrp {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin-top: 2rem;
+        gap: 2rem;
+      }
+    }
+
+    &__video {
+      &--wrp {
+        position: relative;
+        width: 40%;
+        max-width: 50%;
+
+        @include mq(lg) {
+          max-width: 56rem;
+        }
+
+        .sh {
+          &__video {
+            display:none;
+            //aspect-ratio: 16/9;
+            border-radius: $default-radius;
+            background-color: $light-grey;
+            box-shadow: 0 0 #0000, 0 0 #0000, 0 0 #0000, 0 0 #0000,
+              0 15px 50px -15px rgba(0, 0, 0, 0.12);
+
+            &.visible {
+              display: block;
+            }
+
+            &--sheet {
+              background: linear-gradient(
+                to bottom,
+                transparent,
+                rgba(0, 0, 0, 0.3)
+              );
+              position: absolute;
+              bottom: 0;
+              left: 0;
+              width: 50%;
+              height: 10%;
+              border-bottom-left-radius: $default-radius;
+              border-bottom-right-radius: $default-radius;
+            }
+
+            &--btn {
+              position: absolute;
+              bottom: 3%;
+              left: 50%;
+              transform: translateX(-50%) scale(0.9);
+              border-radius: 50%;
+              width: 2rem;
+              height: 2rem;
+              min-width: unset;
+              padding: 2.5rem;
+              border: 3px solid $white;
+              box-shadow: 0 0 12px 2px rgba(0, 0, 0, 0.3);
+              transition: transform 0.4s $bezier-curve;
+
+              &:hover {
+                transform: translateX(-50%) scale(0.8);
+
+                .sh__video--btn-icon {
+                  transform: translate(-50%, -50%) scale(0.8);
+                }
+              }
+
+              &-icon {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                width: 90%;
+                height: 90%;
+                transition: transform 0.4s $bezier-curve;
+              }
+            }
+          }
+
+          &__download {
+            &-btn {
+              position: absolute;
+              bottom: 0%;
+              left: 50%;
+              transform: translate(-50%, 300%);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              padding: 1rem 2.5rem;
+              width: auto;
+              background: $green-gradient;
+              white-space: nowrap;
+              border: 0;
+              border-radius: $default-radius;
+              transition: all 0.8s $bezier-curve;
+
+              &.visible {
+                pointer-events: all;
+                opacity: 1;
+                transform: translate(-50%, 5rem);
+              }
+
+              &:hover {
+                transform: translate(-50%, 5rem) scale(0.92);
+              }
+
+              &--icon {
+                max-width: 1.5rem;
+                margin-right: 0.5rem;
+              }
+              &--text {
+                @include fluid-type(768px, 1920px, 14px, 16px);
+                font-weight: 600;
+                color: $white;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,42 @@
+section.sh__recorder
+    .sh__wrp
+        a(class="sh__logo" href="/")
+            picture(class="sh__logo--img")
+                source(srcset="images/logo.png?as=avif&width=400" type="image/avif")
+                source(srcset="images/logo.png?as=webp&width=400" type="image/webp")
+                source(srcset="images/logo.png?width=400" type="image/png")
+                img(src="images/logo.png?width=400" alt="test image")
+            h1.sh__logo--text Screen <span>REC</span>
+
+        .sh__header
+            h2.sh__header--title.outro
+                span Your video is ready to be exported
+            h2.sh__header--title.recording
+                span You are currently <span class="red--text">recording</span>
+            h2.sh__header--title.intro
+                span A simple web screen recorder
+
+        .sh__choice
+            .sh__dropdown
+                button(type="button" class="sh__dropdown--btn")
+                    img(class="sh__dropdown--icon camera" src=`./images/camera.svg`)
+                    span(class="sh__dropdown--defaultOption") Select the format of the output video
+                    img(class="sh__dropdown--icon chevron" src=`./images/chevron-down.svg`)
+                ul.sh__dropdown__list
+                    li(class="sh__dropdown__list--item" data-value="webm") WebM - Optimized for web
+                    li(class="sh__dropdown__list--item" data-value="mp4") MP4 - Optimized for compatibility
+
+            button(type="button" class="sh__btn record" id="start")
+                span.pulse
+                span I’m ready to record
+
+
+        .sh__video--wrp
+            .sh__video--sheet
+            video(class="sh__video" id="preview" width="100%" height="100%" autoplay muted)
+            button(class="sh__btn sh__video--btn" id="stop")
+                img(class="sh__video--btn-icon" src="images/stop.svg" alt="stop icon")
+
+            a(class="sh__btn sh__download-btn" id="download")
+                img(class="sh__download-btn--icon" src=`./images/download.svg`)
+                span(class="sh__download-btn--text") Download now

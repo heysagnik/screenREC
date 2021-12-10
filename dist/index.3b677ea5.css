@@ -1,0 +1,771 @@
+@import "https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap";
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+/* Remove default margin */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+ul[role=list],
+ol[role=list] {
+  list-style: none;
+}
+/* Set core root defaults */
+html:focus-within {
+  scroll-behavior: smooth;
+}
+/* Set core body defaults */
+body {
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+}
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+/* Make images easier to work with */
+img,
+picture {
+  max-width: 100%;
+  display: block;
+}
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+/* Remove all animations and transitions for people that prefer not to see them */
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  *,
+*::before,
+*::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+/*#2ad0a6;*/
+@keyframes fill {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100vw;
+  }
+}
+@keyframes pulse {
+  0% {
+    box-shadow: inset 0 0 1px 1px rgba(255, 255, 255, 0.8);
+  }
+  50% {
+    box-shadow: inset 0 0 1px 1px rgba(255, 255, 255, 0.8);
+  }
+  to {
+    transform: scale(2.6);
+    box-shadow: inset 0 0 1px 1px rgba(255, 255, 255, 0);
+  }
+}
+@keyframes pump {
+  10% {
+    transform: scale(1.3);
+  }
+}
+html {
+  overflow-x: hidden;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: auto;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+  scroll-behavior: smooth;
+}
+body {
+  position: relative;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  background-color: #fff;
+  color: #494949;
+  transition: 0.5s cubic-bezier(0.6, -0.05, 0.01, 0.99);
+}
+body[data-theme=dark] {
+  background-color: #2e2e2e;
+  color: #fff;
+}
+body[data-theme=dark] .sh__toggler {
+  background-color: #2e2e2e;
+  border-color: #a7a7a7;
+}
+body[data-theme=dark] .sh__toggler:hover {
+  border-color: #fff;
+}
+body[data-theme=dark] .sh__toast {
+  background-color: #fff;
+  color: #494949;
+}
+body[data-theme=light] {
+  background-color: #fff;
+  color: #494949;
+}
+body[data-theme=light] .sh__toggler {
+  background-color: #fff;
+  border-color: #a7a7a7;
+}
+body[data-theme=light] .sh__toggler:hover {
+  border-color: #494949;
+}
+body[data-theme=light] .sh__toast {
+  background-color: #494949;
+  color: #f4f4f4;
+}
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #2e2e2e;
+    color: #fff;
+  }
+}
+@media (prefers-color-scheme: light) {
+  body {
+    background-color: #fff;
+    color: #494949;
+  }
+}
+.sh {
+  position: relative;
+  overflow: hidden;
+  width: 100vw;
+  min-height: 100vh;
+  height: 100%;
+}
+.sh__progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 101vw;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  height: 0.6rem;
+  background: linear-gradient(to right, #4838d2 0%, #2ad0a6 34%, #de00fc 70%, #5cd9e4 90%);
+  animation: fill 0.8s cubic-bezier(0.6, -0.05, 0.01, 0.99);
+}
+.sh__recorder .sh__wrp {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.sh__recorder .sh__logo {
+  position: absolute;
+  left: 3%;
+  top: 2%;
+  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: inherit;
+  transform: scale(0.9);
+  transition: all 0.4s cubic-bezier(0.6, -0.05, 0.01, 0.99);
+}
+@media (min-width: 768px) {
+  .sh__recorder .sh__logo {
+    width: 100%;
+    left: 50%;
+    transform: translateX(-50%) scale(0.7);
+  }
+}
+.sh__recorder .sh__logo--img img {
+  width: 100%;
+  max-width: 20vw;
+  transform: scale(1);
+}
+@media (min-width: 768px) {
+  .sh__recorder .sh__logo--img img {
+    max-width: 10vw;
+  }
+}
+.sh__recorder .sh__logo--text {
+  margin: 0;
+  margin-left: 0.8rem;
+  font-weight: 900;
+}
+@media (max-width: 767px) {
+  .sh__recorder .sh__logo--text {
+    display: none;
+  }
+}
+.sh__recorder .sh__logo--text {
+  font-size: 40px;
+}
+@media screen and (min-width: 768px) {
+  .sh__recorder .sh__logo--text {
+    font-size: calc(
+          40px + 16 *
+            ((100vw - 768px) / 1152)
+        );
+  }
+}
+@media screen and (min-width: 1920px) {
+  .sh__recorder .sh__logo--text {
+    font-size: 56px;
+  }
+}
+.sh__recorder .sh__logo--text span {
+  background: linear-gradient(to right, #e5312d 0%, #c62628 60%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.sh__recorder .sh__dropdown {
+  position: relative;
+  display: flex;
+  width: 90%;
+}
+@media (min-width: 768px) {
+  .sh__recorder .sh__dropdown {
+    width: 100%;
+    max-width: 35rem;
+  }
+}
+.sh__recorder .sh__dropdown--btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background-color: #f4f4f4;
+  color: #a7a7a7;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin: 1.5rem 0;
+  padding: 1.2rem 1rem;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.6, -0.05, 0.01, 0.99);
+}
+@media (min-width: 768px) {
+  .sh__recorder .sh__dropdown--btn {
+    padding: 1.2rem 1.8rem;
+  }
+  .sh__recorder .sh__dropdown--btn {
+    font-size: 14px;
+  }
+}
+@media screen and (min-width: 768px) and (min-width: 768px) {
+  .sh__recorder .sh__dropdown--btn {
+    font-size: calc(
+          14px + 4 *
+            ((100vw - 768px) / 1152)
+        );
+  }
+}
+@media screen and (min-width: 768px) and (min-width: 1920px) {
+  .sh__recorder .sh__dropdown--btn {
+    font-size: 18px;
+  }
+}
+.sh__recorder .sh__dropdown--btn:hover {
+  background-color: #eaeaea;
+}
+.sh__recorder .sh__dropdown--btn span {
+  margin-left: 2%;
+  margin-right: auto;
+}
+.sh__recorder .sh__dropdown--btn.toggled {
+  border: 2px solid #a7a7a7;
+}
+.sh__recorder .sh__dropdown--icon {
+  width: 100%;
+  max-width: 1.2rem;
+  transition: transform 0.3s cubic-bezier(0.6, -0.05, 0.01, 0.99);
+}
+.sh__recorder .sh__dropdown--icon.camera {
+  max-width: 1.5rem;
+}
+@media (min-width: 1024px) {
+  .sh__recorder .sh__dropdown--icon.camera {
+    max-width: 2rem;
+  }
+}
+.sh__recorder .sh__dropdown--icon.toggled {
+  transform: rotate(180deg);
+}
+.sh__recorder .sh__dropdown__list {
+  overflow: hidden;
+  position: absolute;
+  top: 100%;
+  z-index: 11;
+  width: 100%;
+  margin: 0;
+  padding: 0.6rem 0.8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #f4f4f4;
+  border-radius: 10px;
+  list-style-type: none;
+  text-align: center;
+  pointer-events: all;
+  opacity: 0;
+  transform: scale(0.01);
+  transition: all 0.4s cubic-bezier(0.6, -0.05, 0.01, 0.99);
+  transform-origin: top;
+}
+.sh__recorder .sh__dropdown__list--item {
+  padding: 0.8rem;
+  display: block;
+  font-weight: 500;
+  color: #a7a7a7;
+  background-color: transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.6, -0.05, 0.01, 0.99);
+}
+.sh__recorder .sh__dropdown__list--item {
+  font-size: 14px;
+}
+@media screen and (min-width: 768px) {
+  .sh__recorder .sh__dropdown__list--item {
+    font-size: calc(
+          14px + 2 *
+            ((100vw - 768px) / 1152)
+        );
+  }
+}
+@media screen and (min-width: 1920px) {
+  .sh__recorder .sh__dropdown__list--item {
+    font-size: 16px;
+  }
+}
+.sh__recorder .sh__dropdown__list--item:hover {
+  background-color: #b9b7b7;
+}
+.sh__recorder .sh__dropdown__list.open {
+  transform: scaleY(1);
+  opacity: 1;
+  pointer-events: all;
+}
+.sh__recorder .sh__header {
+  display: flex;
+  flex-direction: column;
+}
+.sh__recorder .sh__header--title {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  line-height: 1.4;
+  font-weight: 600;
+  text-align: center;
+}
+.sh__recorder .sh__header--title {
+  font-size: 20px;
+}
+@media screen and (min-width: 768px) {
+  .sh__recorder .sh__header--title {
+    font-size: calc(
+          20px + 8 *
+            ((100vw - 768px) / 1152)
+        );
+  }
+}
+@media screen and (min-width: 1920px) {
+  .sh__recorder .sh__header--title {
+    font-size: 28px;
+  }
+}
+.sh__recorder .sh__header--title span {
+  display: inline-block;
+  transition: transform 0.8s cubic-bezier(0.6, -0.05, 0.01, 0.99);
+  will-change: transform;
+}
+.sh__recorder .sh__header--title span.red--text {
+  color: #c62628;
+  font-weight: 700;
+}
+.sh__recorder .sh__header--title.recording span {
+  transform: translateY(100%);
+}
+.sh__recorder .sh__header--title.outro span {
+  transform: translateY(200%);
+}
+.sh__recorder .sh__header.is-recording .intro span {
+  transform: translateY(-100%);
+}
+.sh__recorder .sh__header.is-recording .recording span {
+  transform: translateY(0);
+}
+.sh__recorder .sh__header.is-recording .outro span {
+  transform: translateY(100%);
+}
+.sh__recorder .sh__header.is-reviewing .intro span {
+  transform: translateY(-200%);
+}
+.sh__recorder .sh__header.is-reviewing .recording span {
+  transform: translateY(-100%);
+}
+.sh__recorder .sh__header.is-reviewing .outro span {
+  transform: translateY(0);
+}
+.sh__recorder .sh__choice {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.sh__recorder .sh__choice.hide {
+  display: none;
+}
+.sh__recorder .sh__choice .record {
+  display: flex;
+  align-items: center;
+}
+.sh__recorder .sh__choice .record .pulse {
+  position: relative;
+  margin-right: 1.3rem;
+  width: 0.8rem;
+  height: 0.8rem;
+  display: inline-block;
+  background-color: #fff;
+  border-radius: 50%;
+}
+.sh__recorder .sh__choice .record .pulse:after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  border-radius: inherit;
+  background-color: transparent;
+  animation: pulse 2s infinite;
+}
+.sh__recorder .sh__btn {
+  padding: 1rem 2.5rem;
+  border-radius: 12px;
+  min-width: 140px;
+  background: linear-gradient(to right, #e5312d 0%, #c62628 60%);
+  color: #fff;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  border: none;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(1rem);
+  transition: all 0.4s cubic-bezier(0.6, -0.05, 0.01, 0.99);
+}
+.sh__recorder .sh__btn {
+  font-size: 14px;
+}
+@media screen and (min-width: 768px) {
+  .sh__recorder .sh__btn {
+    font-size: calc(
+          14px + 2 *
+            ((100vw - 768px) / 1152)
+        );
+  }
+}
+@media screen and (min-width: 1920px) {
+  .sh__recorder .sh__btn {
+    font-size: 16px;
+  }
+}
+.sh__recorder .sh__btn.visible {
+  pointer-events: all;
+  opacity: 1;
+  transform: translateY(0);
+}
+.sh__recorder .sh__btn:hover {
+  transform: scale(0.94);
+  background-position: right center;
+}
+.sh__recorder .sh__btn--wrp {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 2rem;
+  gap: 2rem;
+}
+.sh__recorder .sh__video--wrp {
+  position: relative;
+  width: 40%;
+  max-width: 65%;
+}
+@media (min-width: 1024px) {
+  .sh__recorder .sh__video--wrp {
+    max-width: 56rem;
+  }
+}
+.sh__recorder .sh__video--wrp .sh__video {
+  display: none;
+  border-radius: 10px;
+  background-color: #f4f4f4;
+  box-shadow: 0 0 #0000, 0 0 #0000, 0 0 #0000, 0 0 #0000, 0 15px 50px -15px rgba(0, 0, 0, 0.12);
+}
+.sh__recorder .sh__video--wrp .sh__video.visible {
+  display: block;
+}
+.sh__recorder .sh__video--wrp .sh__video--sheet {
+  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.3));
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50%;
+  height: 10%;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.sh__recorder .sh__video--wrp .sh__video--btn {
+  position: absolute;
+  bottom: 3%;
+  left: 50%;
+  transform: translateX(-50%) scale(0.9);
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  min-width: unset;
+  padding: 2.5rem;
+  border: 3px solid #fff;
+  box-shadow: 0 0 12px 2px rgba(0, 0, 0, 0.3);
+  transition: transform 0.4s cubic-bezier(0.6, -0.05, 0.01, 0.99);
+}
+.sh__recorder .sh__video--wrp .sh__video--btn:hover {
+  transform: translateX(-50%) scale(0.8);
+}
+.sh__recorder .sh__video--wrp .sh__video--btn:hover .sh__video--btn-icon {
+  transform: translate(-50%, -50%) scale(0.8);
+}
+.sh__recorder .sh__video--wrp .sh__video--btn-icon {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  height: 90%;
+  transition: transform 0.4s cubic-bezier(0.6, -0.05, 0.01, 0.99);
+}
+.sh__recorder .sh__video--wrp .sh__download-btn {
+  position: absolute;
+  bottom: 0%;
+  left: 50%;
+  transform: translate(-50%, 300%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2.5rem;
+  width: auto;
+  background: linear-gradient(to right, #43e97b 0%, #38f9d7 100%);
+  white-space: nowrap;
+  border: 0;
+  border-radius: 10px;
+  transition: all 0.8s cubic-bezier(0.6, -0.05, 0.01, 0.99);
+}
+.sh__recorder .sh__video--wrp .sh__download-btn.visible {
+  pointer-events: all;
+  opacity: 1;
+  transform: translate(-50%, 5rem);
+}
+.sh__recorder .sh__video--wrp .sh__download-btn:hover {
+  transform: translate(-50%, 5rem) scale(0.92);
+}
+.sh__recorder .sh__video--wrp .sh__download-btn--icon {
+  max-width: 1.5rem;
+  margin-right: 0.5rem;
+}
+.sh__recorder .sh__video--wrp .sh__download-btn--text {
+  font-weight: 600;
+  color: #fff;
+}
+.sh__recorder .sh__video--wrp .sh__download-btn--text {
+  font-size: 14px;
+}
+@media screen and (min-width: 768px) {
+  .sh__recorder .sh__video--wrp .sh__download-btn--text {
+    font-size: calc(
+          14px + 2 *
+            ((100vw - 768px) / 1152)
+        );
+  }
+}
+@media screen and (min-width: 1920px) {
+  .sh__recorder .sh__video--wrp .sh__download-btn--text {
+    font-size: 16px;
+  }
+}
+.sh__toggler {
+  overflow: hidden;
+  position: absolute;
+  top: 2.5rem;
+  right: 1.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  border-radius: 50%;
+  border: 2px solid;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.6, -0.05, 0.01, 0.99);
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+@media (min-width: 768px) {
+  .sh__toggler {
+    top: 2rem;
+    right: 2rem;
+    width: 3rem;
+    height: 3rem;
+  }
+}
+.sh__toggler:hover {
+  border: 2px solid #494949;
+  transform: scale(1.1);
+}
+.sh__toggler-wrp {
+  position: relative;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+@media (min-width: 768px) {
+  .sh__toggler-wrp {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+.sh__toggler-wrp span {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 100px;
+  transform: rotate(90deg);
+  transition: transform 0.8s cubic-bezier(0.6, -0.05, 0.01, 0.99);
+}
+.sh__toggler-btn--moon:is(.active) {
+  transform: rotate(0);
+}
+.sh__toggler-btn--moon:is(.active) ~ .sh__toggler-btn--sun {
+  transform: rotate(-90deg);
+}
+.sh__toggler-btn--sun:is(.active) {
+  transform: rotate(0);
+}
+.sh__toggler-btn--sun:is(.active) ~ .sh__toggler-btn--moon {
+  transform: rotate(90deg);
+}
+.sh__toggler--icon {
+  width: 100%;
+}
+.sh__toast {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  border-radius: 10px;
+  background-color: #494949;
+  color: #f4f4f4;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.8rem 1.6rem;
+  opacity: 0;
+  transform: translateX(200%);
+  transition: transform 0.8s cubic-bezier(0.6, -0.05, 0.01, 0.99), opacity 0.8s cubic-bezier(0.6, -0.05, 0.01, 0.99);
+}
+.sh__toast.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+.sh__footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: auto;
+  padding: 0.7rem 0.5rem;
+}
+.sh__footer-wrp {
+  max-width: 95%;
+  margin: 0 auto;
+}
+.sh__footer--text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  text-align: center;
+}
+.sh__footer--text {
+  font-size: 12px;
+}
+@media screen and (min-width: 768px) {
+  .sh__footer--text {
+    font-size: calc(
+          12px + 2 *
+            ((100vw - 768px) / 1152)
+        );
+  }
+}
+@media screen and (min-width: 1920px) {
+  .sh__footer--text {
+    font-size: 14px;
+  }
+}
+.sh__footer--user {
+  display: flex;
+  align-items: center;
+  color: inherit;
+  cursor: pointer;
+}
+.sh__footer--user:hover span {
+  opacity: 0.7;
+}
+.sh__footer--user span {
+  text-decoration: underline;
+  font-weight: 600;
+  color: inherit;
+  transition: opacity 0.4s cubic-bezier(0.6, -0.05, 0.01, 0.99);
+}
+.sh__footer--user-icon img {
+  margin-left: 0.3rem;
+  max-width: 1.5rem;
+  border-radius: 50%;
+  transition: opacity 0.4s cubic-bezier(0.6, -0.05, 0.01, 0.99);
+}
+.sh__footer--love-icon img {
+  max-width: 1rem;
+}
+.sh__footer--love-icon:hover {
+  animation: pump 1s infinite;
+}
+/*# sourceMappingURL=index.3b677ea5.css.map */

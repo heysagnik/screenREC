@@ -1,0 +1,91 @@
+@import "utils/reset";
+@import "utils/color-swatch";
+@import "utils/variables";
+@import "utils/breakpoints";
+@import "utils/mixins";
+@import "utils/keyframes";
+@import "utils/fluid-type";
+
+html {
+  overflow-x: hidden;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: auto;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
+    sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+  scroll-behavior: smooth;
+}
+
+body {
+  position: relative;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: $main-font;
+  font-size: 1rem;
+  font-weight: 400;
+  background-color: $white;
+  color: $font-color;
+  transition: 0.5s $bezier-curve;
+
+  &[data-theme="dark"] {
+    background-color: $darkest-grey;
+    color: $white;
+
+    .sh {
+      &__toggler {
+        background-color: $darkest-grey;
+        border-color: $grey;
+        &:hover {
+          border-color: $white;
+        }
+      }
+      &__toast {
+        background-color: $white;
+        color: $dark-grey;
+      }
+    }
+  }
+  &[data-theme="light"] {
+    background-color: $white;
+    color: $font-color;
+
+    .sh {
+      &__toggler {
+        background-color: $white;
+        border-color: $grey;
+        &:hover {
+          border-color: $dark-grey;
+        }
+      }
+      &__toast {
+        background-color: $dark-grey;
+        color: $light-grey;
+      }
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    background-color: $darkest-grey;
+    color: $white;
+  }
+  @media (prefers-color-scheme: light) {
+    background-color: $white;
+    color: $font-color;
+  }
+}
+
+.sh {
+  position: relative;
+  overflow: hidden;
+  width: 100vw;
+  min-height: 100vh;
+  height: 100%;
+
+  @import "components/progress";
+  @import "components/recorder";
+  @import "components/toggler";
+  @import "components/toast";
+  @import "components/footer";
+}

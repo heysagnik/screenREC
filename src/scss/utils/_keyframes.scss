@@ -1,0 +1,27 @@
+@keyframes fill {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100vw;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: inset 0 0 1px 1px rgba($white, 0.8);
+  }
+  50% {
+    box-shadow: inset 0 0 1px 1px rgba($white, 0.8);
+  }
+  to {
+    transform: scale(2.6);
+    box-shadow: inset 0 0 1px 1px rgba($white, 0);
+  }
+}
+
+@keyframes pump {
+  10% {
+    transform: scale(1.3);
+  }
+}
