@@ -19,6 +19,9 @@ html {
 body {
   position: relative;
   overflow-x: hidden;
+  user-select: none;
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
   display: flex;
   flex-direction: column;
   justify-content: center;
