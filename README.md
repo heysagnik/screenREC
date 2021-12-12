@@ -5,14 +5,12 @@
 
 A realy simple web screen recorder.
 
-<a href="https://www.producthunt.com/posts/screenrec?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-screenrec" target="_blank">
- <img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=322532&theme=light" alt="ScreenREC - A simple web screen recorder | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" />
-</a>
+<a href="https://www.producthunt.com/posts/screenrec?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-screenrec" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=322532&theme=dark" alt="ScreenREC - A really simple ad-free minimial web screen recorder | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 
 ## 🎯 About
 
 The project is developed with Vanilla JS and HTML.<br/>
- I've styled & refactored the WebApp using a custom boilerplate built on Parcel V2.
+I've styled & refactored the WebApp using a custom boilerplate built on Parcel V2.
 
 ## ▶️ Demo
 
@@ -27,15 +25,14 @@ Here you can find the live deployed version:
 :heavy_check_mark: Video download<br/>
 :heavy_check_mark: Dark/Light mode toggle<br/>
 :heavy_check_mark: Current OS theme detection
+:heavy_check_mark: Ad-free
+:heavy_check_mark: Open-Source
+
 
 ## :rocket: Technologies
 
 - [Parcel](https://parceljs.org/)
 - [SASS/SCSS](https://sass-lang.com/)
 
-## 📸 Screenshots
 
-
-## 👤 Authors
-
-- [Sagnik](https://github.com/devgossips)
+#### 🧑‍💻 Made with ❤️ by [Sagnik Sahoo](https://github.com/devgossips)
