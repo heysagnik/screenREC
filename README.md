@@ -5,7 +5,7 @@
 
 A really simple web screen recorder.
 
-<a href="https://www.producthunt.com/posts/screenrec?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-screenrec" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=322532&theme=" alt="ScreenREC - A really simple ad-free minimial web screen recorder | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
+<a href="https://www.producthunt.com/posts/screenrec?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-screenrec" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=322532&theme=dark" alt="ScreenREC - A really simple ad-free minimial web screen recorder | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>     <a href="https://www.producthunt.com/posts/screenrec?utm_source=badge-top-post-badge&utm_medium=badge&utm_souce=badge-screenrec" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=322532&theme=dark&period=daily" alt="ScreenREC - A really simple ad-free minimial web screen recorder | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 
 ## 🎯 About
 
@@ -35,4 +35,4 @@ Here you can find the live deployed version:
 - [SASS/SCSS](https://sass-lang.com/)
 
 
-#### 🧑‍💻 Made with ❤️ by [Sagnik Sahoo](https://github.com/devgossips)
+### 🧑‍💻 Made with ❤️ by [Sagnik Sahoo](https://github.com/devgossips)
