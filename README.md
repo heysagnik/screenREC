@@ -24,9 +24,9 @@ Here you can find the live deployed version:
 :heavy_check_mark: Video preview<br/>
 :heavy_check_mark: Video download<br/>
 :heavy_check_mark: Dark/Light mode toggle<br/>
-:heavy_check_mark: Current OS theme detection
-:heavy_check_mark: Ad-free
-:heavy_check_mark: Open-Source
+:heavy_check_mark: Current OS theme detection<br/>
+:heavy_check_mark: Ad-free<br/>
+:heavy_check_mark: Open-Source<br/>
 
 
 ## :rocket: Technologies
