@@ -32,7 +32,7 @@ Here you can find the live deployed version:
 - Using this button open this project on Gitpod.
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/devgossips/screenREC)
 - Now run <code>npm install</code> in terminal to install the packages .
-- Run <code>npm run dev</code> to use development mode .
+- Run <code>npm run start</code> to use development mode .
 - Run <code>npm run build</code> to build
 - Or you can directly run this button
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fdevgossips%2FscreenREC)
