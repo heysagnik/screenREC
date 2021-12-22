@@ -35,7 +35,7 @@ Here you can find the live deployed version:
 - Now run <code>npm install</code> in terminal to install the packages .
 - Run <code>npm run start</code> to use development mode .
 - Run <code>npm run build</code> to build
-- Or you can deploy the static site on netlify or vercel or anyother platform. </br>
+- Or you can deploy the static site on netlify or vercel or any other platform. </br>
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fdevgossips%2FscreenREC)  [![Deploy with Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/devgossips/screenREC)
 
 ## Installation Guide for Windows Users or Local Developement :
@@ -46,7 +46,7 @@ Here you can find the live deployed version:
 - Now run <code>npm install</code> in terminal to install the packages .
 - Make sure you delete <code>.parcel-cache</code>&<code>dist</code> folder 📂 firstly. Then Run <code>npx parcel src/index.pug</code> to use in development mode.
 - Run <code>npm run build</code> to build the final project 
-- Or you can deploy the static site on netlify or vercel or anyother platform. 
+- Or you can deploy the static site on netlify or vercel or any other platform. 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fdevgossips%2FscreenREC)  [![Deploy with Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/devgossips/screenREC)
 
 
