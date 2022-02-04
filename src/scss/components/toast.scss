@@ -1,0 +1,19 @@
+&__toast {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  border-radius: $default-radius;
+  background-color: $dark-grey;
+  color: $light-grey;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.8rem 1.6rem;
+  opacity: 0;
+  transform: translateX(200%);
+  transition: transform 0.8s $bezier-curve, opacity 0.8s $bezier-curve;
+
+  &.active {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
