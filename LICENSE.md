@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2021 Sagnik Sahoo 
+Copyright (c) 2022 Sagnik Sahoo 
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
