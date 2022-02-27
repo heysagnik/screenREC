@@ -27,6 +27,8 @@ Here you can find the live deployed version:
 :heavy_check_mark: Current OS theme detection<br/>
 :heavy_check_mark: Ad-free<br/>
 :heavy_check_mark: Open-Source<br/>
+❌ Doesn't support Mobile Devices yet.
+
 
 ## Installation Guide for Cloud or Linux Users only :
 
