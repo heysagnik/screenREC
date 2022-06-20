@@ -76,6 +76,18 @@ export default class recorderClass {
     }, 2000);
   }
 
+  checkIfMobileDevice() {
+    window.onload = function () {
+      const headerTitleIntro = document.getElementById("header--intro");
+      const choiceDropDown = document.getElementsByClassName("sh__dropdown--btn")[0];
+      if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        headerTitleIntro.textContent = "Error: This app does not currently support mobile use";
+        headerTitleIntro.style.fontSize = "2rem";
+        choiceDropDown.style.display = "none";
+      }
+   };
+  }
+
   createRecorder(stream) {
     // the stream data is stored in this array
     let recordedChunks = [];

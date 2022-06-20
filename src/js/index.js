@@ -5,6 +5,8 @@ const screenRec = {};
 //instance
 screenRec.recorder = new recorderClass();
 screenRec.theme = new themeTogglerClass();
-// init
+//init
 screenRec.recorder.init();
 screenRec.theme.init();
+//check for mobile device
+screenRec.recorder.checkIfMobileDevice();
