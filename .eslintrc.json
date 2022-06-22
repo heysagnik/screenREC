@@ -1,0 +1,26 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "extends": ["eslint:recommended", "prettier"],
+  "plugins": ["import"],
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "modules": true,
+      "experimentalObjectRestSpread": true
+    }
+  },
+  "rules": {
+    "no-console": "off",
+    "no-eval": "error",
+    "import/first": "error",
+    "no-undef": "warn",
+    "no-unused-vars": "off",
+    "no-unsafe-finally": "off",
+    "no-prototype-builtins": "off"
+  }
+}

@@ -1,0 +1,11 @@
+&__progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 101vw;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  height: 0.6rem;
+  background: $main-gradient;
+  animation: fill 0.8s $bezier-curve;
+}
