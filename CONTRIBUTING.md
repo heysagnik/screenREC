@@ -9,13 +9,13 @@ Thank you for your interest in becoming a contributor to screenREC. We appreciat
 
 If you fiind a bug that can be fixed potentially by you or someone else, open an issue to let others know! Please add all the necessary information needed and how can the bug be traced and the steps to follow to reach to this bug.
 
-[Open an issue](https://github.com/TechSquidTV/Shoutify/issues/new/choose)
+[Open an issue](https://github.com/heysagnik/screenREC/issues/new/choose)
 
 ## <a name="feature"></a>Request a Feature
 
 Would you like to see a new feature added to Shoutify? Let's discuss it! Let us know what is in your mind and we would love to add it to the project if it fits with the project!
 
-[Open an issue](https://github.com/TechSquidTV/Shoutify/issues/new/choose)
+[Open an issue](https://github.com/heysagnik/screenREC/issues/new/choose)
 
 ## Steps to open a Pull Request:
 
