@@ -153,7 +153,7 @@
           transition: all 0.3s $bezier-curve;
 
           &:hover {
-            background-color: darken(#C3C1C1, 4%);
+            background-color: darken(#c3c1c1, 4%);
           }
         }
 
@@ -318,10 +318,11 @@
     }
 
     &__video {
+      height: 100%;
+      max-height: 45vh;
       &--wrp {
         position: relative;
         width: 40%;
-        max-width: 50%;
 
         @include mq(lg) {
           max-width: 56rem;
@@ -329,7 +330,7 @@
 
         .sh {
           &__video {
-            display:none;
+            display: none;
             //aspect-ratio: 16/9;
             border-radius: $default-radius;
             background-color: $light-grey;
@@ -349,7 +350,7 @@
               position: absolute;
               bottom: 0;
               left: 0;
-              width: 50%;
+              width: 100%;
               height: 10%;
               border-bottom-left-radius: $default-radius;
               border-bottom-right-radius: $default-radius;
