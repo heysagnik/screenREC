@@ -136,10 +136,11 @@ export default class recorderClass {
   }
 
   stopRecording() {
-    this.set.mediaRecorder.stream.getVideoTracks()?.[0]?.stop(); // this removed the `Stop Sharing` button
+    this.set.mediaRecorder.stream.getVideoTracks()?.[0]?.stop(); // this removes the `Stop Sharing` button
+    const isInactive = this.set.mediaRecorder.state === "inactive"; // when stopping record with `Stop Sharing` button, isInactive is true
 
     this.set.isRecording = false;
-    this.set.mediaRecorder.stop();
+    if (!isInactive) this.set.mediaRecorder.stop(); // prevents program from stopping the mediaRecorder twice, causing app to crash on chrome browser
     this.set.preview.srcObject = null;
     this.set.headerText.classList.remove("is-recording");
     this.set.headerText.classList.add("is-reviewing");
