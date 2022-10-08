@@ -58,9 +58,9 @@ Here you can find the live deployed version:
 
 ## :rocket: Technologies
 
-- [Parcel]
+- Parcel:
 - [<img src="https://user-images.githubusercontent.com/19409/135924939-03845d0b-e7bb-414b-89b6-e627dfa9f614.png" height="80">](https://parceljs.org/)
-- [SASS/SCSS]
+- SASS/SCSS:
 - [<img src="https://sass-lang.com/assets/img/styleguide/seal-black-1e36d095.png" height="80">](https://sass-lang.com/)
 
 ### 🧑‍💻 Made with ❤️ by [Sagnik Sahoo](https://github.com/devgossips)
