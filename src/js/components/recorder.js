@@ -136,6 +136,8 @@ export default class recorderClass {
   }
 
   stopRecording() {
+    this.set.mediaRecorder.stream.getVideoTracks()?.[0]?.stop(); // this removed the `Stop Sharing` button
+
     this.set.isRecording = false;
     this.set.mediaRecorder.stop();
     this.set.preview.srcObject = null;
