@@ -1,3 +1,5 @@
+const LOCAL_STORAGE_KEY = "screenREC-color-scheme";
+
 export default class themeTogglerClass {
   constructor() {
     if (!themeTogglerClass.instance) {
@@ -16,15 +18,22 @@ export default class themeTogglerClass {
     document.body.dataset.theme = "dark";
     this.set.moon.classList.remove("active");
     this.set.sun.classList.add("active");
+    window.localStorage.setItem(LOCAL_STORAGE_KEY, "dark");
   }
 
   activateLightMode() {
     document.body.dataset.theme = "light";
     this.set.sun.classList.remove("active");
     this.set.moon.classList.add("active");
+    window.localStorage.setItem(LOCAL_STORAGE_KEY, "light");
   }
 
   getPreferredTheme() {
+    // get color scheme from localStorage
+    const theme = window.localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (theme === "light") return this.activateLightMode();
+    if (theme === "dark") return this.activateDarkMode();
+
     window.matchMedia("(prefers-color-scheme: dark)").matches
       ? this.activateDarkMode()
       : this.activateLightMode();
