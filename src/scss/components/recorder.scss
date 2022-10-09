@@ -248,6 +248,33 @@
         display: none;
       }
 
+      &--filename {
+        position: relative;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        width: 35%;
+        color: $grey;
+        font-weight: 600;
+        padding: 10px;
+        border-radius: $default-radius;
+        border: none;
+        outline: none;
+        visibility: hidden;
+        opacity: 0;
+
+        &::placeholder{
+          margin-left: 10px;
+          font-weight: 500;
+          color: $grey;
+        }
+
+        &.visible{
+          visibility: visible;
+          opacity: 1;
+        }
+      }
+
       .record {
         display: flex;
         align-items: center;
