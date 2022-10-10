@@ -27,6 +27,7 @@ export default class recorderClass {
         toast: document.querySelector(".sh__toast"),
         mime: null,
         mediaRecorder: null,
+        isRecording: false,
       };
       recorderClass.instance = this;
     }
@@ -88,6 +89,7 @@ export default class recorderClass {
     };
 
     this.set.mediaRecorder.onstop = () => {
+      if (this.set.isRecording) this.stopRecording();
       this.bakeVideo(recordedChunks);
       recordedChunks = [];
     };
@@ -115,6 +117,36 @@ export default class recorderClass {
     this.set.preview.controls = true;
     this.set.preview.src = URL.createObjectURL(blob);
     URL.revokeObjectURL(blob); // clear from memory
+  }
+
+  async startRecording() {
+    let stream = await this.recordScreen();
+    let mimeType = "video/" + this.set.mime;
+
+    this.set.isRecording = true;
+    this.set.mediaRecorder = this.createRecorder(stream, mimeType);
+    this.set.preview.srcObject = stream;
+    this.set.preview.captureStream =
+      this.set.preview.captureStream || this.set.preview.mozCaptureStream;
+    this.set.mimeChoiceWrapper.classList.add("hide");
+    this.set.headerText.classList.add("is-recording");
+    this.set.preview.classList.add("visible");
+    this.set.stop.classList.add("visible");
+    this.appendStatusNotification("start");
+  }
+
+  stopRecording() {
+    this.set.mediaRecorder.stream.getVideoTracks()?.[0]?.stop(); // this removes the `Stop Sharing` button
+    const isInactive = this.set.mediaRecorder.state === "inactive"; // when stopping record with `Stop Sharing` button, isInactive is true
+
+    this.set.isRecording = false;
+    if (!isInactive) this.set.mediaRecorder.stop(); // prevents program from stopping the mediaRecorder twice, causing app to crash on chrome browser
+    this.set.preview.srcObject = null;
+    this.set.headerText.classList.remove("is-recording");
+    this.set.headerText.classList.add("is-reviewing");
+    this.set.stop.classList.remove("visible");
+    this.set.download.classList.add("visible");
+    this.appendStatusNotification("stop");
   }
 
   init() {
@@ -150,29 +182,12 @@ export default class recorderClass {
       });
     });
 
-    this.set.start.addEventListener("click", async () => {
-      let stream = await this.recordScreen();
-      let mimeType = "video/" + this.set.mime;
-
-      this.set.mediaRecorder = this.createRecorder(stream, mimeType);
-      this.set.preview.srcObject = stream;
-      this.set.preview.captureStream =
-        this.set.preview.captureStream || this.set.preview.mozCaptureStream;
-      this.set.mimeChoiceWrapper.classList.add("hide");
-      this.set.headerText.classList.add("is-recording");
-      this.set.preview.classList.add("visible");
-      this.set.stop.classList.add("visible");
-      this.appendStatusNotification("start");
+    this.set.start.addEventListener("click", () => {
+      if (!this.set.isRecording) this.startRecording();
     });
 
     this.set.stop.addEventListener("click", () => {
-      this.set.mediaRecorder.stop();
-      this.set.preview.srcObject = null;
-      this.set.headerText.classList.remove("is-recording");
-      this.set.headerText.classList.add("is-reviewing");
-      this.set.stop.classList.remove("visible");
-      this.set.download.classList.add("visible");
-      this.appendStatusNotification("stop");
+      if (this.set.isRecording) this.stopRecording();
     });
   }
 }
