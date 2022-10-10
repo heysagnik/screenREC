@@ -58,8 +58,11 @@ Here you can find the live deployed version:
 
 ## :rocket: Technologies
 
+- [Pug](https://pugjs.org/)
 - [Parcel](https://parceljs.org/)
 - [SASS/SCSS](https://sass-lang.com/)
 
+## Special Thanks to all the Contributors 
+<img src="https://contrib.rocks/image?repo=heysagnik/screenREC" />
 
-### 🧑‍💻 Made with ❤️ by [Sagnik Sahoo](https://github.com/devgossips)
+### 🧑‍💻 Made with ❤️ by [Sagnik Sahoo](https://github.com/heysagnik) and other opensource devs

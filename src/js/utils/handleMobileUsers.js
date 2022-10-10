@@ -3,6 +3,6 @@ export const handleMobileUsers = () => {
   const isMobile = isMobileRegExp.test(navigator.userAgent);
 
   if (isMobile) {
-    alert("Sorry, this app does not support mobile devices yet.");
+    alert("Sorry, we don't support mobile devices yet 🥺");
   }
 };
