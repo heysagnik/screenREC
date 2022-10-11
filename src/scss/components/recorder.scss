@@ -359,16 +359,63 @@
             &--btn {
               position: absolute;
               bottom: 3%;
-              left: 50%;
+              left: 60%;
               transform: translateX(-50%) scale(0.9);
               border-radius: 50%;
               width: 2rem;
               height: 2rem;
+              background-color: red;
+              background-image: url('/src/images/stop.svg');
               min-width: unset;
               padding: 2.5rem;
               border: 3px solid $white;
               box-shadow: 0 0 12px 2px rgba(0, 0, 0, 0.3);
               transition: transform 0.4s $bezier-curve;
+
+              &:hover {
+                transform: translateX(-50%) scale(0.8);
+
+                .sh__video--btn-icon {
+                  transform: translate(-50%, -50%) scale(0.8);
+                }
+              }
+
+              &-icon {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                width: 90%;
+                height: 90%;
+                transition: transform 0.4s $bezier-curve;
+              }
+            }
+
+            &--btn1 {
+              position: absolute;
+              bottom: 3%;
+              left: 40%;
+              transform: translateX(-50%) scale(0.9);
+              border-radius: 50%;
+              width: 2rem;
+              height: 2rem;
+              background: rgb(32, 201, 32);
+              background-repeat: no-repeat;
+              background-size: cover;
+              background-position: center;
+              min-width: unset;
+              padding: 2.5rem;
+              border: 3px solid $white;
+              box-shadow: 0 0 12px 2px rgba(0, 0, 0, 0.3);
+              transition: transform 0.4s $bezier-curve;
+
+              &.pause {
+                background-image: url('/src/images/pause.svg');
+              }
+
+              &.resume {
+                background-image: url('/src/images/resume.svg');
+              }
 
               &:hover {
                 transform: translateX(-50%) scale(0.8);
