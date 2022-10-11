@@ -94,6 +94,11 @@ export default class recorderClass {
       recordedChunks = [];
     };
 
+    // When stopping 'Tab Record' on Chrome browser by clicking 'Stop sharing' button, this gets fired instead of onstop event.
+    this.set.mediaRecorder.stream.oninactive = () => {
+      this.stopRecording();
+    };
+
     this.set.mediaRecorder.start(15); // For every 200ms the stream data will be stored in a separate chunk.
     return this.set.mediaRecorder;
   }
@@ -136,7 +141,7 @@ export default class recorderClass {
   }
 
   stopRecording() {
-    this.set.mediaRecorder.stream.getVideoTracks()?.[0]?.stop(); // this removes the `Stop Sharing` button
+    this.set.mediaRecorder.stream.getTracks().forEach((track) => track?.stop());
     const isInactive = this.set.mediaRecorder.state === "inactive"; // when stopping record with `Stop Sharing` button, isInactive is true
 
     this.set.isRecording = false;
