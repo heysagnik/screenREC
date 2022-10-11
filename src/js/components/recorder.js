@@ -70,8 +70,8 @@ export default class recorderClass {
       actionType === "start"
         ? "Started recording"
         : actionType === "stop"
-          ? "Stopped recording"
-          : "";
+        ? "Stopped recording"
+        : "";
     this.set.toast.textContent = notificationText;
 
     this.set.toast.classList.add("active");
@@ -103,11 +103,28 @@ export default class recorderClass {
 
   async recordScreen() {
     let checkbox = this.set.id;
-    const displayStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
-    let tracks = [...displayStream.getTracks()]
+    let tracks = [];
     if (checkbox == "mic") {
-      const voiceStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
-      tracks = [...displayStream.getTracks(), ...voiceStream.getAudioTracks()]
+      const voiceStream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
+        video: false,
+      });
+      tracks = [...displayStream.getTracks(), ...voiceStream.getAudioTracks()];
+    } else if (checkbox == "cam") {
+      const voiceStream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: true,
+      });
+      tracks = [
+        ...voiceStream.getVideoTracks(),
+        ...voiceStream.getAudioTracks(),
+      ];
+    } else {
+      const displayStream = await navigator.mediaDevices.getDisplayMedia({
+        video: true,
+        audio: true,
+      });
+      tracks = [...displayStream.getTracks()];
     }
     const stream = new MediaStream(tracks);
 
@@ -142,7 +159,6 @@ export default class recorderClass {
     this.set.preview.classList.add("visible");
     this.set.stop.classList.add("visible");
     this.appendStatusNotification("start");
-
   }
 
   stopRecording() {
@@ -194,23 +210,32 @@ export default class recorderClass {
 
     this.set.start.addEventListener("click", () => {
       const self = this;
-      if (!this.set.isRecording && this.set.id == "mic") {
-        navigator.permissions.query(
-          { name: 'microphone' }
-        ).then(function (permissionStatus) {
-          if (permissionStatus.state == "denied") {
-            alert("Mic Permission or Access needed");
-          }
-          else {
-            self.startRecording();
-          }
 
-        });
+      if (!this.set.isRecording && this.set.id == "cam") {
+        navigator.permissions
+          .query({ name: "camera", name: "microphone" })
+          .then(function (permissionStatus) {
+            if (permissionStatus.state == "denied") {
+              alert("Camera/Mic Permission or Access needed");
+            } else {
+              self.startRecording();
+            }
+          });
       }
-      else if (!this.set.isRecording) {
+
+      if (!this.set.isRecording && this.set.id == "mic") {
+        navigator.permissions
+          .query({ name: "microphone" })
+          .then(function (permissionStatus) {
+            if (permissionStatus.state == "denied") {
+              alert("Mic Permission or Access needed");
+            } else {
+              self.startRecording();
+            }
+          });
+      } else if (!this.set.isRecording) {
         self.startRecording();
       }
-
     });
 
     this.set.stop.addEventListener("click", () => {
