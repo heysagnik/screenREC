@@ -1,5 +1,8 @@
 import recorderClass from "./components/recorder";
 import themeTogglerClass from "./components/themeToggler";
+import { handleMobileUsers } from "./utils/handleMobileUsers";
+
+window.addEventListener("load", () => handleMobileUsers());
 
 const screenRec = {};
 //instance
