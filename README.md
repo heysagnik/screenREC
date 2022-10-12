@@ -1,5 +1,4 @@
-![screenREC](https://user-images.githubusercontent.com/70798495/145531425-79825a87-d52c-4f2c-8d83-a0c49dcc36d0.png)
-
+<img src="https://api.microlink.io?url=https%3A%2F%2Fscreen-rec.vercel.app%2F&overlay.browser=dark&overlay.background=linear-gradient(225deg%2C%20%23FF057C%200%25%2C%20%238D0B93%2050%25%2C%20%23321575%20100%25)&screenshot=true&meta=false&embed=screenshot.url"></img>
 
 # 📹 ScreenREC
 
@@ -33,17 +32,17 @@ Here you can find the live deployed version:
 ## Installation Guide for Cloud or Linux Users only :
 
 - Using this button open this project on Gitpod.
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/devgossips/screenREC)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/heysagnik/screenREC)
 - Now run <code>npm install</code> in terminal to install the packages .
 - Run <code>npm run start</code> to use development mode .
 - Run <code>npm run build</code> to build
 - Or you can deploy the static site on netlify or vercel or any other platform. </br>
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fdevgossips%2FscreenREC)  [![Deploy with Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/devgossips/screenREC)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fheysagnik%2FscreenREC)  [![Deploy with Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/heysagnik/screenREC)
 
 ## Installation Guide for Windows Users or Local Developement :
 
 - Fork this repo
-- then in terminal run <code>git clone https://github.com/devgossips/screenREC</code>
+- then in terminal run <code>git clone https://github.com/heysagnik/screenREC</code>
 - Open the folder in your desired Code Editor (eg: VS CODE)
 - Now run <code>npm install</code> in terminal to install the packages .
 - Make sure you delete <code>.parcel-cache</code>&<code>dist</code> folder 📂 firstly. Then Run <code>npx parcel src/index.pug</code> to use in development mode.
@@ -65,4 +64,4 @@ Here you can find the live deployed version:
 ## Special Thanks to all the Contributors 
 <img src="https://contrib.rocks/image?repo=heysagnik/screenREC" />
 
-### 🧑‍💻 Made with ❤️ by [Sagnik Sahoo](https://github.com/heysagnik) and other opensource devs
+### 🧑‍💻 Made with ❤️ by [Sagnik Sahoo](https://github.com/heysagnik) and other open-source devlopers 💚

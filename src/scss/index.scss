@@ -44,6 +44,13 @@ body {
           border-color: $white;
         }
       }
+      &__github{
+        background-color: $darkest-grey;
+        border-color: $grey;
+        &:hover {
+          border-color: $white;
+        }
+      }
       &__toast {
         background-color: $white;
         color: $dark-grey;
@@ -56,6 +63,13 @@ body {
 
     .sh {
       &__toggler {
+        background-color: $white;
+        border-color: $grey;
+        &:hover {
+          border-color: $dark-grey;
+        }
+      }
+      &__github{
         background-color: $white;
         border-color: $grey;
         &:hover {
@@ -91,4 +105,5 @@ body {
   @import "components/toggler";
   @import "components/toast";
   @import "components/footer";
+  @import "components/star-fork";
 }
