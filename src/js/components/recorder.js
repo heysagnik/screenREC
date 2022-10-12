@@ -13,6 +13,7 @@ export default class recorderClass {
         stop: document.getElementById("stop"),
         preview: document.querySelector("#preview"),
         download: document.querySelector("#download"),
+        recordingName: document.querySelector("#filename"),
         mimeChoiceWrapper: document.querySelector(".sh__choice"),
         videoWrapper: document.querySelector(".sh__video--wrp"),
         videoOpacitySheet: document.querySelector(".sh__video--sheet"),
@@ -28,6 +29,7 @@ export default class recorderClass {
         mime: null,
         mediaRecorder: null,
         isRecording: false,
+        filename:null,
       };
       recorderClass.instance = this;
     }
@@ -114,9 +116,13 @@ export default class recorderClass {
     const blob = new Blob(recordedChunks, {
       type: "video/" + this.set.mime,
     });
-    let filename = this.getRandomString(15);
+    let savedName;
+    if(this.set.filename == null || this.set.filename == "")
+      savedName = this.getRandomString(15);
+    else
+      savedName = this.set.filename;
     this.set.download.href = URL.createObjectURL(blob);
-    this.set.download.download = `${filename}.${this.set.mime}`;
+    this.set.download.download = `${savedName}.${this.set.mime}`;
     this.set.videoOpacitySheet.remove();
     this.set.preview.autoplay = false;
     this.set.preview.controls = true;
@@ -128,6 +134,7 @@ export default class recorderClass {
     let stream = await this.recordScreen();
     let mimeType = "video/" + this.set.mime;
 
+    this.set.filename = document.getElementById("filename").value;
     this.set.isRecording = true;
     this.set.mediaRecorder = this.createRecorder(stream, mimeType);
     this.set.preview.srcObject = stream;
@@ -150,6 +157,7 @@ export default class recorderClass {
     this.set.headerText.classList.remove("is-recording");
     this.set.headerText.classList.add("is-reviewing");
     this.set.stop.classList.remove("visible");
+    this.set.recordingName.classList.remove("visible");
     this.set.download.classList.add("visible");
     this.appendStatusNotification("stop");
   }
@@ -182,6 +190,7 @@ export default class recorderClass {
 
     this.set.dropdownOptions.forEach((el) => {
       el.addEventListener("click", () => {
+        this.set.recordingName.classList.add("visible");
         this.getSelectedValue(el);
         this.toggleDropdown();
       });
