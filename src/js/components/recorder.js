@@ -110,6 +110,10 @@ export default class recorderClass {
     let checkbox = this.set.id;
     let tracks = [];
     if (checkbox == "mic") {
+      const displayStream = await navigator.mediaDevices.getDisplayMedia({
+        video: true,
+        audio: true,
+      });
       const voiceStream = await navigator.mediaDevices.getUserMedia({
         audio: true,
         video: false,
@@ -218,7 +222,7 @@ export default class recorderClass {
 
       if (!this.set.isRecording && this.set.id == "cam") {
         navigator.permissions
-          .query({ name: "camera", name: "microphone" })
+          .query({ name1: "camera", name2: "microphone" })
           .then(function (permissionStatus) {
             if (permissionStatus.state == "denied") {
               alert("Camera/Mic Permission or Access needed");
