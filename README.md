@@ -31,12 +31,29 @@ Here you can find the live deployed version:
 
 ## Installation Guide for Cloud or Linux Users only :
 
-- Using this button open this project on Gitpod.
+1. Using this button open this project on Gitpod. 
+
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/heysagnik/screenREC)
-- Now run <code>npm install</code> in terminal to install the packages .
-- Run <code>npm run start</code> to use development mode .
-- Run <code>npm run build</code> to build
-- Or you can deploy the static site on netlify or vercel or any other platform. </br>
+> Skip this if you are running on Linux
+
+2. Then in terminal clone the repository.
+```sh
+git clone https://github.com/heysagnik/screenREC
+```
+
+3. Install the required npm packages using the following command.
+```sh
+npm install
+```
+4. Run the following command to use development mode .
+```sh
+npm start
+``` 
+5. Build the final project.
+```sh
+npm run build
+```
+6. Or you can deploy the static site on netlify or vercel or any other platform. </br>
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fheysagnik%2FscreenREC)  [![Deploy with Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/heysagnik/screenREC)
 
 ## Installation Guide for Windows Users or Local Developement :
@@ -52,7 +69,7 @@ git clone https://github.com/heysagnik/screenREC
 ```sh
 npm install
 ```
-5. Make sure you delete .parcel-cache&dist folder 📂 firstly.
+5. Make sure you delete `.parcel-cache` & `dist` folder 📂 firstly.
 6. To run the project and use in development mode.
 ```sh
 px parcel src/index.pug
@@ -62,7 +79,9 @@ px parcel src/index.pug
 npm run build
 ```
 8. Or you can deploy the static site on netlify or vercel or any other platform.
-   [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fdevgossips%2FscreenREC)  [![Deploy with Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/devgossips/screenREC)
+
+   [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fheysagnik%2FscreenREC) 
+ [![Deploy with Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/heysagnik/screenREC)
 
 
 ## :pray: If you find this useful : 
