@@ -41,14 +41,28 @@ Here you can find the live deployed version:
 
 ## Installation Guide for Windows Users or Local Developement :
 
-- Fork this repo
-- then in terminal run <code>git clone https://github.com/heysagnik/screenREC</code>
-- Open the folder in your desired Code Editor (eg: VS CODE)
-- Now run <code>npm install</code> in terminal to install the packages .
-- Make sure you delete <code>.parcel-cache</code>&<code>dist</code> folder 📂 firstly. Then Run <code>npx parcel src/index.pug</code> to use in development mode.
-- Run <code>npm run build</code> to build the final project 
-- Or you can deploy the static site on netlify or vercel or any other platform. 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fdevgossips%2FscreenREC)  [![Deploy with Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/devgossips/screenREC)
+1. Fork this repo
+
+2. Then in terminal clone the repository.
+```sh
+git clone https://github.com/heysagnik/screenREC
+```
+3. Open the folder in your desired Code Editor (eg: VS CODE)
+4. Install the required npm packages 
+```sh
+npm install
+```
+5. Make sure you delete .parcel-cache&dist folder 📂 firstly.
+6. To run the project and use in development mode.
+```sh
+px parcel src/index.pug
+```
+7. Build the final project.
+```sh
+npm run build
+```
+8. Or you can deploy the static site on netlify or vercel or any other platform.
+   [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fdevgossips%2FscreenREC)  [![Deploy with Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/devgossips/screenREC)
 
 
 ## :pray: If you find this useful : 
