@@ -28,6 +28,7 @@ export default class recorderClass {
         headerText: document.querySelector(".sh__header"),
         toast: document.querySelector(".sh__toast"),
         mime: null,
+        id: null,
         mediaRecorder: null,
         isRecording: false,
         isPause: false,
@@ -47,11 +48,13 @@ export default class recorderClass {
   getSelectedValue(el) {
     let selectedElement = el;
     let selectedAttrValue = selectedElement.getAttribute("data-value");
-    selectedAttrValue !== ""
+    let selectedAttrid = selectedElement.getAttribute("id");
+    selectedAttrValue !== "" && selectedAttrid !== ""
       ? this.set.start.classList.add("visible")
       : this.set.start.classList.remove("visible");
     this.set.dropdownDefaultOption.textContent = selectedElement.innerText;
     this.set.mime = selectedAttrValue;
+    this.set.id = selectedAttrid;
   }
 
   getRandomString(length) {
@@ -112,10 +115,37 @@ export default class recorderClass {
   }
 
   async recordScreen() {
-    return await navigator.mediaDevices.getDisplayMedia({
-      audio: true,
-      video: { mediaSource: "screen" },
-    });
+    let checkbox = this.set.id;
+    let tracks = [];
+    if (checkbox == "mic") {
+      const displayStream = await navigator.mediaDevices.getDisplayMedia({
+        video: true,
+        audio: true,
+      });
+      const voiceStream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
+        video: false,
+      });
+      tracks = [...displayStream.getTracks(), ...voiceStream.getAudioTracks()];
+    } else if (checkbox == "cam") {
+      const voiceStream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: true,
+      });
+      tracks = [
+        ...voiceStream.getVideoTracks(),
+        ...voiceStream.getAudioTracks(),
+      ];
+    } else {
+      const displayStream = await navigator.mediaDevices.getDisplayMedia({
+        video: true,
+        audio: true,
+      });
+      tracks = [...displayStream.getTracks()];
+    }
+    const stream = new MediaStream(tracks);
+
+    return stream;
   }
 
   bakeVideo(recordedChunks) {
@@ -221,7 +251,33 @@ export default class recorderClass {
     });
 
     this.set.start.addEventListener("click", () => {
-      if (!this.set.isRecording) this.startRecording();
+      const self = this;
+
+      if (!this.set.isRecording && this.set.id == "cam") {
+        navigator.permissions
+          .query({ name1: "camera", name2: "microphone" })
+          .then(function (permissionStatus) {
+            if (permissionStatus.state == "denied") {
+              alert("Camera/Mic Permission or Access needed");
+            } else {
+              self.startRecording();
+            }
+          });
+      }
+
+      if (!this.set.isRecording && this.set.id == "mic") {
+        navigator.permissions
+          .query({ name: "microphone" })
+          .then(function (permissionStatus) {
+            if (permissionStatus.state == "denied") {
+              alert("Mic Permission or Access needed");
+            } else {
+              self.startRecording();
+            }
+          });
+      } else if (!this.set.isRecording) {
+        self.startRecording();
+      }
     });
 
     this.set.pauseAndResume.addEventListener("click", () => {
