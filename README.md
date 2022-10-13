@@ -90,9 +90,12 @@ npm run build
 
 ## :rocket: Technologies
 
-- [Pug](https://pugjs.org/)
-- [Parcel](https://parceljs.org/)
-- [SASS/SCSS](https://sass-lang.com/)
+- [Pug](https://pugjs.org/)  
+![](https://img.shields.io/badge/Code-Pug-informational?style=flat&logo=pug&logoColor=A96454&color=A96454)
+- [Parcel](https://parceljs.org/)  
+![](https://img.shields.io/badge/Code-Parcel-informational?style=flat&logo=parceljs&logoColor=F77171&color=F77171)
+- [SASS/SCSS](https://sass-lang.com/)  
+![](https://img.shields.io/badge/Code-SASS/SCSS-informational?style=flat&logo=sass&logoColor=BF4080&color=BF4080)
 
 ## Special Thanks to all the Contributors 
 <img src="https://contrib.rocks/image?repo=heysagnik/screenREC" />
