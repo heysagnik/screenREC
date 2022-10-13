@@ -253,7 +253,7 @@
         align-items: center;
         justify-content: center;
         margin-bottom: 20px;
-        width: 90%;
+        width: 35%;
         color: $grey;
         font-weight: 600;
         padding: 10px;
@@ -262,7 +262,8 @@
         outline: none;
         visibility: hidden;
         opacity: 0;
-
+        display: flex;
+     
         &::placeholder{
           margin-left: 10px;
           font-weight: 500;
