@@ -11,6 +11,7 @@ export default class recorderClass {
         // footer: document.querySelector(".sh__footer"),
         start: document.getElementById("start"),
         stop: document.getElementById("stop"),
+        pauseAndResume: document.getElementById("pauseAndResume"),
         preview: document.querySelector("#preview"),
         download: document.querySelector("#download"),
         recordingName: document.querySelector("#filename"),
@@ -29,6 +30,7 @@ export default class recorderClass {
         mime: null,
         mediaRecorder: null,
         isRecording: false,
+        isPause: false,
         filename:null,
       };
       recorderClass.instance = this;
@@ -70,6 +72,10 @@ export default class recorderClass {
         ? "Started recording"
         : actionType === "stop"
         ? "Stopped recording"
+        : actionType === "pause"
+        ? "Paused Recording"
+        : actionType === "resume"
+        ? "Resumed Recording"
         : "";
     this.set.toast.textContent = notificationText;
 
@@ -143,8 +149,25 @@ export default class recorderClass {
     this.set.mimeChoiceWrapper.classList.add("hide");
     this.set.headerText.classList.add("is-recording");
     this.set.preview.classList.add("visible");
+    this.set.pauseAndResume.classList.add("visible");
     this.set.stop.classList.add("visible");
     this.appendStatusNotification("start");
+  }
+
+  pauseRecording() {
+    this.set.mediaRecorder.pause();
+    this.set.isPause = true;
+    this.appendStatusNotification("pause");
+    this.set.pauseAndResume.classList.add("resume");
+    this.set.pauseAndResume.classList.remove("pause");
+  }
+
+  resumeRecording() {
+    this.set.mediaRecorder.resume();
+    this.set.isPause = false;
+    this.appendStatusNotification("resume");
+    this.set.pauseAndResume.classList.remove("resume");
+    this.set.pauseAndResume.classList.add("pause");
   }
 
   stopRecording() {
@@ -157,6 +180,7 @@ export default class recorderClass {
     this.set.headerText.classList.remove("is-recording");
     this.set.headerText.classList.add("is-reviewing");
     this.set.stop.classList.remove("visible");
+    this.set.pauseAndResume.classList.remove("visible");
     this.set.recordingName.classList.remove("visible");
     this.set.download.classList.add("visible");
     this.appendStatusNotification("stop");
@@ -198,6 +222,11 @@ export default class recorderClass {
 
     this.set.start.addEventListener("click", () => {
       if (!this.set.isRecording) this.startRecording();
+    });
+
+    this.set.pauseAndResume.addEventListener("click", () => {
+      if (!this.set.isPause) this.pauseRecording();
+      else if (this.set.isPause) this.resumeRecording();
     });
 
     this.set.stop.addEventListener("click", () => {
