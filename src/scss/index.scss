@@ -28,12 +28,12 @@ body {
   font-family: $main-font;
   font-size: 1rem;
   font-weight: 400;
-  background-color: $white;
+  background-image: url("../images/background light.png");
   color: $font-color;
   transition: 0.5s $bezier-curve;
 
   &[data-theme="dark"] {
-    background-color: $darkest-grey;
+    background-image: url("../images/background dark.jpg");
     color: $white;
 
     .sh {
@@ -44,7 +44,7 @@ body {
           border-color: $white;
         }
       }
-      &__github{
+      &__github {
         background-color: $darkest-grey;
         border-color: $grey;
         &:hover {
@@ -62,6 +62,18 @@ body {
     color: $font-color;
 
     .sh {
+      &__dropdown__list--item {
+        color: white;
+      }
+
+      &__choice--filename {
+        color: white;
+
+        &::placeholder {
+          color: white;
+        }
+      }
+
       &__toggler {
         background-color: $white;
         border-color: $grey;
@@ -69,7 +81,7 @@ body {
           border-color: $dark-grey;
         }
       }
-      &__github{
+      &__github {
         background-color: $white;
         border-color: $grey;
         &:hover {
@@ -79,6 +91,17 @@ body {
       &__toast {
         background-color: $dark-grey;
         color: $light-grey;
+      }
+
+      // &__dropdown--defaultOption{
+
+      // }
+
+      &__dropdown--btn {
+        color: white;
+        &:hover {
+          color: black;
+        }
       }
     }
   }

@@ -12,6 +12,7 @@
   }
 
   &--text {
+    color: white;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -23,7 +24,7 @@
   &--user {
     display: flex;
     align-items: center;
-    color: inherit;
+    color: white;
     cursor: pointer;
 
     &:hover {
@@ -35,7 +36,7 @@
     span {
       text-decoration: underline;
       font-weight: 600;
-      color: inherit;
+      color: white;
       transition: opacity 0.4s $bezier-curve;
     }
 
