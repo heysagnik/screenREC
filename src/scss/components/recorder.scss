@@ -330,10 +330,14 @@
     }
 
     &__btn {
+      backdrop-filter: blur(25px) saturate(200%);
+      -webkit-backdrop-filter: blur(25px) saturate(200%);
+      background-color: #ff37008a;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.125);
       padding: 1rem 2.5rem;
       border-radius: 12px;
       min-width: 140px;
-      background: $red-gradient;
       color: $white;
       @include fluid-type(768px, 1920px, 14px, 16px);
       font-family: $main-font;
@@ -385,7 +389,12 @@
             display: none;
             //aspect-ratio: 16/9;
             border-radius: $default-radius;
-            background-color: $light-grey;
+            backdrop-filter: blur(17px) saturate(200%);
+            -webkit-backdrop-filter: blur(17px) saturate(200%);
+            background-color: rgba(68, 84, 112, 0.58);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.125);
+            // background-color: $light-grey;
             box-shadow: 0 0 #0000, 0 0 #0000, 0 0 #0000, 0 0 #0000,
               0 15px 50px -15px rgba(0, 0, 0, 0.12);
 
@@ -416,7 +425,9 @@
               border-radius: 50%;
               width: 2rem;
               height: 2rem;
-              background-color: red;
+              backdrop-filter: blur(2px) saturate(200%);
+              -webkit-backdrop-filter: blur(2px) saturate(200%);
+              background-color: #ff37008a;
               background-image: url("/src/images/stop.svg");
               min-width: unset;
               padding: 2.5rem;
@@ -451,7 +462,9 @@
               border-radius: 50%;
               width: 2rem;
               height: 2rem;
-              background: rgb(32, 201, 32);
+              backdrop-filter: blur(2px) saturate(200%);
+              -webkit-backdrop-filter: blur(2px) saturate(200%);
+              background-color: rgba(3, 119, 3, 0.54);
               background-repeat: no-repeat;
               background-size: cover;
               background-position: center;
@@ -500,7 +513,11 @@
               justify-content: center;
               padding: 1rem 2.5rem;
               width: auto;
-              background: $green;
+              backdrop-filter: blur(25px) saturate(200%);
+              -webkit-backdrop-filter: blur(25px) saturate(200%);
+              background-color: #0fd70f5e;
+              border-radius: 12px;
+              border: 1px solid rgba(255, 255, 255, 0.125);
               white-space: nowrap;
               border: 0;
               border-radius: $default-radius;
