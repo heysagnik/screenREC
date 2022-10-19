@@ -201,6 +201,21 @@ export default class recorderClass {
     this.appendStatusNotification("stop");
   }
   init() {
+    navigator.getMedia =
+      navigator.getUserMedia || // use the proper vendor prefix
+      navigator.webkitGetUserMedia ||
+      navigator.mozGetUserMedia ||
+      navigator.msGetUserMedia;
+
+    navigator.getMedia(
+      { video: true },
+      function () {
+        // webcam is available
+      },
+      function () {
+        // webcam is not available
+      }
+    );
     // TODO: LOADING ANIMATION
     // const tl = new TimelineLite({ duration: .8, delay: .4, ease: "back.out(2)", opacity: 0 });
     //
@@ -234,29 +249,42 @@ export default class recorderClass {
     this.set.start.addEventListener("click", () => {
       const self = this;
       if (!this.set.isRecording && this.set.id == "cam") {
-        navigator.permissions
-          .query({ name: "camera" })
-          .then(function (permissionStatus) {
-            if (permissionStatus.state == "denied") {
-              alert("Camera/Mic Permission has been blocked");
-            } else {
-              self.startRecording();
-            }
-          });
+        navigator.getMedia(
+          { video: true, audio: true },
+          function () {
+            navigator.permissions
+              .query({ name: "camera" })
+              .then(function (permissionStatus) {
+                if (permissionStatus.state == "denied") {
+                  alert("Camera/Mic Permission has been blocked");
+                } else {
+                  self.startRecording();
+                }
+              });
+          },
+          function () {
+            alert("Requested Device Camera/Microphone not Found.");
+          }
+        );
       }
-
       if (!this.set.isRecording && this.set.id == "mic") {
-        navigator.permissions
-          .query({ name: "microphone" })
-          .then(function (permissionStatus) {
-            if (permissionStatus.state == "denied") {
-              alert("Mic Permission or Access needed");
-            } else {
-              self.startRecording();
-            }
-          });
-      } else if (!this.set.isRecording) {
-        self.startRecording();
+        navigator.getMedia(
+          { audio: true },
+          function () {
+            navigator.permissions
+              .query({ name: "microphone" })
+              .then(function (permissionStatus) {
+                if (permissionStatus.state == "denied") {
+                  alert("Mic Permission or Access needed");
+                } else {
+                  self.startRecording();
+                }
+              });
+          },
+          function () {
+            alert("Requested Device Microphone not Found.");
+          }
+        );
       }
     });
 
