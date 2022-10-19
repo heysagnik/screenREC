@@ -28,25 +28,39 @@ body {
   font-family: $main-font;
   font-size: 1rem;
   font-weight: 400;
-  background-color: $white;
+  background-image: url("../images/background light.png");
+  background-size: cover;
+  background-repeat: repeat-y;
   color: $font-color;
   transition: 0.5s $bezier-curve;
 
   &[data-theme="dark"] {
-    background-color: $darkest-grey;
+    background-image: url("../images/background dark.jpg");
+    background-size: cover;
+    background-repeat: repeat-y;
     color: $white;
 
     .sh {
       &__toggler {
-        background-color: $darkest-grey;
+        // background-color: $darkest-grey;
         border-color: $grey;
+        backdrop-filter: blur(2px) saturate(200%);
+        -webkit-backdrop-filter: blur(2px) saturate(200%);
+        background-color: #716f6f8a;
+        // border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.125);
         &:hover {
           border-color: $white;
         }
       }
-      &__github{
-        background-color: $darkest-grey;
-        border-color: $grey;
+      &__github {
+        // background-color: $darkest-grey;
+        backdrop-filter: blur(2px) saturate(200%);
+        -webkit-backdrop-filter: blur(2px) saturate(200%);
+        background-color: #dfd1d18a;
+        // border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.125);
+
         &:hover {
           border-color: $white;
         }
@@ -62,16 +76,36 @@ body {
     color: $font-color;
 
     .sh {
+      &__dropdown__list--item {
+        color: white;
+      }
+
+      &__choice--filename {
+        color: white;
+
+        &::placeholder {
+          color: white;
+        }
+      }
+
       &__toggler {
-        background-color: $white;
-        border-color: $grey;
+        backdrop-filter: blur(2px) saturate(200%);
+        -webkit-backdrop-filter: blur(2px) saturate(200%);
+        background-color: #9d9b9b8a;
+        // border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.125);
+        // border-color: $grey;
         &:hover {
           border-color: $dark-grey;
         }
       }
-      &__github{
-        background-color: $white;
-        border-color: $grey;
+      &__github {
+        backdrop-filter: blur(2px) saturate(150%);
+        -webkit-backdrop-filter: blur(2px) saturate(200%);
+        background-color: #9d9b9b8a;
+        color: white;
+        // border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.125);
         &:hover {
           border-color: $dark-grey;
         }
@@ -79,6 +113,17 @@ body {
       &__toast {
         background-color: $dark-grey;
         color: $light-grey;
+      }
+
+      // &__dropdown--defaultOption{
+
+      // }
+
+      &__dropdown--btn {
+        color: white;
+        &:hover {
+          color: black;
+        }
       }
     }
   }

@@ -1,5 +1,12 @@
 &__recorder {
   .sh {
+    &__choice--filename {
+      backdrop-filter: blur(17px) saturate(200%);
+      -webkit-backdrop-filter: blur(17px) saturate(200%);
+      background-color: $glass-color-dark;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.125);
+    }
     &__wrp {
       display: flex;
       flex-direction: column;
@@ -71,7 +78,7 @@
         width: 100%;
         display: flex;
         align-items: center;
-        background-color: $light-grey;
+        // background-color: $light-grey;
         color: $grey;
         font-family: $main-font;
         font-size: 0.8rem;
@@ -83,6 +90,11 @@
         outline: none;
         cursor: pointer;
         transition: all 0.3s $bezier-curve;
+        backdrop-filter: blur(17px) saturate(200%);
+        -webkit-backdrop-filter: blur(17px) saturate(200%);
+        background-color: $glass-color-dark;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.125);
 
         @include mq(md) {
           padding: 1.2rem 1.8rem;
@@ -91,6 +103,7 @@
 
         &:hover {
           background-color: darken($light-grey, 4%);
+          color: black;
         }
 
         span {
@@ -140,6 +153,11 @@
         transform: scale(0.01);
         transition: all 0.4s $bezier-curve;
         transform-origin: top;
+        backdrop-filter: blur(17px) saturate(200%);
+        -webkit-backdrop-filter: blur(17px) saturate(200%);
+        background-color: rgba(68, 84, 112, 0.58);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.125);
 
         &--item {
           padding: 0.8rem;
@@ -147,6 +165,7 @@
           @include fluid-type(768px, 1920px, 14px, 16px);
           font-weight: 500;
           color: $grey;
+
           background-color: transparent;
           border-radius: $default-radius;
           cursor: pointer;
@@ -154,6 +173,7 @@
 
           &:hover {
             background-color: darken(#c3c1c1, 4%);
+            color: black;
           }
         }
 
@@ -254,7 +274,7 @@
         justify-content: center;
         margin-bottom: 20px;
         width: 90%;
-        max-width:35rem;
+        max-width: 35rem;
         color: $grey;
         font-weight: 600;
         border-radius: $default-radius;
@@ -267,14 +287,14 @@
         padding-bottom: 1.2rem;
         padding-left: 1rem;
         padding-right: 1rem;
-        
-        &::placeholder{
+
+        &::placeholder {
           margin-left: 10px;
           font-weight: 600;
           color: $grey;
         }
 
-        &.visible{
+        &.visible {
           visibility: visible;
           opacity: 1;
         }
@@ -310,10 +330,14 @@
     }
 
     &__btn {
+      backdrop-filter: blur(25px) saturate(200%);
+      -webkit-backdrop-filter: blur(25px) saturate(200%);
+      background-color: #ff37008a;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.125);
       padding: 1rem 2.5rem;
       border-radius: 12px;
       min-width: 140px;
-      background: $red-gradient;
       color: $white;
       @include fluid-type(768px, 1920px, 14px, 16px);
       font-family: $main-font;
@@ -365,7 +389,12 @@
             display: none;
             //aspect-ratio: 16/9;
             border-radius: $default-radius;
-            background-color: $light-grey;
+            backdrop-filter: blur(17px) saturate(200%);
+            -webkit-backdrop-filter: blur(17px) saturate(200%);
+            background-color: rgba(68, 84, 112, 0.58);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.125);
+            // background-color: $light-grey;
             box-shadow: 0 0 #0000, 0 0 #0000, 0 0 #0000, 0 0 #0000,
               0 15px 50px -15px rgba(0, 0, 0, 0.12);
 
@@ -396,8 +425,10 @@
               border-radius: 50%;
               width: 2rem;
               height: 2rem;
-              background-color: red;
-              background-image: url('/src/images/stop.svg');
+              backdrop-filter: blur(2px) saturate(200%);
+              -webkit-backdrop-filter: blur(2px) saturate(200%);
+              background-color: #ff37008a;
+              background-image: url("/src/images/stop.svg");
               min-width: unset;
               padding: 2.5rem;
               border: 3px solid $white;
@@ -431,7 +462,9 @@
               border-radius: 50%;
               width: 2rem;
               height: 2rem;
-              background: rgb(32, 201, 32);
+              backdrop-filter: blur(2px) saturate(200%);
+              -webkit-backdrop-filter: blur(2px) saturate(200%);
+              background-color: rgba(3, 119, 3, 0.54);
               background-repeat: no-repeat;
               background-size: cover;
               background-position: center;
@@ -442,11 +475,11 @@
               transition: transform 0.4s $bezier-curve;
 
               &.pause {
-                background-image: url('/src/images/pause.svg');
+                background-image: url("/src/images/pause.svg");
               }
 
               &.resume {
-                background-image: url('/src/images/resume.svg');
+                background-image: url("/src/images/resume.svg");
               }
 
               &:hover {
@@ -480,7 +513,11 @@
               justify-content: center;
               padding: 1rem 2.5rem;
               width: auto;
-              background: $green;
+              backdrop-filter: blur(25px) saturate(200%);
+              -webkit-backdrop-filter: blur(25px) saturate(200%);
+              background-color: #0fd70f5e;
+              border-radius: 12px;
+              border: 1px solid rgba(255, 255, 255, 0.125);
               white-space: nowrap;
               border: 0;
               border-radius: $default-radius;
