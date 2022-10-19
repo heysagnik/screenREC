@@ -10,7 +10,7 @@ $purple: #2ad0a6;
 $orange: #de00fc;
 $light-red: #e5312d;
 $red: #c62628;
-$light-orange:#5cd9e4;
+$light-orange: #5cd9e4;
 
 $bg-light-color: $white;
 $bg-dark-color: $darkest-grey;
@@ -20,11 +20,11 @@ $main-gradient: linear-gradient(
   to right,
   $dark-purple 0%,
   $purple 40%,
-  $orange 80%,
+  $orange 80%
 );
 $red-gradient: linear-gradient(to right, $light-red 0%, $red 60%);
 $bezier-curve: cubic-bezier(0.6, -0.05, 0.01, 0.99);
-$green-gradient:linear-gradient(to right, #43e97b 0%, #38f9d7 100%);
+$green-gradient: linear-gradient(to right, #43e97b 0%, #38f9d7 100%);
 $breakpoints: (
   ll: 1450px,
   lg: 1024px,

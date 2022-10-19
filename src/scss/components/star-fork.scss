@@ -4,7 +4,7 @@
   top: 2.4rem;
   right: 5.5rem;
   height: 40;
-  width:80;
+  width: 80;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -19,43 +19,41 @@
     50% {
       transform: scale(1);
     }
-  
+
     10% {
       transform: scale(1);
     }
-  
+
     15% {
       transform: scale(1);
     }
-  
+
     20% {
       transform: scale(1) rotate(-5deg);
     }
-  
+
     25% {
       transform: scale(1) rotate(5deg);
     }
-  
+
     30% {
       transform: scale(1) rotate(-3deg);
     }
-  
+
     35% {
       transform: scale(1) rotate(2deg);
     }
-  
+
     40% {
       transform: scale(1) rotate(0);
     }
   }
-  &-btn{
+  &-btn {
     position: relative;
     text-decoration: inherit;
     color: inherit;
   }
-  &::before{
-    content: '⭐';
+  &::before {
+    content: "⭐";
   }
-  
-  }
-  
+}
