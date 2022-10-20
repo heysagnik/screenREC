@@ -26,7 +26,7 @@ export default class recorderClass {
         dropdownOptions: document.querySelectorAll(".sh__dropdown__list--item"),
         dropdownChevron: document.querySelector(".sh__dropdown--icon.chevron"),
         headerText: document.querySelector(".sh__header"),
-        toast: document.getElementById("toast"),
+        toast: document.querySelector(".sh__toast"),
         mime: null,
         id: null,
         mediaRecorder: null,
@@ -70,20 +70,19 @@ export default class recorderClass {
   appendStatusNotification(actionType) {
     const notificationText =
       actionType === "start"
-        ? "Started Recording"
+        ? "Started recording"
         : actionType === "stop"
-        ? "Stopped Recording"
+        ? "Stopped recording"
         : actionType === "pause"
         ? "Paused Recording"
         : actionType === "resume"
         ? "Resumed Recording"
         : "";
-
+    this.set.toast.textContent = notificationText;
     this.set.toast.classList.add("active");
-    document.getElementById("desc").innerHTML = notificationText
     setTimeout(() => {
       this.set.toast.classList.remove("active");
-    }, 4000);
+    }, 2000);
   }
   createRecorder(stream) {
     // the stream data is stored in this array
