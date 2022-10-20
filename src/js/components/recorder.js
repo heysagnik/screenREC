@@ -31,7 +31,7 @@ export default class recorderClass {
         mediaRecorder: null,
         isRecording: false,
         isPause: false,
-        filename: null,
+        filename:null,
       };
       recorderClass.instance = this;
     }
@@ -123,9 +123,10 @@ export default class recorderClass {
       type: "video/" + this.set.mime,
     });
     let savedName;
-    if (this.set.filename == null || this.set.filename == "")
+    if(this.set.filename == null || this.set.filename == "")
       savedName = this.getRandomString(15);
-    else savedName = this.set.filename;
+    else
+      savedName = this.set.filename;
     this.set.download.href = URL.createObjectURL(blob);
     this.set.download.download = `${savedName}.${this.set.mime}`;
     this.set.videoOpacitySheet.remove();
