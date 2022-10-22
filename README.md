@@ -39,7 +39,11 @@ Here you can find the live deployed version:
 6. Click the green button to pause/resume recording, and the red button to stop.
 7. You can play your video in the browser, or click "Download now" to download.
 
-You can view a video example [here](https://imgur.com/a/RzMdVcI).
+
+
+
+https://user-images.githubusercontent.com/70798495/197354300-9ca7a871-cafa-4883-9926-678bc1c173a7.mp4
+
 
 ## Developement Guide :
    ### For Cloud or Linux Users only :
