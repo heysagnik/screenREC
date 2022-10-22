@@ -8,8 +8,7 @@ A really simple web screen recorder.
 
 ## 🎯 About
 
-The project is developed with Vanilla JS and HTML.<br/>
-I've styled & refactored the WebApp using a custom boilerplate built on Parcel V2.
+The project was initially developed by [Sagnik Sahoo](https://twitter.com/heysagnik) during the COVID-19 era to record the online classes.Later on it was made Open-Sourced.
 
 ## ▶️ Demo
 
@@ -26,10 +25,24 @@ Here you can find the live deployed version:
 ✔️ Current OS theme detection<br/>
 ✔️ Ad-free<br/>
 ✔️ Open-Source<br/>
+✔️ No Time limits<br/>
 ❌ Doesn't support Mobile Devices yet.
 
+## Usage guide :
+1. Choose your video format 
+    - WebM : Optimised for web
+    - mp4 : Optimised for compatibility 
+2. Enter your desired file name
+3. Click "I'm ready to record!"
+4. Grant the required browser permissions to record your screen, if you are accessing the site for first time
+5. Select the desired window you'd like to record through the popup.
+6. Click the green button to pause/resume recording, and the red button to stop.
+7. You can play your video in the browser, or click "Download now" to download.
 
-## Installation Guide for Cloud or Linux Users only :
+You can view a video example [here](https://imgur.com/a/CSs0Jl2).
+
+## Developement Guide :
+   ### For Cloud or Linux Users only :
 
 1. Using this button open this project on Gitpod. 
    
@@ -57,7 +70,7 @@ Here you can find the live deployed version:
 
    [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fheysagnik%2FscreenREC)  [![Deploy with Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/heysagnik/screenREC)
 
-## Installation Guide for Windows Users or Local Development :
+  ### For Windows Users :
 
 1. Fork this repo
 
@@ -84,20 +97,6 @@ Here you can find the live deployed version:
    [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fheysagnik%2FscreenREC) 
    [![Deploy with Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/heysagnik/screenREC)
 
-## Usage guide :
-1. Choose your video format (WebM or mp4)
-2. Enter your file name
-3. Click "I'm ready to record!"
-4. Allow your browser to screen record, if this hasn't been allowed before
-5. Select the window you'd like to record through the popup.
-6. Click the green button to pause/resume recording, and the red button to stop.
-7. You can play your video in the browser, or click "Download now" to download.
-
-You can view a video example [here](https://imgur.com/a/CSs0Jl2).
-
-## 🙏 If you find this useful : 
-[![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/heysagnik.svg?style=social&label=Follow%20%40heysagnik)](https://twitter.com/heysagnik)<b>  &  </b><a href = "https://www.buymeacoffee.com/devgossips"><img src ="https://cdn.buymeacoffee.com/buttons/default-red.png" width="110px" height="30px" style="border-radius:10px;"/></a>
-
 
 ## 🚀 Technologies
 
@@ -108,4 +107,5 @@ You can view a video example [here](https://imgur.com/a/CSs0Jl2).
 ## Special Thanks to all the Contributors 
 <img src="https://contrib.rocks/image?repo=heysagnik/screenREC" />
 
-### 🧑‍💻 Made with ❤️ by [Sagnik Sahoo](https://github.com/heysagnik) and other Open-source devlopers 💚
+ #### 🧑‍💻 Made with 💚 by ***Crazy Open-source developers*** 
+
