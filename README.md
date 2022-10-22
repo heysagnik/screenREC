@@ -57,7 +57,7 @@ Here you can find the live deployed version:
 
    [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fheysagnik%2FscreenREC)  [![Deploy with Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/heysagnik/screenREC)
 
-## Installation Guide for Windows Users or Local Developement :
+## Installation Guide for Windows Users or Local Development :
 
 1. Fork this repo
 
@@ -73,7 +73,7 @@ Here you can find the live deployed version:
 5. Make sure you delete `.parcel-cache` & `dist` folder 📂 firstly.
 6. To run the project and use in development mode.
    ```sh
-   px parcel src/index.pug
+   npx parcel src/index.pug
    ```
 7. Build the final project.
    ```sh
@@ -84,6 +84,16 @@ Here you can find the live deployed version:
    [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fheysagnik%2FscreenREC) 
    [![Deploy with Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/heysagnik/screenREC)
 
+## Usage guide :
+1. Choose your video format (WebM or mp4)
+2. Enter your file name
+3. Click "I'm ready to record!"
+4. Allow your browser to screen record, if this hasn't been allowed before
+5. Select the window you'd like to record through the popup.
+6. Click the green button to pause/resume recording, and the red button to stop.
+7. You can play your video in the browser, or click "Download now" to download.
+
+You can view a video example [here](https://imgur.com/a/CSs0Jl2).
 
 ## 🙏 If you find this useful : 
 [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/heysagnik.svg?style=social&label=Follow%20%40heysagnik)](https://twitter.com/heysagnik)<b>  &  </b><a href = "https://www.buymeacoffee.com/devgossips"><img src ="https://cdn.buymeacoffee.com/buttons/default-red.png" width="110px" height="30px" style="border-radius:10px;"/></a>
