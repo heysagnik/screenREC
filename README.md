@@ -10,6 +10,8 @@ A really simple web screen recorder.
 
 The project was initially developed by [Sagnik Sahoo](https://twitter.com/heysagnik) during the COVID-19 era to record the online classes.Later on it was made Open-Sourced.
 
+> Currently maintained by [Prateek Hebsur](https://github.com/Villain45)  & [Sagnik Sahoo](https://github.com/heysagnik)
+
 ## ▶️ Demo
 
 Here you can find the live deployed version:
@@ -111,4 +113,4 @@ https://user-images.githubusercontent.com/70798495/197354300-9ca7a871-cafa-4883-
 ## Special Thanks to all the Contributors 
 <img src="https://contrib.rocks/image?repo=heysagnik/screenREC" />
 
- #### 🧑‍💻 Made with 💚 by ***Crazy Open-source developers*** 
+ #### 🧑‍💻 Made with 💚 by ***Crazy Open-source developers***  
