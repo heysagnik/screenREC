@@ -55,7 +55,131 @@
           -webkit-text-fill-color: transparent;
         }
       }
+
+
+
+
+
     }
+    $color_1: black;
+    $background-color_1: red;
+    $background-color_2: rgba(237, 234, 234, 0.439);
+
+    &__mainheading{
+      font-size: 3em;
+    }
+
+    &__heading{
+      font-size: 1.2em;
+      .highlight{
+        font-style: bold;
+        color: $color_1;
+        font-weight: 600;
+
+      }
+    }
+
+    &__features {
+      color: $color_1;
+      margin: 0 30px 0 20px;
+      vertical-align: middle;
+      img{
+        display:inline;
+        vertical-align: middle;
+
+      }
+    }
+
+    &__container {
+      width: 900px;
+      height: 200px;
+      margin: 30px;
+      text-align: center;
+      .s-box {
+        float: left;
+        width: 220px;
+        height: 205px;
+        background-color: $background-color_2;
+        border-radius: 15px;
+        margin: 5px;
+        cursor:pointer;
+        &:hover {
+          background-color: darken(#bce7fe, 2%);
+          border: 3px solid rgb(85, 182, 241);
+        }
+      }
+      .ca-box {
+        float: left;
+        width: 220px;
+        height: 205px;
+        background-color: $background-color_2;
+        border-radius: 15px;
+        margin: 5px;
+        cursor:pointer;
+        &:hover {
+          background-color: darken(#bce7fe, 2%);
+          border: 3px solid rgb(85, 182, 241);
+        }
+      }
+      .r-box {
+        float: left;
+        height: 205px;
+        margin: 5px;
+        .btn {
+          width: 100%;
+          height: 35%;
+          display: flex;
+          align-items: center;
+          font-family: $main-font;
+          font-size: 0.8rem;
+          font-weight: 600;
+          background-color: $background-color_1;
+
+          margin: 50px 0 0 5px;
+          border: 2px solid transparent;
+          border-radius: 20px;
+          outline: none;
+          cursor: pointer;
+          @include mq(md) {
+            padding: 1.2rem 1.8rem;
+            @include fluid-type(768px, 1920px, 14px, 18px);
+          }
+
+          .spec{
+            background-color: #fff;
+            border-radius: 12px;
+            width: 50px;
+            height: 50px;
+            .circle{
+              width: 20px;
+              height: 20px;
+              background-color: red;
+              border-radius: 12px;
+              margin: 15px;
+
+            }
+
+          }
+          span {
+            margin-left: 2%;
+            margin-right: auto;
+            color: white;
+          }
+
+          &.toggled {
+            border: 2px solid $grey;
+          }
+        }
+        .small2 {
+          font-size: 15px;
+          margin-left: 15px;
+        }
+      }
+    }
+
+
+
+
 
     &__dropdown {
       position: relative;
@@ -67,41 +191,7 @@
         max-width: 35rem;
       }
 
-      &--btn {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        background-color: $light-grey;
-        color: $grey;
-        font-family: $main-font;
-        font-size: 0.8rem;
-        font-weight: 600;
-        margin: 1.5rem 0;
-        padding: 1.2rem 1rem;
-        border: 2px solid transparent;
-        border-radius: $default-radius;
-        outline: none;
-        cursor: pointer;
-        transition: all 0.3s $bezier-curve;
 
-        @include mq(md) {
-          padding: 1.2rem 1.8rem;
-          @include fluid-type(768px, 1920px, 14px, 18px);
-        }
-
-        &:hover {
-          background-color: darken($light-grey, 4%);
-        }
-
-        span {
-          margin-left: 2%;
-          margin-right: auto;
-        }
-
-        &.toggled {
-          border: 2px solid $grey;
-        }
-      }
 
       &--icon {
         width: 100%;
@@ -267,7 +357,7 @@
         padding-bottom: 1.2rem;
         padding-left: 1rem;
         padding-right: 1rem;
-        
+
         &::placeholder{
           margin-left: 10px;
           font-weight: 600;
@@ -367,7 +457,7 @@
             border-radius: $default-radius;
             background-color: $light-grey;
             box-shadow: 0 0 #0000, 0 0 #0000, 0 0 #0000, 0 0 #0000,
-              0 15px 50px -15px rgba(0, 0, 0, 0.12);
+            0 15px 50px -15px rgba(0, 0, 0, 0.12);
 
             &.visible {
               display: block;
@@ -375,9 +465,9 @@
 
             &--sheet {
               background: linear-gradient(
-                to bottom,
-                transparent,
-                rgba(0, 0, 0, 0.3)
+                              to bottom,
+                              transparent,
+                              rgba(0, 0, 0, 0.3)
               );
               position: absolute;
               bottom: 0;
