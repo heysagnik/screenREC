@@ -70,12 +70,12 @@
     }
 
     &__heading{
-      font-size: 1.2em;
+      color: grey;
+      font-weight: 400;
+
       .highlight{
         font-style: bold;
-        color: $color_1;
-        font-weight: 600;
-
+        font-weight: 800;
       }
     }
 
