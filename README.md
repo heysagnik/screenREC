@@ -10,8 +10,10 @@ A really simple web screen recorder.
 
 The project was initially developed by [Sagnik Sahoo](https://twitter.com/heysagnik) during the COVID-19 era to record the online classes.Later on it was made Open-Sourced.
 
-> Currently maintained by [Prateek Hebsur](https://github.com/Villain45)  & [Sagnik Sahoo](https://github.com/heysagnik)
-
+> Currently maintained by 
+>  - [Prateek Hebsur](https://github.com/Villain45)  ***@Villain45***
+>  - [Sagnik Sahoo](https://github.com/heysagnik)   ***@heysagnik***
+>  - [Suraj Bhandarkar S](https://github.com/Suraj-Bhandarkar-S) ***@Suraj-Bhandarkar-S***
 ## ▶️ Demo
 
 Here you can find the live deployed version:
