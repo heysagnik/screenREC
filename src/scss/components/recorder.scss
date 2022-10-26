@@ -82,10 +82,11 @@
     &__features {
       margin: 0 30px 0 20px;
       vertical-align: middle;
-      img{
+      svg{
         display:inline;
         vertical-align: middle;
-
+        margin:5px;
+        fill:grey;
       }
     }
 
