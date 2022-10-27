@@ -1,4 +1,7 @@
 <script setup>
+/**
+ * Main page component
+ */
 import progressVue from "./progress.vue";
 const props = defineProps({});
 </script>

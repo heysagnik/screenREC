@@ -1,3 +1,8 @@
+<script setup>
+/**
+ * Progress bar component
+ */
+</script>
 <template>
   <div class="progress"></div>
 </template>
