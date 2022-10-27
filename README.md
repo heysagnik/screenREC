@@ -1,26 +1,22 @@
 <img src="https://api.microlink.io?url=https%3A%2F%2Fscreen-rec.vercel.app%2F&overlay.browser=dark&overlay.background=linear-gradient(225deg%2C%20%23FF057C%200%25%2C%20%238D0B93%2050%25%2C%20%23321575%20100%25)&screenshot=true&meta=false&embed=screenshot.url"/>
 
-# 📹 ScreenREC
+# <img src="https://emojipedia-us.s3.amazonaws.com/source/microsoft-teams/337/video-camera_1f4f9.png" height="36"/> ScreenREC
 
 A really simple web screen recorder.
 
 <a href="https://www.producthunt.com/posts/screenrec?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-screenrec" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=322532&theme=dark" alt="ScreenREC - A really simple ad-free minimial web screen recorder | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>     <a href="https://www.producthunt.com/posts/screenrec?utm_source=badge-top-post-badge&utm_medium=badge&utm_souce=badge-screenrec" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=322532&theme=dark&period=daily" alt="ScreenREC - A really simple ad-free minimial web screen recorder | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 
-## 🎯 About
+## <img src="https://emojipedia-us.s3.amazonaws.com/source/microsoft-teams/337/direct-hit_1f3af.png" height="30"/> About
 
 The project was initially developed by [Sagnik Sahoo](https://twitter.com/heysagnik) during the COVID-19 era to record the online classes.Later on it was made Open-Sourced.
 
-> Currently maintained by 
->  - [Prateek Hebsur](https://github.com/Villain45)  ***@Villain45***
->  - [Sagnik Sahoo](https://github.com/heysagnik)   ***@heysagnik***
->  - [Suraj Bhandarkar S](https://github.com/Suraj-Bhandarkar-S) ***@Suraj-Bhandarkar-S***
-## ▶️ Demo
+## <img src="https://emojipedia-us.s3.amazonaws.com/source/microsoft-teams/337/play-button_25b6-fe0f.png" height="36"/> Demo
 
 Here you can find the live deployed version:
 
 - [ScreenREC](https://screen-rec.vercel.app/)
 
-## ✨ Features
+## <img src="https://emojipedia-us.s3.amazonaws.com/source/microsoft-teams/337/sparkles_2728.png" height="36"/> Features
 
 ✔️ Export type selector (currently MP4/WebM)<br/>
 ✔️ Video preview<br/>
@@ -44,12 +40,14 @@ Here you can find the live deployed version:
 7. You can play your video in the browser, or click "Download now" to download.
 
 
-
+<video>
+ <source src="https://user-images.githubusercontent.com/70798495/197354300-9ca7a871-cafa-4883-9926-678bc1c173a7.mp4" type="video/mp4">
+</video>
 
 https://user-images.githubusercontent.com/70798495/197354300-9ca7a871-cafa-4883-9926-678bc1c173a7.mp4
 
 
-## Developement Guide :
+## <img src="https://emojipedia-us.s3.amazonaws.com/source/microsoft-teams/337/man-technologist_1f468-200d-1f4bb.png" height="36"/> Developement Guide :
    ### For Cloud or Linux Users only :
 
 1. Using this button open this project on Gitpod. 
@@ -70,7 +68,7 @@ https://user-images.githubusercontent.com/70798495/197354300-9ca7a871-cafa-4883-
    npm install
    ```
 5. Run the following command to use development mode .
-   ```sh
+   ``` sh
    npm start
    ``` 
 6. Build the final project.
@@ -109,13 +107,14 @@ https://user-images.githubusercontent.com/70798495/197354300-9ca7a871-cafa-4883-
    [![Deploy with Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/heysagnik/screenREC)
 
 
-## 🚀 Technologies
+## <img src="https://emojipedia-us.s3.amazonaws.com/source/microsoft-teams/337/rocket_1f680.png" height="25"/> Technologies
 
 - [Pug](https://pugjs.org/)
 - [Parcel](https://parceljs.org/)
 - [SASS/SCSS](https://sass-lang.com/)
 
-## Special Thanks to all the Contributors 
+### Special Thanks to all the Contributors <img src="https://emojipedia-us.s3.amazonaws.com/source/microsoft-teams/337/handshake_1f91d.png" height="30"/>
 <img src="https://contrib.rocks/image?repo=heysagnik/screenREC" />
 
- #### 🧑‍💻 Made with 💚 by ***Crazy Open-source developers***  
+Maintained with <img src="https://emojipedia-us.s3.amazonaws.com/source/microsoft-teams/337/green-heart_1f49a.png" height="20"/> by [Prateek Hebsur](https://github.com/Villain45) , [Sagnik Sahoo](https://github.com/heysagnik) & [Suraj Bhandarkar S](https://github.com/Suraj-Bhandarkar-S)
+
