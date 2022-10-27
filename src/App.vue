@@ -3,13 +3,12 @@
  * Root component that also handles global css (like the theme switcher)
  */
 import Home from "./components/Home.vue";
-import { ref } from "vue";
 
-const theme = ref("light");
+import { store } from "./store.js";
 </script>
 
 <template>
-  <Home :data-theme="theme"></Home>
+  <Home :data-theme="store.theme"></Home>
 </template>
 
 <style lang="scss">
@@ -55,13 +54,6 @@ html {
   color: $white;
 
   .sh {
-    &__toggler {
-      background-color: $darkest-grey;
-      border-color: $grey;
-      &:hover {
-        border-color: $white;
-      }
-    }
     &__toast {
       background-color: $white;
       color: $dark-grey;
@@ -73,20 +65,6 @@ html {
   color: $font-color;
 
   .sh {
-    &__toggler {
-      background-color: $white;
-      border-color: $grey;
-      &:hover {
-        border-color: $dark-grey;
-      }
-    }
-    &__github {
-      background-color: $white;
-      border-color: $grey;
-      &:hover {
-        border-color: $dark-grey;
-      }
-    }
     &__toast {
       background-color: $dark-grey;
       color: $light-grey;

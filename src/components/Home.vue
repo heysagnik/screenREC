@@ -4,13 +4,14 @@
  */
 import github from "./github.vue";
 import progressVue from "./progress.vue";
-const props = defineProps({});
+import toggler from "./Toggler.vue";
 </script>
 
 <template>
   <main class="sh">
     <progressVue></progressVue>
     <github></github>
+    <toggler></toggler>
   </main>
 </template>
 <style scoped>

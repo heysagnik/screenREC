@@ -49,7 +49,7 @@
   border: 2px solid;
   cursor: pointer;
   animation: bounce 2s infinite;
-  /*@include disableUserSelect();*/
+  @include disableUserSelect();
   &-btn {
     position: relative;
     text-decoration: inherit;
