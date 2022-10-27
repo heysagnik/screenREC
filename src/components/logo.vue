@@ -8,15 +8,15 @@
   <a class="logo">
     <picture class="logo--img">
       <source
-        srcset="images/logo.png?as=avif&amp;width=400"
+        srcset="/images/logo.png?as=avif&amp;width=400"
         type="image/avif"
       />
       <source
-        srcset="images/logo.png?as=webp&amp;width=400"
+        srcset="/images/logo.png?as=webp&amp;width=400"
         type="image/webp"
       />
-      <source srcset="images/logo.png?width=400" type="image/png" />
-      <img src="images/logo.png?width=400" alt="test image" />
+      <source srcset="/images/logo.png?width=400" type="image/png" />
+      <img src="/images/logo.png?width=400" alt="test image" />
     </picture>
     <h1 class="logo--text">Screen <span>REC</span></h1>
   </a>

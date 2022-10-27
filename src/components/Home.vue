@@ -2,18 +2,20 @@
 /**
  * Main page component
  */
-import github from "./github.vue";
+import Github from "./Github.vue";
 import Logo from "./logo.vue";
 import progressVue from "./progress.vue";
 import toggler from "./Toggler.vue";
+import Footer from "./Footer.vue";
 </script>
 
 <template>
   <main class="sh">
     <progressVue></progressVue>
-    <github></github>
+    <Github></Github>
     <toggler></toggler>
     <Logo></Logo>
+    <Footer></Footer>
   </main>
 </template>
 <style scoped>
