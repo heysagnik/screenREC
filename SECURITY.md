@@ -2,14 +2,14 @@
 
 ## Supported Browsers
 
-Use supported browsers only  .
+Use supported browsers only .
 
-| Browsers | Supported          |
-| ------- | ------------------ |
-| MS EDGE   | :white_check_mark: |
-| Chrome.   | :white_check_mark:                |
-| FIREFOX   | :white_check_mark: |
-| Android Browsers    | :x:                |
+| Browsers         | Supported          |
+| ---------------- | ------------------ |
+| MS EDGE          | :white_check_mark: |
+| Chrome.          | :white_check_mark: |
+| FIREFOX          | :white_check_mark: |
+| Android Browsers | :x:                |
 
 ## Reporting a Vulnerability
 

@@ -22,5 +22,6 @@
     "no-unused-vars": "off",
     "no-unsafe-finally": "off",
     "no-prototype-builtins": "off"
-  }
+  },
+  "ignorePatterns": ["node_modules/", "dist/"]
 }
