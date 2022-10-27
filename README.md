@@ -61,20 +61,23 @@ https://user-images.githubusercontent.com/70798495/197354300-9ca7a871-cafa-4883-
    ```sh
    git clone https://github.com/heysagnik/screenREC
    ```
-
-3. Install the required npm packages using the following command.
+3. Move into the newly created screenREC project directory.
+    ```sh
+    cd screenREC
+    ```
+4. Install the required npm packages using the following command.
    ```sh
    npm install
    ```
-4. Run the following command to use development mode .
+5. Run the following command to use development mode .
    ```sh
    npm start
    ``` 
-5. Build the final project.
+6. Build the final project.
    ```sh
     npm run build
    ```
-6. Or you can deploy the static site on netlify or vercel or any other platform. 
+7. Or you can deploy the static site on netlify or vercel or any other platform. 
 
    [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fheysagnik%2FscreenREC)  [![Deploy with Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/heysagnik/screenREC)
 
@@ -86,7 +89,7 @@ https://user-images.githubusercontent.com/70798495/197354300-9ca7a871-cafa-4883-
    ```sh
    git clone https://github.com/heysagnik/screenREC
    ```
-3. Open the folder in your desired Code Editor (eg: VS CODE)
+3. Open the newly created screenREC folder in your desired Code Editor (eg: VS CODE)
 4. Install the required npm packages 
    ```sh
    npm install
