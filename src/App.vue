@@ -62,13 +62,6 @@ html {
         border-color: $white;
       }
     }
-    &__github {
-      background-color: $darkest-grey;
-      border-color: $grey;
-      &:hover {
-        border-color: $white;
-      }
-    }
     &__toast {
       background-color: $white;
       color: $dark-grey;

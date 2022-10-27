@@ -2,6 +2,7 @@
 /**
  * Main page component
  */
+import github from "./github.vue";
 import progressVue from "./progress.vue";
 const props = defineProps({});
 </script>
@@ -9,6 +10,7 @@ const props = defineProps({});
 <template>
   <main class="sh">
     <progressVue></progressVue>
+    <github></github>
   </main>
 </template>
 <style scoped>
