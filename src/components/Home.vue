@@ -3,6 +3,7 @@
  * Main page component
  */
 import github from "./github.vue";
+import Logo from "./logo.vue";
 import progressVue from "./progress.vue";
 import toggler from "./Toggler.vue";
 </script>
@@ -12,6 +13,7 @@ import toggler from "./Toggler.vue";
     <progressVue></progressVue>
     <github></github>
     <toggler></toggler>
+    <Logo></Logo>
   </main>
 </template>
 <style scoped>
