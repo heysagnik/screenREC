@@ -1,31 +1,103 @@
 <script setup>
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-import HelloWorld from "./components/HelloWorld.vue";
+/**
+ * Root component that also handles global css (like the theme switcher)
+ */
+import Home from "./components/Home.vue";
+import { ref } from "vue";
+
+const theme = ref("light");
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/images/logo.png" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+  <Home :data-theme="theme"></Home>
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
+<style lang="scss">
+@import "scss/utils/all";
+
+html {
+  overflow-x: hidden;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: auto;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
+    sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+  scroll-behavior: smooth;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+#app {
+  position: relative;
+  overflow-x: hidden;
+  user-select: none;
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: $main-font;
+  font-size: 1rem;
+  font-weight: 400;
+  background-color: $white;
+  color: $font-color;
+  transition: 0.5s $bezier-curve;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: $darkest-grey;
+    color: $white;
+  }
+  @media (prefers-color-scheme: light) {
+    background-color: $white;
+    color: $font-color;
+  }
 }
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+
+[data-theme="dark"] {
+  background-color: $darkest-grey;
+  color: $white;
+
+  .sh {
+    &__toggler {
+      background-color: $darkest-grey;
+      border-color: $grey;
+      &:hover {
+        border-color: $white;
+      }
+    }
+    &__github {
+      background-color: $darkest-grey;
+      border-color: $grey;
+      &:hover {
+        border-color: $white;
+      }
+    }
+    &__toast {
+      background-color: $white;
+      color: $dark-grey;
+    }
+  }
+}
+[data-theme="light"] {
+  background-color: $white;
+  color: $font-color;
+
+  .sh {
+    &__toggler {
+      background-color: $white;
+      border-color: $grey;
+      &:hover {
+        border-color: $dark-grey;
+      }
+    }
+    &__github {
+      background-color: $white;
+      border-color: $grey;
+      &:hover {
+        border-color: $dark-grey;
+      }
+    }
+    &__toast {
+      background-color: $dark-grey;
+      color: $light-grey;
+    }
+  }
 }
 </style>
