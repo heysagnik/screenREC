@@ -2,7 +2,7 @@
 /**
  * Main page component
  */
-import Github from "./Github.vue";
+import Github from "./github.vue";
 import Logo from "./logo.vue";
 import progressVue from "./progress.vue";
 import toggler from "./Toggler.vue";
