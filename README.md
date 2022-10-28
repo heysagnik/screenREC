@@ -1,4 +1,4 @@
-<img src="https://api.microlink.io?url=https%3A%2F%2Fscreen-rec.vercel.app%2F&overlay.browser=dark&overlay.background=linear-gradient(225deg%2C%20%23FF057C%200%25%2C%20%238D0B93%2050%25%2C%20%23321575%20100%25)&screenshot=true&meta=false&embed=screenshot.url"/>
+<img src="https://api.microlink.io?url=https%3A%2F%2Fscreen-rec-beta.vercel.app%2F&overlay.browser=dark&overlay.background=linear-gradient(225deg%2C%20%23FF057C%200%25%2C%20%238D0B93%2050%25%2C%20%23321575%20100%25)&screenshot=true&meta=false&embed=screenshot.url"/>
 
 # <img src="https://emojipedia-us.s3.amazonaws.com/source/microsoft-teams/337/video-camera_1f4f9.png" height="36"/> ScreenREC
 
@@ -14,7 +14,7 @@ The project was initially developed by [Sagnik Sahoo](https://twitter.com/heysag
 
 Here you can find the live deployed version:
 
-- [ScreenREC](https://screen-rec.vercel.app/)
+- [ScreenREC](https://screen-rec-beta.vercel.app/)
 
 ## <img src="https://emojipedia-us.s3.amazonaws.com/source/microsoft-teams/337/sparkles_2728.png" height="36"/> Features
 
