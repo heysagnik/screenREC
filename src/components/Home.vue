@@ -6,7 +6,7 @@ import Github from "./github.vue";
 import Logo from "./logo.vue";
 import progressVue from "./progress.vue";
 import toggler from "./Toggler.vue";
-import Footer from "./Footer.vue";
+import Footer from "./footer.vue";
 </script>
 
 <template>
