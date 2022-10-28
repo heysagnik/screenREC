@@ -18,7 +18,7 @@
       <source srcset="/images/logo.png?width=400" type="image/png" />
       <img src="/images/logo.png?width=400" alt="test image" />
     </picture>
-    <h1 class="logo--text">Screen <span>REC</span></h1>
+    <h1 class="logo--text">Screen <span>REC</span></h1><sup style="font-weight:400; font-size:20">βeta</sup>
   </a>
 </template>
 
