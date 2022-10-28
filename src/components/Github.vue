@@ -55,8 +55,13 @@
     color: inherit;
   }
   &::before {
-    content: url(https://emojipedia-us.s3.amazonaws.com/source/microsoft-teams/337/star_2b50.png);
-  }
+    background-image: url(https://emojipedia-us.s3.amazonaws.com/source/microsoft-teams/337/star_2b50.png);
+    background-size: 10px 20px;
+    display: inline-block;
+    width: 10px; 
+    height: 20px;
+    content:"";
+    }
 }
 
 
