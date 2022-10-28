@@ -16,9 +16,9 @@
         type="image/webp"
       />
       <source srcset="/images/logo.png?width=400" type="image/png" />
-      <img src="/images/logo.png?width=400" alt="test image" />
+      <img src="/images/logo.png?width=400" alt="ScreenREC" />
     </picture>
-    <h1 class="logo--text">Screen <span>REC</span></h1>
+    <h1 class="logo--text">Screen <span>REC</span><sup style="font-weight:400;">βeta</sup></h1>
   </a>
 </template>
 
