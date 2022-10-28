@@ -74,6 +74,8 @@
     sup {
       font-size: 20px;
       vertical-align: top;
+      font-style: italic;
+      font-weight:500;
    }
   }
 }
