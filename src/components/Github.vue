@@ -12,7 +12,7 @@
       type="button"
       title="Yeah! We are open-sourced 💗"
     >
-      Star Us
+      Star us
     </a>
   </span>
 </template>
@@ -40,7 +40,7 @@
   top: 2.4rem;
   right: 5.5rem;
   height: 40px;
-  width: 80px;
+  width: 90px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
