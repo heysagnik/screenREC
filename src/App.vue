@@ -23,31 +23,6 @@ html {
     sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
   scroll-behavior: smooth;
 }
-#app {
-  position: relative;
-  overflow-x: hidden;
-  user-select: none;
-  -webkit-user-select: none; /* Safari */
-  -moz-user-select: none; /* Firefox */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  font-family: $main-font;
-  font-size: 1rem;
-  font-weight: 400;
-  background-color: $white;
-  color: $font-color;
-  transition: 0.5s $bezier-curve;
-
-  @media (prefers-color-scheme: dark) {
-    background-color: $darkest-grey;
-    color: $white;
-  }
-  @media (prefers-color-scheme: light) {
-    background-color: $white;
-    color: $font-color;
-  }
-}
 
 [data-theme="dark"] {
   background-color: $darkest-grey;
