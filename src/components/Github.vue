@@ -12,7 +12,7 @@
       type="button"
       title="Yeah! We are open-sourced 💗"
     >
-      Star
+      Star Us
     </a>
   </span>
 </template>
@@ -48,7 +48,6 @@
   border-radius: 10%;
   border: 2px solid;
   cursor: pointer;
-  animation: bounce 2s infinite;
   @include disableUserSelect();
   &-btn {
     position: relative;
@@ -56,42 +55,9 @@
     color: inherit;
   }
   &::before {
-    content: "⭐";
+    content: url(https://emojipedia-us.s3.amazonaws.com/source/microsoft-teams/337/star_2b50.png);
   }
 }
 
-@keyframes bounce {
-  5%,
-  50% {
-    transform: scale(1);
-  }
-
-  10% {
-    transform: scale(1);
-  }
-
-  15% {
-    transform: scale(1);
-  }
-
-  20% {
-    transform: scale(1) rotate(-5deg);
-  }
-
-  25% {
-    transform: scale(1) rotate(5deg);
-  }
-
-  30% {
-    transform: scale(1) rotate(-3deg);
-  }
-
-  35% {
-    transform: scale(1) rotate(2deg);
-  }
-
-  40% {
-    transform: scale(1) rotate(0);
-  }
 }
 </style>
