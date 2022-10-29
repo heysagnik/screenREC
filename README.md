@@ -92,16 +92,15 @@ https://user-images.githubusercontent.com/70798495/197354300-9ca7a871-cafa-4883-
    ```sh
    npm install
    ```
-5. Make sure you delete `.parcel-cache` & `dist` folder 📂 firstly.
-6. To run the project and use in development mode.
+5. To run the project and use in development mode.
    ```sh
-   npx parcel src/index.pug
+   npm start
    ```
-7. Build the final project.
+6. Build the final project.
    ```sh
    npm run build
    ```
-8. Or you can deploy the static site on netlify or vercel or any other platform.
+7. Or you can deploy the static site on netlify or vercel or any other platform.
 
    [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fheysagnik%2FscreenREC) 
    [![Deploy with Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/heysagnik/screenREC)
@@ -109,9 +108,9 @@ https://user-images.githubusercontent.com/70798495/197354300-9ca7a871-cafa-4883-
 
 ## <img src="https://emojipedia-us.s3.amazonaws.com/source/microsoft-teams/337/rocket_1f680.png" height="25"/> Technologies
 
-- [Pug](https://pugjs.org/)
-- [Parcel](https://parceljs.org/)
-- [SASS/SCSS](https://sass-lang.com/)
+- [Vue](https://vuejs.org/)
+- [Vite](https://vitejs.dev/)
+- [SCSS](https://sass-lang.com/)
 
 ### Special Thanks to all the Contributors <img src="https://emojipedia-us.s3.amazonaws.com/source/microsoft-teams/337/handshake_1f91d.png" height="30"/>
 <img src="https://contrib.rocks/image?repo=heysagnik/screenREC" />
