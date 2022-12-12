@@ -116,5 +116,5 @@ https://user-images.githubusercontent.com/70798495/197354300-9ca7a871-cafa-4883-
 ### Special Thanks to all the Contributors <img src="https://emojipedia-us.s3.amazonaws.com/source/microsoft-teams/337/handshake_1f91d.png" height="30"/>
 <img src="https://contrib.rocks/image?repo=heysagnik/screenREC" />
 
-Maintained with <img src="https://emojipedia-us.s3.amazonaws.com/source/microsoft-teams/337/green-heart_1f49a.png" height="20"/> by [Prateek Hebsur](https://github.com/Villain45) , [Sagnik Sahoo](https://github.com/heysagnik) & [Suraj Bhandarkar S](https://github.com/Suraj-Bhandarkar-S)
+Maintained with <img src="https://emojipedia-us.s3.amazonaws.com/source/microsoft-teams/337/green-heart_1f49a.png" height="20"/> [Sagnik Sahoo](https://github.com/heysagnik)
 
