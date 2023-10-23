@@ -6,7 +6,7 @@
   "license": "MIT",
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "scripts": {
-    "start": "rm -rf .parcel-cache && rm -rf dist && parcel src/index.pug",
+    "start": "parcel src/index.pug",
     "build": "parcel build src/index.pug",
     "format": "prettier --write .",
     "check-format": "prettier --check .",
