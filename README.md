@@ -10,6 +10,8 @@ A really simple web screen recorder.
 
 The project was initially developed by [Sagnik Sahoo](https://twitter.com/heysagnik) during the COVID-19 era to record the online classes.Later on it was made Open-Sourced.
 
+[V2](https://dashboard-eight-henna.vercel.app/)
+
 ## <img src="https://emojipedia-us.s3.amazonaws.com/source/microsoft-teams/337/play-button_25b6-fe0f.png" height="36"/> Demo
 
 Here you can find the live deployed version:
