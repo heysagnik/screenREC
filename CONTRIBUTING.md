@@ -21,7 +21,7 @@ Would you like to see a new feature added to Shoutify? Let's discuss it! Let us 
 
 **1.** Start by making a Fork of the [project](https://github.com/heysagnik/screenREC) repository. Click on the <a href="https://github.com/heysagnik/screenREC/fork"><img src="https://i.imgur.com/G4z1kEe.png" height="21" width="21"></a>Fork symbol at the top right corner.
 
-**2.** Clone your new fork for the terminal: 
+**2.** Clone your new fork for the terminal:
 
 ```bash
 git clone https://github.com/<your-github-username>/screenREC
@@ -90,12 +90,9 @@ git push origin YourBranchName
 
 **11.** Create a [Pull Request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request)!
 
------
+---
 
 #### Commit Message Format
 
 - Add relevant heading
 - Provide short description with the change that has been done
-
-
-

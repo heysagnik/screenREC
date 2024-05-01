@@ -1,127 +1,129 @@
 @-webkit-keyframes fadein {
-	from {
-		bottom: 0;
-		opacity: 0;
-	}
-	to {
-		bottom: 30px;
-		opacity: 1;
-	}
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
 }
 @keyframes fadein {
-	from {
-		bottom: 0;
-		opacity: 0;
-	}
-	to {
-		bottom: 30px;
-		opacity: 1;
-	}
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
 }
 @-webkit-keyframes expand {
-	from {
-		min-width: 50px;
-	}
-	to {
-		min-width: 350px;
-	}
+  from {
+    min-width: 50px;
+  }
+  to {
+    min-width: 350px;
+  }
 }
 @keyframes expand {
-	from {
-		min-width: 50px;
-	}
-	to {
-		min-width: 350px;
-	}
+  from {
+    min-width: 50px;
+  }
+  to {
+    min-width: 350px;
+  }
 }
 @-webkit-keyframes stay {
-	from {
-		min-width: 350px;
-	}
-	to {
-		min-width: 350px;
-	}
+  from {
+    min-width: 350px;
+  }
+  to {
+    min-width: 350px;
+  }
 }
 @keyframes stay {
-	from {
-		min-width: 350px;
-	}
-	to {
-		min-width: 350px;
-	}
+  from {
+    min-width: 350px;
+  }
+  to {
+    min-width: 350px;
+  }
 }
 @-webkit-keyframes shrink {
-	from {
-		min-width: 350px;
-	}
-	to {
-		min-width: 50px;
-	}
+  from {
+    min-width: 350px;
+  }
+  to {
+    min-width: 50px;
+  }
 }
 @keyframes shrink {
-	from {
-		min-width: 350px;
-	}
-	to {
-		min-width: 50px;
-	}
+  from {
+    min-width: 350px;
+  }
+  to {
+    min-width: 50px;
+  }
 }
 @-webkit-keyframes fadeout {
-	from {
-		bottom: 30px;
-		opacity: 1;
-	}
-	to {
-		bottom: 60px;
-		opacity: 0;
-	}
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 60px;
+    opacity: 0;
+  }
 }
 @keyframes fadeout {
-	from {
-		bottom: 30px;
-		opacity: 1;
-	}
-	to {
-		bottom: 60px;
-		opacity: 0;
-	}
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 60px;
+    opacity: 0;
+  }
 }
 #toast {
-	visibility: hidden;
-	max-width: 50px;
-	height: 50px;
-	margin: auto;
-	background-color: $light-grey;
-	text-align: center;
+  visibility: hidden;
+  max-width: 50px;
+  height: 50px;
+  margin: auto;
+  background-color: $light-grey;
+  text-align: center;
   font-size: 1.1rem;
   font-weight: 600;
-	position: fixed;
+  position: fixed;
   border-radius: 5px;
   left: 75%;
   right: 0;
-	z-index: 1;
-	bottom: 30px;
+  z-index: 1;
+  bottom: 30px;
   align-items: center;
   justify-content: center;
-	white-space: nowrap;
+  white-space: nowrap;
   overflow: hidden;
-	#img {
-		width: 50px;
-		height: 51px;
-		float: left;
+  #img {
+    width: 50px;
+    height: 51px;
+    float: left;
     object-fit: contain;
-		box-sizing: border-box;
-		background-color: rgb(230, 230, 230);
-	}
-	#desc {
-		color: $grey;
-		padding: 13px;
-		overflow: hidden;
-		white-space: nowrap;
-	}
+    box-sizing: border-box;
+    background-color: rgb(230, 230, 230);
+  }
+  #desc {
+    color: $grey;
+    padding: 13px;
+    overflow: hidden;
+    white-space: nowrap;
+  }
 }
 #toast.active {
-	visibility: visible;
-	-webkit-animation: fadein 0.5s, expand 0.5s 0.5s,stay 2s 1s, shrink 0.5s 2s, fadeout 0.5s 2.5s;
-	animation: fadein 0.5s, expand 0.5s 0.5s,stay 2s 1s, shrink 0.5s 3s, fadeout 0.5s 3.5s;
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, expand 0.5s 0.5s, stay 2s 1s, shrink 0.5s 2s,
+    fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, expand 0.5s 0.5s, stay 2s 1s, shrink 0.5s 3s,
+    fadeout 0.5s 3.5s;
 }

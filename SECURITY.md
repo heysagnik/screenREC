@@ -5,7 +5,7 @@
 Please use supported browsers only.
 
 | Browsers         | Supported          |
-| ---------------  | ------------------ |
+| ---------------- | ------------------ |
 | Microsoft Edge   | :white_check_mark: |
 | Google Chrome    | :white_check_mark: |
 | Mozilla Firefox  | :white_check_mark: |
