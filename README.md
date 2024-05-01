@@ -4,7 +4,7 @@
 
 A really simple web screen recorder.
 
-<a href="https://www.producthunt.com/posts/screenrec?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-screenrec" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=322532&theme=dark" alt="ScreenREC - A really simple ad-free minimial web screen recorder | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>     <a href="https://www.producthunt.com/posts/screenrec?utm_source=badge-top-post-badge&utm_medium=badge&utm_souce=badge-screenrec" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=322532&theme=dark&period=daily" alt="ScreenREC - A really simple ad-free minimial web screen recorder | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
+<a href="https://www.producthunt.com/posts/screenrec?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-screenrec" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=322532&theme=dark" alt="ScreenREC - A really simple ad-free minimial web screen recorder | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a> <a href="https://www.producthunt.com/posts/screenrec?utm_source=badge-top-post-badge&utm_medium=badge&utm_souce=badge-screenrec" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=322532&theme=dark&period=daily" alt="ScreenREC - A really simple ad-free minimial web screen recorder | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 
 ## <img src="https://emojipedia-us.s3.amazonaws.com/source/microsoft-teams/337/direct-hit_1f3af.png" height="30"/> About
 
@@ -31,9 +31,10 @@ Here you can find the live deployed version:
 ❌ Doesn't support Mobile Devices yet.
 
 ## Usage guide :
-1. Choose your video format 
-    - WebM : Optimised for web
-    - mp4 : Optimised for compatibility 
+
+1. Choose your video format
+   - WebM : Optimised for web
+   - mp4 : Optimised for compatibility
 2. Enter your desired file name
 3. Click "I'm ready to record!"
 4. Grant the required browser permissions to record your screen, if you are accessing the site for first time
@@ -41,20 +42,20 @@ Here you can find the live deployed version:
 6. Click the green button to pause/resume recording, and the red button to stop.
 7. You can play your video in the browser, or click "Download now" to download.
 
-
 <video>
  <source src="https://user-images.githubusercontent.com/70798495/197354300-9ca7a871-cafa-4883-9926-678bc1c173a7.mp4" type="video/mp4">
 </video>
 
 https://user-images.githubusercontent.com/70798495/197354300-9ca7a871-cafa-4883-9926-678bc1c173a7.mp4
 
-
 ## <img src="https://emojipedia-us.s3.amazonaws.com/source/microsoft-teams/337/man-technologist_1f468-200d-1f4bb.png" height="36"/> Developement Guide :
-   ### For Cloud or Linux Users only :
 
-1. Using this button open this project on Gitpod. 
-   
+### For Cloud or Linux Users only :
+
+1. Using this button open this project on Gitpod.
+
    [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/heysagnik/screenREC)
+
    > Skip this if you are running on Linux
 
 2. Then in terminal clone the repository.
@@ -62,26 +63,26 @@ https://user-images.githubusercontent.com/70798495/197354300-9ca7a871-cafa-4883-
    git clone https://github.com/heysagnik/screenREC
    ```
 3. Move into the newly created screenREC project directory.
-    ```sh
-    cd screenREC
-    ```
+   ```sh
+   cd screenREC
+   ```
 4. Install the required npm packages using the following command.
    ```sh
    npm install
    ```
 5. Run the following command to use development mode .
-   ``` sh
+   ```sh
    npm start
-   ``` 
+   ```
 6. Build the final project.
    ```sh
     npm run build
    ```
-7. Or you can deploy the static site on netlify or vercel or any other platform. 
+7. Or you can deploy the static site on netlify or vercel or any other platform.
 
-   [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fheysagnik%2FscreenREC)  [![Deploy with Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/heysagnik/screenREC)
+   [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fheysagnik%2FscreenREC) [![Deploy with Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/heysagnik/screenREC)
 
-  ### For Windows Users :
+### For Windows Users :
 
 1. Fork this repo
 
@@ -90,7 +91,7 @@ https://user-images.githubusercontent.com/70798495/197354300-9ca7a871-cafa-4883-
    git clone https://github.com/heysagnik/screenREC
    ```
 3. Open the newly created screenREC folder in your desired Code Editor (eg: VS CODE)
-4. Install the required npm packages 
+4. Install the required npm packages
    ```sh
    npm install
    ```
@@ -105,9 +106,8 @@ https://user-images.githubusercontent.com/70798495/197354300-9ca7a871-cafa-4883-
    ```
 8. Or you can deploy the static site on netlify or vercel or any other platform.
 
-   [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fheysagnik%2FscreenREC) 
+   [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fheysagnik%2FscreenREC)
    [![Deploy with Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/heysagnik/screenREC)
-
 
 ## <img src="https://emojipedia-us.s3.amazonaws.com/source/microsoft-teams/337/rocket_1f680.png" height="25"/> Technologies
 
@@ -116,7 +116,7 @@ https://user-images.githubusercontent.com/70798495/197354300-9ca7a871-cafa-4883-
 - [SASS/SCSS](https://sass-lang.com/)
 
 ### Special Thanks to all the Contributors <img src="https://emojipedia-us.s3.amazonaws.com/source/microsoft-teams/337/handshake_1f91d.png" height="30"/>
+
 <img src="https://contrib.rocks/image?repo=heysagnik/screenREC" />
 
 Maintained with <img src="https://emojipedia-us.s3.amazonaws.com/source/microsoft-teams/337/green-heart_1f49a.png" height="20"/> [Sagnik Sahoo](https://github.com/heysagnik)
-
