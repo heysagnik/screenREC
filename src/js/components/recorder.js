@@ -52,6 +52,7 @@ export default class recorderClass {
       : this.set.start.classList.remove("visible");
     this.set.dropdownDefaultOption.textContent = selectedElement.innerText;
     this.set.mime = selectedAttrValue;
+    return selectedAttrValue; // Return the selected value
   }
 
   getRandomString(length) {
@@ -110,6 +111,41 @@ export default class recorderClass {
     this.set.mediaRecorder.start(15); // For every 200ms the stream data will be stored in a separate chunk.
     return this.set.mediaRecorder;
   }
+  async recordScreenAndMicrophone() {
+    const screenStream = await navigator.mediaDevices.getDisplayMedia({
+      video: { mediaSource: "screen" },
+      audio: {
+        echoCancellation: true,
+        noiseSuppression: true,
+        sampleRate: 44100,
+      },
+    });
+
+    const microphoneStream = await navigator.mediaDevices.getUserMedia({
+      audio: true,
+    });
+
+    // Create an AudioContext and a MediaStreamAudioSourceNode for each stream
+    const audioContext = new AudioContext();
+    const screenSource = audioContext.createMediaStreamSource(screenStream);
+    const microphoneSource =
+      audioContext.createMediaStreamSource(microphoneStream);
+
+    // Create a MediaStreamAudioDestinationNode
+    const destination = audioContext.createMediaStreamDestination();
+
+    // Connect the sources to the destination
+    screenSource.connect(destination);
+    microphoneSource.connect(destination);
+
+    // Replace the screen stream's audio track with the destination's track
+    const tracks = [
+      ...screenStream.getVideoTracks(),
+      ...destination.stream.getAudioTracks(),
+    ];
+
+    return new MediaStream(tracks);
+  }
 
   async recordScreen() {
     return await navigator.mediaDevices.getDisplayMedia({
@@ -131,16 +167,26 @@ export default class recorderClass {
       savedName = this.getRandomString(15);
     else savedName = this.set.filename;
     this.set.download.href = URL.createObjectURL(blob);
-    this.set.download.download = `${savedName}.${this.set.mime}`;
+    this.set.download.download = `${savedName}.mp4`;
     this.set.videoOpacitySheet.remove();
-    this.set.preview.autoplay = false;
+    this.set.preview.autoplay = true;
     this.set.preview.controls = true;
+    this.set.preview.muted = false;
     this.set.preview.src = URL.createObjectURL(blob);
     URL.revokeObjectURL(blob); // clear from memory
   }
 
   async startRecording() {
-    let stream = await this.recordScreen();
+    let stream;
+    if (this.set.selectedOption === "screen") {
+      stream = await this.recordScreen();
+    } else if (this.set.selectedOption === "screen-mic") {
+      stream = await this.recordScreenAndMicrophone();
+    } else {
+      // Handle the case where no valid option is selected
+      return;
+    }
+
     let mimeType = "video/" + this.set.mime;
 
     this.set.filename = document.getElementById("filename").value;
@@ -174,7 +220,17 @@ export default class recorderClass {
   }
 
   stopRecording() {
-    this.set.mediaRecorder.stream.getTracks().forEach((track) => track?.stop());
+    // Stop the tracks of the MediaRecorder's stream
+    this.set.mediaRecorder.stream.getTracks().forEach((track) => track.stop());
+
+    // If you have separate streams for the screen and microphone, stop those as well
+    if (this.screenStream) {
+      this.screenStream.getTracks().forEach((track) => track.stop());
+    }
+    if (this.microphoneStream) {
+      this.microphoneStream.getTracks().forEach((track) => track.stop());
+    }
+
     const isInactive = this.set.mediaRecorder.state === "inactive"; // when stopping record with `Stop Sharing` button, isInactive is true
 
     this.set.isRecording = false;
@@ -218,7 +274,7 @@ export default class recorderClass {
     this.set.dropdownOptions.forEach((el) => {
       el.addEventListener("click", () => {
         this.set.recordingName.classList.add("visible");
-        this.getSelectedValue(el);
+        this.set.selectedOption = this.getSelectedValue(el); // Store the selected value
         this.toggleDropdown();
       });
     });

@@ -6,7 +6,9 @@ section.sh__recorder
                 source(srcset="images/logo.png?as=webp&width=400" type="image/webp")
                 source(srcset="images/logo.png?width=400" type="image/png")
                 img(src="images/logo.png?width=400" alt="test image")
-            h1.sh__logo--text Screen <span>REC</span> <sup style="font-weight:400;">βeta</sup>
+            h1.sh__logo--text Screen 
+               span REC 
+               sup βeta
 
         .sh__header
             h2.sh__header--title.outro
@@ -20,14 +22,13 @@ section.sh__recorder
             .sh__dropdown
                 button(type="button" class="sh__dropdown--btn")
                     img(class="sh__dropdown--icon camera" src=`./images/camera.svg`)
-                    span(class="sh__dropdown--defaultOption") Select the format of the output video
+                    span(class="sh__dropdown--defaultOption") What do you want to record?
                     img(class="sh__dropdown--icon chevron" src=`./images/chevron-down.svg`)
                 ul.sh__dropdown__list
-                    li(class="sh__dropdown__list--item" data-value="webm") WebM - Optimized for web
-                    li(class="sh__dropdown__list--item" data-value="mp4") MP4 - Optimized for compatibility
+                    li(class="sh__dropdown__list--item" data-value="screen") Record your Screen Just
+                    li(class="sh__dropdown__list--item" data-value="screen-mic") Record your Screen with Audio
 
-            input(type="text" class="sh__choice--filename" id="filename" placeholder="Name your recording")
-
+            input(type="text" class="sh__choice--filename" id="filename" placeholder="Name your recording" autocomplete="off")
             button(type="button" class="sh__btn record" id="start")
                 span.pulse
                 span I’m ready to record
