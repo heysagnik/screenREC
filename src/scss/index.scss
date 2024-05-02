@@ -46,12 +46,10 @@ body {
       }
       &__github-btn {
         color: $white;
+        border-color: $white;
+        background-color: $black;
         &::before {
           background-image: url("../images/github-mark-white.svg");
-        }
-        &:hover {
-          border-color: $white;
-          background-color: $black;
         }
       }
       &__toast {
@@ -74,12 +72,10 @@ body {
       }
       &__github-btn {
         color: $black;
+        border-color: $light-grey;
+        background-color: rgb(232, 230, 230);
         &::before {
           background-image: url("../images/github-mark.svg");
-        }
-        &:hover {
-          border-color: $light-grey;
-          background-color: rgb(232, 230, 230);
         }
       }
       &__toast {
