@@ -220,7 +220,17 @@ export default class recorderClass {
   }
 
   stopRecording() {
-    this.set.mediaRecorder.stream.getTracks().forEach((track) => track?.stop());
+    // Stop the tracks of the MediaRecorder's stream
+    this.set.mediaRecorder.stream.getTracks().forEach((track) => track.stop());
+
+    // If you have separate streams for the screen and microphone, stop those as well
+    if (this.screenStream) {
+      this.screenStream.getTracks().forEach((track) => track.stop());
+    }
+    if (this.microphoneStream) {
+      this.microphoneStream.getTracks().forEach((track) => track.stop());
+    }
+
     const isInactive = this.set.mediaRecorder.state === "inactive"; // when stopping record with `Stop Sharing` button, isInactive is true
 
     this.set.isRecording = false;

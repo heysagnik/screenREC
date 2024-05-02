@@ -44,11 +44,14 @@ body {
           border-color: $white;
         }
       }
-      &__github {
-        background-color: $darkest-grey;
-        border-color: $grey;
+      &__github-btn {
+        color: $white;
+        &::before {
+          background-image: url("../images/github-mark-white.svg");
+        }
         &:hover {
           border-color: $white;
+          background-color: $black;
         }
       }
       &__toast {
@@ -69,11 +72,14 @@ body {
           border-color: $dark-grey;
         }
       }
-      &__github {
-        background-color: $white;
-        border-color: $grey;
+      &__github-btn {
+        color: $black;
+        &::before {
+          background-image: url("../images/github-mark.svg");
+        }
         &:hover {
-          border-color: $dark-grey;
+          border-color: $light-grey;
+          background-color: rgb(232, 230, 230);
         }
       }
       &__toast {
