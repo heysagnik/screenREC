@@ -1,5 +1,6 @@
 "use client"
 
+import React from 'react'
 import { EmptyState } from "@/components/empty-state"
 import { Video, Archive, Image as ImageIcon } from 'lucide-react'
 import { useState } from 'react'
@@ -13,15 +14,14 @@ export default function Zaps() {
   const [isLoading, setIsLoading] = useState(false)
 
   const tabs = [
-    { id: 'videos', label: 'Videos', icon: Video, count: 0  },
-    { id: 'archive', label: 'Archive', icon: Archive, count: 0 },
-    { id: 'screenshots', label: 'Screenshots', icon: ImageIcon, count: 0 },
+    { id: 'videos', label: 'Videos', icon: Video, count: 12 },
+    { id: 'archive', label: 'Archive', icon: Archive, count: 5 },
+    { id: 'screenshots', label: 'Screenshots', icon: ImageIcon, count: 8 },
   ]
 
   const handleTabChange = (tab: Tab) => {
     setIsLoading(true)
     setActiveTab(tab)
-    // Simulate loading
     setTimeout(() => setIsLoading(false), 300)
   }
 
@@ -46,23 +46,26 @@ export default function Zaps() {
   )
 
   return (
-    <main className="max-w-7xl mx-auto px-6 py-8 animate-in fade-in">
-      <div className="mb-8">
-        <h1 className="text-sm text-gray-500 mb-1">My Library</h1>
-        <h2 className="text-2xl font-semibold text-gray-900">
+    <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div className="mb-10">
+        <h1 className="text-sm font-medium text-gray-500 mb-2">My Library</h1>
+        <h2 className="text-2xl font-semibold text-gray-900 tracking-tight">
           {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}
         </h2>
       </div>
       
-      <div className="flex items-center justify-between mb-8">
-        <nav className="flex gap-1 p-1 bg-gray-100/50 rounded-full relative">
-          {/* Animated Background Indicator */}
+      <div className="flex items-center justify-between mb-10">
+        <nav className="relative flex gap-1 p-1 bg-gray-50/80 rounded-full backdrop-blur-sm shadow-sm border border-gray-100/50">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
-              className="absolute inset-y-1 rounded-full bg-white shadow-sm"
+              className="absolute inset-1 rounded-full bg-white shadow-sm ring-1 ring-gray-200/50"
               layoutId="tab-indicator"
-              transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+              transition={{ type: "spring", bounce: 0.15, duration: 0.5 }}
+              style={{
+                width: `calc(${100/3}% - 4px)`,
+                left: `calc(${tabs.findIndex(t => t.id === activeTab) * (100/3)}% + 2px)`
+              }}
             />
           </AnimatePresence>
 
@@ -71,18 +74,26 @@ export default function Zaps() {
               key={id}
               onClick={() => handleTabChange(id as Tab)}
               className={`
-                px-4 py-2 text-sm font-medium rounded-full
-                flex items-center gap-2
+                relative z-10 
+                px-6 py-2.5 
+                text-sm font-medium 
+                rounded-full
+                flex items-center gap-3 
+                flex-1 justify-center
+                min-w-[120px]
                 transition-colors duration-200
-                relative
-                ${activeTab === id ? 'text-gray-900' : 'text-gray-600 hover:text-gray-900'}
+                ${activeTab === id ? 'text-gray-900' : 'text-gray-600 hover:text-gray-800'}
               `}
-              whileTap={{ scale: 0.98 }}
+              whileHover={{ scale: 0.98 }}
+              whileTap={{ scale: 0.95 }}
             >
               <motion.div
-                initial={{ scale: 1 }}
-                animate={{ scale: activeTab === id ? 1.1 : 1 }}
-                transition={{ type: "spring", bounce: 0.5 }}
+                initial={false}
+                animate={{
+                  scale: activeTab === id ? 1.1 : 1,
+                  color: activeTab === id ? '#6938EF' : '#6B7280'
+                }}
+                transition={{ type: "spring", bounce: 0.4 }}
               >
                 <Icon className="h-4 w-4" />
               </motion.div>
@@ -90,25 +101,24 @@ export default function Zaps() {
             </motion.button>
           ))}
         </nav>
-        
-        <motion.div 
-          layout
-          className="text-sm text-gray-500 bg-gray-100/50 px-3 py-1 rounded-full"
-        >
-          {tabs.find(t => t.id === activeTab)?.count} {activeTab.slice(0, -1)}
-        </motion.div>
+
+        {/* Count Badge - Show only active tab count */}
+        <div className="text-sm font-medium text-gray-900">
+          {tabs.find(tab => tab.id === activeTab)?.count} {activeTab.slice(0, -1)}
+        </div>
       </div>
 
+      {/* Content Area */}
       <AnimatePresence mode="wait">
         <motion.div 
           key={activeTab}
-          className="bg-white border border-gray-100 rounded-2xl shadow-sm"
+          className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
         >
-          {isLoading ? <LoadingSkeleton /> : <EmptyState />}
+          {isLoading ? <LoadingSkeleton /> : <EmptyState/>}
         </motion.div>
       </AnimatePresence>
     </main>

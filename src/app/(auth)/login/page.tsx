@@ -8,6 +8,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Link from "next/link"
 import { useState } from "react"
 import Image from "next/image"
+import { Loader2 } from "lucide-react"
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
@@ -98,25 +99,64 @@ export default function LoginPage() {
 
         <Button
           type="submit"
-          className="w-full bg-[#5848BC] hover:bg-[#5848BC]/90"
+          className="
+            group
+            inline-flex items-center justify-center gap-2
+            px-5 py-2
+            bg-gradient-to-r from-[#6938EF] to-[#6938EF]/90
+            hover:from-[#6938EF]/90 hover:to-[#6938EF]/80
+            text-white font-medium text-sm
+            rounded-full
+            shadow-sm hover:shadow-md
+            transition-all duration-200
+            focus:outline-none focus:ring-2 focus:ring-[#6938EF]/50 focus:ring-offset-2
+            active:scale-[0.98]
+            border border-[#6938EF]/10
+            relative
+            overflow-hidden
+            before:absolute before:inset-0
+            before:bg-gradient-to-b before:from-white/[0.00] before:to-white/[0.12]
+            disabled:opacity-70 disabled:cursor-not-allowed
+            w-full
+          "
           disabled={isLoading}
         >
-          {isLoading ? "Signing in..." : "Sign in"}
+          {isLoading ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" />
+              <span>Signing in...</span>
+            </>
+          ) : (
+            "Sign in"
+          )}
         </Button>
 
         <Button
           type="button"
-          variant="outline"
-          className="w-full"
+          className="
+            w-full
+            inline-flex items-center justify-center gap-3
+            px-5 py-2.5
+            bg-white hover:bg-gray-50/80
+            text-gray-700 font-medium text-sm
+            rounded-full
+            shadow-sm hover:shadow-md
+            transition-all duration-200
+            focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-2
+            active:scale-[0.98]
+            border border-gray-200
+            relative
+            group
+          "
         >
           <Image
             src="/google.svg"
             alt="Google"
-            width={20}
-            height={20}
-            className="mr-2"
+            width={18}
+            height={18}
+            className="transition-transform group-hover:scale-110"
           />
-          Sign in with Google
+          <span>Sign in with Google</span>
         </Button>
       </form>
 
