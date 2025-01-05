@@ -1,7 +1,38 @@
+import { Metadata } from 'next'
 import { Header } from "@/components/header"
 
 interface RootLayoutProps {
   children: React.ReactNode
+}
+
+export const metadata: Metadata = {
+  title: {
+    template: '%s | Zappd',
+    default: 'Library | Zappd'
+  },
+  description: 'Record, manage and share your screen recordings',
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+  },
+  openGraph: {
+    title: {
+      template: '%s | Zappd',
+      default: 'Library | Zappd'
+    },
+    description: 'Record, manage and share your screen recordings',
+    type: 'website',
+    siteName: 'Zappd',
+    locale: 'en_US',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: {
+      template: '%s | Zappd',
+      default: 'Library | Zappd'
+    },
+    description: 'Record, manage and share your screen recordings',
+  }
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {

@@ -14,7 +14,7 @@ import {
   DropdownMenuSeparator, 
   DropdownMenuItem 
 } from "@/components/ui/dropdown-menu"
-import ZapdButton from "./zapd-button"
+import ZappdButton from "./zapd-button"
 
 export function Header() {
   const [open, setOpen] = useState(false)
@@ -25,7 +25,7 @@ export function Header() {
       <div className="max-w-7xl mx-auto">
         <div className="px-4 sm:px-6 py-3 flex items-center justify-between gap-4 sm:gap-8">
           <Link href="/zaps" className="flex-shrink-0">
-            <Image src="/logo.svg" alt="ScreenREC" width={100} height={28} className="h-6 sm:h-7 w-auto" />
+            <Image src="/logo.svg" alt="Zappd" width={100} height={28} className="h-6 sm:h-7 w-auto" />
           </Link>
 
           {/* Centered Search Bar */}
@@ -63,10 +63,10 @@ export function Header() {
           </button>
           <div className="flex items-center gap-2 sm:gap-4">
             <div className="hidden sm:block">
-                <ZapdButton text="Capture a new Zap" />
+                <ZappdButton text="Capture a new Zap" />
               </div>
               <div className="sm:hidden">
-                <ZapdButton text="Capture" />
+                <ZappdButton text="Capture" />
               </div>
 
             <DropdownMenu>

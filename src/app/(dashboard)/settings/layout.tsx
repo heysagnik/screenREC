@@ -3,23 +3,23 @@ import { SettingsNav } from "@/components/settings-nav"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: 'Settings | Zapd',
-  description: 'Manage your Zapd settings and preferences',
+  title: 'Settings',
+  description: 'Manage your Zappd settings and preferences',
   icons: {
     icon: '/favicon.ico',
     apple: '/apple-touch-icon.png',
   },
   openGraph: {
-    title: 'Settings | Zapd',
-    description: 'Manage your Zapd settings and preferences',
+    title: 'Settings',
+    description: 'Manage your Zappd settings and preferences',
     type: 'website',
-    siteName: 'Zapd',
+    siteName: 'Zappd',
     locale: 'en_US',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Settings | Zapd',
-    description: 'Manage your Zapd settings and preferences',
+    title: 'Settings',
+    description: 'Manage your Zappd settings and preferences',
   }
 }
 

@@ -1,12 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
-import Zapd from './logo';
+import Zappd from './logo';
 
-interface ZapdButtonProps {
+interface ZappdButtonProps {
   text?: string;
 }
 
-const ZapdButton = ({ text = 'Record Zap' }: ZapdButtonProps) => {
+const ZappdButton = ({ text = 'Record Zap' }: ZappdButtonProps) => {
   return (
     <Link href="/new">
       <button
@@ -29,11 +29,11 @@ const ZapdButton = ({ text = 'Record Zap' }: ZapdButtonProps) => {
           before:bg-gradient-to-b before:from-white/[0.00] before:to-white/[0.12]
         "
       >
-        <Zapd className="w-4 h-4 transition-transform group-hover:scale-110" />
+        <Zappd className="w-4 h-4 transition-transform group-hover:scale-110" />
         {text}
       </button>
     </Link>
   );
 };
 
-export default ZapdButton;
+export default ZappdButton;

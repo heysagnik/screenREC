@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Zapd: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+const Zappd: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
     <svg 
         fill="none" 
         height="16" 
@@ -16,4 +16,4 @@ const Zapd: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
     </svg>
 );
 
-export default Zapd;
+export default Zappd;

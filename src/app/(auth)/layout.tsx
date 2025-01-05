@@ -1,28 +1,37 @@
 import { Metadata } from 'next'
 import Image from 'next/image'
+import { headers } from 'next/headers'
 
-export const metadata: Metadata = {
-  title: 'Sign In | Zapd',
-  description: 'Sign in to Zapd to record, manage and share your Zaps(screen recordings)',
-  icons: {
-    icon: '/favicon.ico',
-    apple: '/apple-touch-icon.png',
-  },
-  openGraph: {
-    title: 'Sign In | Zapd',
-    description: 'Sign in to Zapd to record, manage and share your Zaps(screen recordings)',
-    type: 'website',
-    siteName: 'ScreenREC',
-    locale: 'en_US',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Sign In | Zapd',
-    description: 'Sign in to Zapd to record, manage and share your Zaps(screen recordings)',
-  },
-  robots: {
-    index: true,
-    follow: true,
+export async function generateMetadata(): Promise<Metadata> {
+  const headersList = await headers()
+  const pathname = headersList.get('x-pathname') || ''
+  
+  const isSignUp = pathname.includes('signup')
+  const title = isSignUp ? 'Sign Up' : 'Sign In'
+  
+  return {
+    title: `${title} | Zappd`,
+    description: `${title} to Zappd to record, manage and share your screen recordings`,
+    icons: {
+      icon: '/favicon.ico',
+      apple: '/apple-touch-icon.png',
+    },
+    openGraph: {
+      title: `${title} | Zappd`,
+      description: `${title} to Zappd to record, manage and share your screen recordings`,
+      type: 'website',
+      siteName: 'Zappd',
+      locale: 'en_US',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${title} | Zappd`,
+      description: `${title} to Zappd to record, manage and share your screen recordings`,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    }
   }
 }
 
@@ -38,7 +47,7 @@ export default function AuthLayout({
 
             <Image 
               src="/logomark.svg" 
-              alt="Loom" 
+              alt="Zappd" 
               width={40} 
               height={40}
               className=" flex items-center justify-center"

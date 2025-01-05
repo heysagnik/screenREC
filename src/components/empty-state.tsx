@@ -1,5 +1,5 @@
 import Image from "next/image"
-import ZapdButton from "./zapd-button"
+import ZappdButton from "./zapd-button"
 
 export function EmptyState() {
   return (
@@ -47,7 +47,7 @@ export function EmptyState() {
         Share your thoughts instantly by recording your screen. Perfect for quick updates, feedback, and tutorials.
       </p>
 
-      <ZapdButton text="Record a new Zap"/>
+      <ZappdButton text="Record a new Zap"/>
     </div>
   )
 }
