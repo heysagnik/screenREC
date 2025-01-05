@@ -1,54 +1,39 @@
-"use client"
 
-import { Bell, User, Keyboard, HardDrive, Video, Shield } from 'lucide-react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { SettingsNav } from "@/components/settings-nav"
+import { Metadata } from "next"
 
-const sections = [
-  { id: 'account', label: 'Account', icon: User, path: '/settings/account' },
-  { id: 'recording', label: 'Recording', icon: Video, path: '/settings' },
-  { id: 'notifications', label: 'Notifications', icon: Bell, path: '/settings/notifications' },
-  { id: 'shortcuts', label: 'Shortcuts', icon: Keyboard, path: '#' },
-  { id: 'storage', label: 'Storage', icon: HardDrive, path: '/settings/storage' },
-  { id: 'privacy', label: 'Privacy', icon: Shield, path: '#' },
-]
+export const metadata: Metadata = {
+  title: 'Settings | Zapd',
+  description: 'Manage your Zapd settings and preferences',
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+  },
+  openGraph: {
+    title: 'Settings | Zapd',
+    description: 'Manage your Zapd settings and preferences',
+    type: 'website',
+    siteName: 'Zapd',
+    locale: 'en_US',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Settings | Zapd',
+    description: 'Manage your Zapd settings and preferences',
+  }
+}
 
 export default function SettingsLayout({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname()
-
   return (
-    <main className="max-w-7xl mx-auto px-6 py-8 animate-in fade-in">
-      <div className="mb-8">
+    <main className="max-w-7xl mx-auto px-3 sm:px-6 py-6 sm:py-8 animate-in fade-in">
+      <div className="mb-6 sm:mb-8">
         <h1 className="text-sm text-gray-500 mb-1">Settings</h1>
-        <h2 className="text-2xl font-semibold text-gray-900">Customize your experience</h2>
+        <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">Customize your experience</h2>
       </div>
 
-      <div className="flex gap-8">
-        <nav className="w-56 flex-shrink-0">
-          <div className="space-y-1">
-            {sections.map(({ id, label, icon: Icon, path }) => (
-              <Link
-                key={id}
-                href={path}
-                className={`
-                  w-full px-4 py-2 text-sm font-medium rounded-lg
-                  flex items-center gap-3 transition-colors duration-200
-                  ${pathname === path 
-                    ? 'bg-[#6938EF]/5 text-[#6938EF]' 
-                    : 'text-gray-600 hover:bg-gray-50'
-                  }
-                  ${path === '#' ? 'opacity-50 cursor-not-allowed' : ''}
-                `}
-                onClick={(e) => path === '#' && e.preventDefault()}
-              >
-                <Icon className="h-4 w-4" />
-                {label}
-              </Link>
-            ))}
-          </div>
-        </nav>
-
-        <div className="flex-1">
+      <div className="flex flex-col sm:flex-row gap-6 sm:gap-8">
+        <SettingsNav />
+        <div className="flex-1 min-w-0">
           {children}
         </div>
       </div>

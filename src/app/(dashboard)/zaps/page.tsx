@@ -46,16 +46,23 @@ export default function Zaps() {
   )
 
   return (
-    <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      <div className="mb-10">
-        <h1 className="text-sm font-medium text-gray-500 mb-2">My Library</h1>
-        <h2 className="text-2xl font-semibold text-gray-900 tracking-tight">
+    <main className="max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-10">
+      <div className="mb-6 sm:mb-10">
+        <h1 className="text-sm font-medium text-gray-500 mb-1 sm:mb-2">My Library</h1>
+        <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 tracking-tight">
           {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}
         </h2>
       </div>
       
-      <div className="flex items-center justify-between mb-10">
-        <nav className="relative flex gap-1 p-1 bg-gray-50/80 rounded-full backdrop-blur-sm shadow-sm border border-gray-100/50">
+      <div className="flex items-center justify-between gap-4 mb-6 sm:mb-10">
+        <nav className="
+          relative flex gap-1 p-1
+          bg-gray-50/80 
+          rounded-full
+          backdrop-blur-sm shadow-sm 
+          border border-gray-100/50
+          flex-1 sm:flex-none
+        ">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
@@ -74,14 +81,14 @@ export default function Zaps() {
               key={id}
               onClick={() => handleTabChange(id as Tab)}
               className={`
-                relative z-10 
-                px-6 py-2.5 
-                text-sm font-medium 
+                relative z-10
+                px-3 sm:px-6 py-2
+                text-xs sm:text-sm font-medium
                 rounded-full
-                flex items-center gap-3 
-                flex-1 justify-center
-                min-w-[120px]
-                transition-colors duration-200
+                flex items-center gap-2
+                justify-center flex-1
+                min-h-[36px] sm:min-h-[40px]
+                transition-all duration-200
                 ${activeTab === id ? 'text-gray-900' : 'text-gray-600 hover:text-gray-800'}
               `}
               whileHover={{ scale: 0.98 }}
@@ -95,28 +102,26 @@ export default function Zaps() {
                 }}
                 transition={{ type: "spring", bounce: 0.4 }}
               >
-                <Icon className="h-4 w-4" />
+                <Icon className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
               </motion.div>
-              <span>{label}</span>
+              <span className="hidden sm:inline">{label}</span>
             </motion.button>
           ))}
         </nav>
 
-        {/* Count Badge - Show only active tab count */}
-        <div className="text-sm font-medium text-gray-900">
+        <div className="text-sm font-medium text-gray-900 whitespace-nowrap">
           {tabs.find(tab => tab.id === activeTab)?.count} {activeTab.slice(0, -1)}
         </div>
       </div>
 
-      {/* Content Area */}
       <AnimatePresence mode="wait">
         <motion.div 
           key={activeTab}
-          className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden"
+          className="bg-white border border-gray-100 rounded-xl sm:rounded-2xl shadow-sm overflow-hidden"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
+          transition={{ duration: 0.3 }}
         >
           {isLoading ? <LoadingSkeleton /> : <EmptyState/>}
         </motion.div>

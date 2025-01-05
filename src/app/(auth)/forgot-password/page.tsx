@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Loader2 } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
 
@@ -55,16 +56,41 @@ export default function ForgotPasswordPage() {
 
         <Button
           type="submit"
-          className="w-full bg-[#5848BC] hover:bg-[#5848BC]/90"
+          className="group
+            inline-flex items-center justify-center gap-2
+            px-5 py-2
+            bg-gradient-to-r from-[#6938EF] to-[#6938EF]/90
+            hover:from-[#6938EF]/90 hover:to-[#6938EF]/80
+            text-white font-medium text-sm
+            rounded-full
+            shadow-sm hover:shadow-md
+            transition-all duration-200
+            focus:outline-none focus:ring-2 focus:ring-[#6938EF]/50 focus:ring-offset-2
+            active:scale-[0.98]
+            border border-[#6938EF]/10
+            relative
+            overflow-hidden
+            before:absolute before:inset-0
+            before:bg-gradient-to-b before:from-white/[0.00] before:to-white/[0.12]
+            disabled:opacity-70 disabled:cursor-not-allowed
+            w-full"
           disabled={isLoading}
         >
-          {isLoading ? "Sending link..." : "Send reset link"}
+         
+          {isLoading ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" />
+              <span>Sending link...</span>
+            </>
+          ) : (
+            "Send reset link"
+          )}
         </Button>
       </form>
 
       <p className="text-center text-sm text-muted-foreground">
         Remember your password?{" "}
-        <Link href="/login" className="text-[#5848BC] hover:text-[#5848BC]/90">
+        <Link href="/login" className="text-[#6938EF] hover:text-[#6938EF]/90">
           Log in
         </Link>
       </p>

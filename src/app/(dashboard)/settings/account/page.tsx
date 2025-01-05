@@ -22,46 +22,48 @@ export default function AccountSettings() {
 
   return (
     <motion.div 
-      className="flex-1 bg-white border border-gray-100 rounded-2xl p-6 shadow-sm"
+      className="flex-1 bg-white border border-gray-100 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm"
       layout
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
     >
-      <div className="space-y-8">
+      <div className="space-y-6 sm:space-y-8">
         {/* Profile Section */}
-        <div className="pb-6 border-b border-gray-100">
-          <h3 className="text-lg font-medium text-gray-900 mb-1">Profile Settings</h3>
+        <div className="pb-4 sm:pb-6 border-b border-gray-100">
+          <h3 className="text-base sm:text-lg font-medium text-gray-900 mb-1">Profile Settings</h3>
           <p className="text-sm text-gray-500">View your account information</p>
         </div>
 
         {/* Form Fields */}
         <div className="space-y-4">
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
-              <Label>Full Name</Label>
+              <Label className="text-sm font-medium">Full Name</Label>
               <Input 
                 value={name} 
                 onChange={(e) => setName(e.target.value)}
-                className="hover:border-[#6938EF]/20 focus:border-[#6938EF]/20" 
+                className="h-10 sm:h-11 hover:border-[#6938EF]/20 focus:border-[#6938EF]/20" 
               />
             </div>
             <div className="space-y-2">
-              <Label>Email</Label>
-              <Input value={email} readOnly className="bg-gray-50" />
+              <Label className="text-sm font-medium">Email</Label>
+              <Input value={email} readOnly className="h-10 sm:h-11 bg-gray-50" />
             </div>
           </div>
 
-          <div className="flex items-center justify-between pt-4">
+          <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 pt-4">
             <Button 
               variant="outline" 
               onClick={() => router.push('/forgot-password')}
+              className="w-full sm:w-auto h-10 sm:h-11"
             >
               Reset Password
             </Button>
             <Button 
               onClick={handleSave} 
               disabled={isSaving}
+              className="w-full sm:w-auto h-10 sm:h-11"
             >
               {isSaving ? 'Saving...' : 'Save Changes'}
             </Button>
@@ -69,9 +71,9 @@ export default function AccountSettings() {
         </div>
 
         {/* Connected Accounts */}
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           <h4 className="text-sm font-medium text-gray-900">Connected Accounts</h4>
-          <div className="flex items-center justify-between p-4 rounded-lg border border-gray-100">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between p-3 sm:p-4 rounded-lg border border-gray-100 gap-3 sm:gap-4">
             <div className="flex items-center gap-3">
               <svg className="h-5 w-5" viewBox="0 0 24 24">
                 <path
@@ -96,19 +98,31 @@ export default function AccountSettings() {
                 <p className="text-xs text-gray-500">Connected</p>
               </div>
             </div>
-            <Button variant="ghost" size="sm">Disconnect</Button>
+            <Button 
+              variant="ghost" 
+              size="sm"
+              className="w-full sm:w-auto h-9 sm:h-10"
+            >
+              Disconnect
+            </Button>
           </div>
         </div>
 
         {/* Danger Zone */}
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           <h4 className="text-sm font-medium text-red-600">Danger Zone</h4>
-          <div className="flex items-center justify-between p-4 rounded-lg border border-red-100 bg-red-50">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between p-3 sm:p-4 rounded-lg border border-red-100 bg-red-50 gap-3 sm:gap-4">
             <div>
               <p className="text-sm font-medium text-red-600">Delete Account</p>
               <p className="text-xs text-red-500">Permanently delete your account and all data</p>
             </div>
-            <Button variant="destructive" size="sm">Delete Account</Button>
+            <Button 
+              variant="destructive" 
+              size="sm"
+              className="w-full sm:w-auto h-9 sm:h-10"
+            >
+              Delete Account
+            </Button>
           </div>
         </div>
       </div>

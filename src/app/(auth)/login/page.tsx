@@ -91,7 +91,7 @@ export default function LoginPage() {
           </div>
           <Link
             href="/forgot-password"
-            className="text-sm text-[#5848BC] hover:text-[#5848BC]/90"
+            className="text-sm text-[#6938EF] hover:text-[#6938EF]/90"
           >
             Forgot password
           </Link>
@@ -162,7 +162,7 @@ export default function LoginPage() {
 
       <p className="text-center text-sm text-muted-foreground">
         Don&apos;t have an account?{" "}
-        <Link href="/signup" className="text-[#5848BC] hover:text-[#5848BC]/90">
+        <Link href="/signup" className="text-[#6938EF] hover:text-[#6938EF]/90">
           Sign up
         </Link>
       </p>
