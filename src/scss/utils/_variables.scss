@@ -21,11 +21,16 @@ $bg-light-color: $white;
 $bg-dark-color: $darkest-grey;
 $font-color: $dark-grey;
 
+// Updated main gradient with smoother transitions and better color harmony
 $main-gradient: linear-gradient(
   to right,
   $dark-purple 0%,
-  $purple 40%,
-  $orange 80%
+  #6366f1 15%,
+  #7c3aed 30%,
+  #c026d3 50%,
+  $orange 70%,
+  #06b6d4 85%,
+  $purple 100%
 );
 
 $green-gradient: linear-gradient(to right, #43e97b 0%, #38f9d7 100%);

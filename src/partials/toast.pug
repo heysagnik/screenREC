@@ -1,3 +1,6 @@
-#toast
-  img#img(src='images/logo.png')
-  #desc
+#toast(aria-live="polite" role="status")
+  img#img(src='images/info.svg' alt="Notification")
+  #desc Toast message appears here
+  button.toast-close(aria-label="Close notification" type="button")
+   // span.sr-only Close
+  .toast-progress

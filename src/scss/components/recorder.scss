@@ -95,6 +95,14 @@
           outline: none;
           cursor: pointer;
           transition: all 0.3s vars.$bezier-curve;
+          position: relative;
+          z-index: 12; // Ensure button stays above dropdown
+
+          // Improved focus state for accessibility
+          &:focus-visible {
+            outline: 2px solid vars.$dark-purple;
+            outline-offset: 1px;
+          }
 
           @include mq(md) {
             padding: 1.2rem 1.8rem;
@@ -111,7 +119,8 @@
           }
 
           &.toggled {
-            border: 2px solid vars.$grey;
+            border: 2px solid vars.$dark-purple;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
           }
         }
 
@@ -135,49 +144,97 @@
         &__list {
           overflow: hidden;
           position: absolute;
-          top: 100%;
+          top: calc(100% - 5px); // Slight overlap for visual connection
           z-index: 11;
           width: 100%;
           margin: 0;
-          padding: 0.6rem 0.8rem;
+          padding: 0; // Remove padding from container
           display: flex;
           flex-direction: column;
-          justify-content: space-between;
           background-color: vars.$white;
           border-radius: vars.$default-radius;
           list-style-type: none;
-          text-align: center;
-          pointer-events: all;
+          text-align: left;
+          pointer-events: none;
           opacity: 0;
-          transform: scale(0.01);
-          transition: all 0.4s vars.$bezier-curve;
-          transform-origin: top;
+          transform: translateY(-10px);
+          transition: all 0.25s vars.$bezier-curve;
+          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.16);
+          max-height: 0;
 
           &--item {
-            padding: 0.8rem;
-            display: block;
+            padding: 1rem 1.8rem;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+            color: vars.$grey;
+            background-color: transparent;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s vars.$bezier-curve;
             @include fluid-type(768px, 1920px, 14px, 16px);
 
-            & {
-              font-weight: 500;
-              color: vars.$grey;
-              background-color: transparent;
-              border-radius: vars.$default-radius;
-              cursor: pointer;
-              transition: all 0.3s vars.$bezier-curve;
+            // Add left indicator for active item
+            &.active {
+              color: vars.$dark-purple;
+              font-weight: 600;
+              background-color: color.adjust(vars.$light-grey, $lightness: -1%);
+
+              &::before {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 0;
+                height: 100%;
+                width: 3px;
+                background-color: vars.$dark-purple;
+              }
             }
 
+            // Better hover effect
             &:hover {
-              background-color: color.adjust(#e9e9e9, $lightness: -4%);
+              background-color: color.adjust(vars.$light-grey, $lightness: -2%);
+              color: color.adjust(vars.$grey, $lightness: -15%);
+            }
+
+            // Clear separation between options
+            &:not(:last-child) {
+              border-bottom: 1px solid
+                color.adjust(vars.$light-grey, $lightness: -2%);
+            }
+
+            // Focus styles for keyboard navigation
+            &:focus-visible {
+              outline: none;
+              background-color: color.adjust(vars.$light-grey, $lightness: -4%);
+            }
+
+            // Better touch target for mobile
+            @include mq(null, md) {
+              padding: 1.2rem 1.8rem;
             }
           }
 
           &.open {
-            transform: scaleY(1);
+            transform: translateY(0);
             opacity: 1;
             pointer-events: all;
-            border: 2px solid vars.$light-grey;
+            border: 1px solid color.adjust(vars.$light-grey, $lightness: -8%);
+            max-height: 300px; // Allow content to display
+            overflow-y: auto; // Enable scrolling for many options
           }
+        }
+
+        // Add backdrop when dropdown is open
+        &.active::after {
+          content: "";
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: transparent;
+          z-index: 10;
         }
       }
 

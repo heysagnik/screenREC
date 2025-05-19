@@ -1,131 +1,220 @@
 @use "../utils/variables" as vars;
+@use "../utils/breakpoints" as *;
+@use "sass:color";
 
-@-webkit-keyframes fadein {
+// Toast animations with improved transitions
+@keyframes toast-in {
   from {
-    bottom: 0;
+    transform: translateX(110%) scale(0.95);
     opacity: 0;
   }
-  to {
-    bottom: 30px;
-    opacity: 1;
-  }
-}
-@keyframes fadein {
-  from {
-    bottom: 0;
-    opacity: 0;
-  }
-  to {
-    bottom: 30px;
-    opacity: 1;
-  }
-}
-@-webkit-keyframes expand {
-  from {
-    min-width: 50px;
-  }
-  to {
-    min-width: 350px;
-  }
-}
-@keyframes expand {
-  from {
-    min-width: 50px;
-  }
-  to {
-    min-width: 350px;
-  }
-}
-@-webkit-keyframes stay {
-  from {
-    min-width: 350px;
-  }
-  to {
-    min-width: 350px;
-  }
-}
-@keyframes stay {
-  from {
-    min-width: 350px;
-  }
-  to {
-    min-width: 350px;
-  }
-}
-@-webkit-keyframes shrink {
-  from {
-    min-width: 350px;
-  }
-  to {
-    min-width: 50px;
-  }
-}
-@keyframes shrink {
-  from {
-    min-width: 350px;
-  }
-  to {
-    min-width: 50px;
-  }
-}
-@-webkit-keyframes fadeout {
-  from {
-    bottom: 30px;
+  20% {
     opacity: 1;
   }
   to {
-    bottom: 60px;
-    opacity: 0;
-  }
-}
-@keyframes fadeout {
-  from {
-    bottom: 30px;
+    transform: translateX(0) scale(1);
     opacity: 1;
   }
+}
+
+@keyframes toast-out {
+  from {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+  30% {
+    opacity: 1;
+    transform: translateX(0) scale(0.98);
+  }
   to {
-    bottom: 60px;
+    transform: translateX(110%) scale(0.95);
     opacity: 0;
   }
 }
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes progress {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+// Toast notification component
 #toast {
   visibility: hidden;
-  max-width: 50px;
-  height: 50px;
-  margin: auto;
-  background-color: vars.$light-grey;
-  text-align: center;
-  font-size: 1.1rem;
-  font-weight: 600;
   position: fixed;
-  border-radius: 5px;
-  left: 75%;
-  right: 0;
-  z-index: 1;
-  bottom: 30px;
+  display: flex;
   align-items: center;
-  justify-content: center;
-  white-space: nowrap;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  min-width: 280px;
+  max-width: 380px;
+  border-radius: vars.$default-radius;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   overflow: hidden;
+  padding: 0;
+  background-color: vars.$white;
+  border-left: 4px solid vars.$dark-purple;
+  transform: translateX(110%) scale(0.95);
+  opacity: 0;
+  will-change: transform, opacity;
+
+  // Make toast responsive on small screens
+  @include mq(null, md) {
+    min-width: 85%;
+    max-width: 90%;
+    bottom: 16px;
+    right: 16px;
+    left: auto; // Remove conflicting left property
+    width: auto; // Allow proper sizing
+  }
+
+  // Toast variants
+  &.success {
+    border-left-color: vars.$green;
+  }
+
+  &.error {
+    border-left-color: vars.$red;
+  }
+
+  &.warning {
+    border-left-color: vars.$orange;
+  }
+
   #img {
-    width: 50px;
-    height: 51px;
-    float: left;
+    width: 48px;
+    height: 48px;
+    padding: 12px;
     object-fit: contain;
     box-sizing: border-box;
-    background-color: rgb(230, 230, 230);
+    background-color: transparent;
   }
+
   #desc {
-    color: vars.$grey;
-    padding: 13px;
+    color: vars.$dark-grey;
+    padding: 14px 16px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    flex-grow: 1;
     overflow: hidden;
-    white-space: nowrap;
+    text-overflow: ellipsis;
+    white-space: normal;
+    line-height: 1.4;
+    max-height: 80px;
+  }
+
+  // Close button for toast
+  .toast-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    margin-right: 8px;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: all 0.2s ease;
+
+    &:hover {
+      opacity: 1;
+      background-color: color.adjust(vars.$light-grey, $lightness: -2%);
+    }
+
+    &:focus-visible {
+      outline: 2px solid vars.$dark-purple;
+      outline-offset: 2px;
+    }
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      width: 16px;
+      height: 2px;
+      background-color: vars.$grey;
+    }
+
+    &::before {
+      transform: rotate(45deg);
+    }
+
+    &::after {
+      transform: rotate(-45deg);
+    }
+  }
+
+  // Progress bar for auto-dismiss - fix transform initial state
+  .toast-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background-color: color.adjust(vars.$dark-purple, $alpha: -0.3);
+    width: 100%;
+    transform-origin: left;
+    transform: scaleX(1); // Start full width
   }
 }
+
+// Active state with improved animation - simplified
 #toast.active {
   visibility: visible;
-  -webkit-animation: fadein 0.5s, expand 0.5s 0.5s, stay 2s 1s, shrink 0.5s 2s,
-    fadeout 0.5s 2.5s;
-  animation: fadein 0.5s, expand 0.5s 0.5s, stay 2s 1s, shrink 0.5s 3s,
-    fadeout 0.5s 3.5s;
+  transform: translateX(0) scale(1);
+  opacity: 1;
+  transition: transform 0.4s cubic-bezier(0.21, 1.02, 0.73, 1),
+    opacity 0.4s cubic-bezier(0.21, 1.02, 0.73, 1), visibility 0s;
+
+  .toast-progress {
+    animation: progress 3.5s cubic-bezier(0.1, 0.05, 0.15, 0.99) forwards;
+  }
+}
+
+// Toast that's manually closed - simplified
+#toast.closing {
+  visibility: visible;
+  transform: translateX(110%) scale(0.95);
+  opacity: 0;
+  transition: transform 0.5s cubic-bezier(0.06, 0.71, 0.55, 1),
+    opacity 0.5s cubic-bezier(0.06, 0.71, 0.55, 1), visibility 0s 0.5s;
+}
+
+// Stack multiple toasts with improved transitions
+#toast + #toast {
+  bottom: calc(24px + 84px);
+  animation-delay: 0.15s; /* Staggered appearance */
+
+  @include mq(null, md) {
+    bottom: calc(16px + 84px);
+  }
+
+  & + #toast {
+    bottom: calc(24px + 168px);
+    animation-delay: 0.3s;
+
+    @include mq(null, md) {
+      bottom: calc(16px + 168px);
+    }
+  }
+}
+
+// Optional: toast hover behavior to pause auto-dismiss
+#toast:hover .toast-progress {
+  animation-play-state: paused;
 }

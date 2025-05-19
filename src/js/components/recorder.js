@@ -68,6 +68,12 @@ export default class recorderClass {
   }
 
   appendStatusNotification(actionType) {
+    // Clear any existing toast timeouts
+    if (this.toastTimeout) {
+      clearTimeout(this.toastTimeout);
+    }
+
+    // Determine notification text and type
     const notificationText =
       actionType === "start"
         ? "Started Recording"
@@ -79,11 +85,33 @@ export default class recorderClass {
         ? "Resumed Recording"
         : "";
 
-    this.set.toast.classList.add("active");
+    // Set toast variant based on action type
+    this.set.toast.className = ""; // Reset classes
+    this.set.toast.classList.add(
+      actionType === "stop"
+        ? "success"
+        : actionType === "pause"
+        ? "warning"
+        : "active"
+    );
+
     document.getElementById("desc").innerHTML = notificationText;
-    setTimeout(() => {
+
+    // Handle close button click
+    const closeBtn = this.set.toast.querySelector(".toast-close");
+    if (closeBtn) {
+      closeBtn.onclick = () => {
+        this.set.toast.classList.add("closing");
+        setTimeout(() => {
+          this.set.toast.classList.remove("active", "closing");
+        }, 500); // Match the animation duration
+      };
+    }
+
+    // Auto-dismiss timer
+    this.toastTimeout = setTimeout(() => {
       this.set.toast.classList.remove("active");
-    }, 4000);
+    }, 3700); // Slightly less than the animation duration
   }
 
   createRecorder(stream) {
