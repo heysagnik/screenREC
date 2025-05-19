@@ -1,3 +1,5 @@
+@use "../utils/variables" as vars;
+
 @-webkit-keyframes fadein {
   from {
     bottom: 0;
@@ -91,7 +93,7 @@
   max-width: 50px;
   height: 50px;
   margin: auto;
-  background-color: $light-grey;
+  background-color: vars.$light-grey;
   text-align: center;
   font-size: 1.1rem;
   font-weight: 600;
@@ -114,7 +116,7 @@
     background-color: rgb(230, 230, 230);
   }
   #desc {
-    color: $grey;
+    color: vars.$grey;
     padding: 13px;
     overflow: hidden;
     white-space: nowrap;

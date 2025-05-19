@@ -1,27 +1,31 @@
-&__github-btn {
-  overflow: hidden;
-  position: absolute;
-  top: 2.4rem;
-  right: 5.5rem;
-  height: 40px;
-  width: 80px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.2rem;
-  border-radius: 14%;
-  cursor: pointer;
+@use "../utils/variables" as vars;
+@use "../utils/mixins" as *;
 
-  text-decoration: none;
-  @include disableUserSelect();
+.sh {
+  &__github-btn {
+    overflow: hidden;
+    position: absolute;
+    top: 2.4rem;
+    right: 5.5rem;
+    height: 40px;
+    width: 80px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.2rem;
+    border-radius: 14%;
+    cursor: pointer;
+    text-decoration: none;
+    @include disableUserSelect();
 
-  &::before {
-    content: "";
-    background-image: url("../images/github-mark.svg");
-    background-size: cover;
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    margin-right: 0.5rem;
+    &::before {
+      content: "";
+      background-image: url("../images/github-mark.svg");
+      background-size: cover;
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      margin-right: 0.5rem;
+    }
   }
 }

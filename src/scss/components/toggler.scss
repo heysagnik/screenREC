@@ -1,71 +1,77 @@
-&__toggler {
-  overflow: hidden;
-  position: absolute;
-  top: 2.5rem;
-  right: 1.5rem;
-  width: 2.5rem;
-  height: 2.5rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.25rem;
-  border-radius: 50%;
-  border: 2px solid;
-  cursor: pointer;
-  transition: all 0.4s $bezier-curve;
-  @include disableUserSelect();
+@use "../utils/variables" as vars;
+@use "../utils/breakpoints" as *;
+@use "../utils/mixins" as *;
 
-  @include mq(md) {
-    top: 2rem;
-    right: 2rem;
-    width: 3rem;
-    height: 3rem;
-  }
-
-  &:hover {
-    border: 2px solid $dark-grey;
-    transform: scale(1.1);
-  }
-
-  &-wrp {
-    position: relative;
-    width: 1.5rem;
-    height: 1.5rem;
+.sh {
+  &__toggler {
+    overflow: hidden;
+    position: absolute;
+    top: 2.5rem;
+    right: 1.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem;
+    border-radius: 50%;
+    border: 2px solid;
+    cursor: pointer;
+    transition: all 0.4s vars.$bezier-curve;
+    @include disableUserSelect();
 
     @include mq(md) {
-      width: 2rem;
-      height: 2rem;
+      top: 2rem;
+      right: 2rem;
+      width: 3rem;
+      height: 3rem;
     }
 
-    span {
-      position: absolute;
-      inset: 0;
-      transform-origin: 50% 100px;
-      transform: rotate(90deg);
-      transition: transform 0.8s $bezier-curve;
+    &:hover {
+      border: 2px solid vars.$dark-grey;
+      transform: scale(1.1);
     }
-  }
 
-  &-btn {
-    &--moon {
-      &:is(.active) {
-        transform: rotate(0);
-        ~ .sh__toggler-btn--sun {
-          transform: rotate(-90deg);
+    &-wrp {
+      position: relative;
+      width: 1.5rem;
+      height: 1.5rem;
+
+      @include mq(md) {
+        width: 2rem;
+        height: 2rem;
+      }
+
+      span {
+        position: absolute;
+        inset: 0;
+        transform-origin: 50% 100px;
+        transform: rotate(90deg);
+        transition: transform 0.8s vars.$bezier-curve;
+      }
+    }
+
+    &-btn {
+      &--moon {
+        &:is(.active) {
+          transform: rotate(0);
+          ~ .sh__toggler-btn--sun {
+            transform: rotate(-90deg);
+          }
+        }
+      }
+      &--sun {
+        &:is(.active) {
+          transform: rotate(0);
+          ~ .sh__toggler-btn--moon {
+            transform: rotate(90deg);
+          }
         }
       }
     }
-    &--sun {
-      &:is(.active) {
-        transform: rotate(0);
-        ~ .sh__toggler-btn--moon {
-          transform: rotate(90deg);
-        }
-      }
-    }
-  }
 
-  &--icon {
-    width: 100%;
+    &--icon {
+      width: 100%;
+    }
   }
 }

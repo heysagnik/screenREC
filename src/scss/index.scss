@@ -1,10 +1,16 @@
-@import "utils/reset";
-@import "utils/color-swatch";
-@import "utils/variables";
-@import "utils/breakpoints";
-@import "utils/mixins";
-@import "utils/keyframes";
-@import "utils/fluid-type";
+@use "components/progress";
+@use "components/recorder";
+@use "components/toggler";
+@use "components/toast";
+@use "components/footer";
+@use "components/star-fork";
+@use "utils/reset";
+@use "utils/color-swatch";
+@use "utils/variables" as vars;
+@use "utils/breakpoints";
+@use "utils/mixins";
+@use "utils/keyframes";
+@use "utils/fluid-type";
 
 html {
   overflow-x: hidden;
@@ -25,73 +31,73 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  font-family: $main-font;
+  font-family: vars.$main-font;
   font-size: 1rem;
   font-weight: 400;
-  background-color: $white;
-  color: $font-color;
-  transition: 0.5s $bezier-curve;
+  background-color: vars.$white;
+  color: vars.$font-color;
+  transition: 0.5s vars.$bezier-curve;
 
   &[data-theme="dark"] {
-    background-color: $darkest-grey;
-    color: $white;
+    background-color: vars.$darkest-grey;
+    color: vars.$white;
 
     .sh {
       &__toggler {
-        background-color: $darkest-grey;
-        border-color: $grey;
+        background-color: vars.$darkest-grey;
+        border-color: vars.$grey;
         &:hover {
-          border-color: $white;
+          border-color: vars.$white;
         }
       }
       &__github-btn {
-        color: $white;
-        border-color: $white;
-        background-color: $black;
+        color: vars.$white;
+        border-color: vars.$white;
+        background-color: vars.$black;
         &::before {
           background-image: url("../images/github-mark-white.svg");
         }
       }
       &__toast {
-        background-color: $white;
-        color: $dark-grey;
+        background-color: vars.$white;
+        color: vars.$dark-grey;
       }
     }
   }
   &[data-theme="light"] {
-    background-color: $white;
-    color: $font-color;
+    background-color: vars.$white;
+    color: vars.$font-color;
 
     .sh {
       &__toggler {
-        background-color: $white;
-        border-color: $grey;
+        background-color: vars.$white;
+        border-color: vars.$grey;
         &:hover {
-          border-color: $dark-grey;
+          border-color: vars.$dark-grey;
         }
       }
       &__github-btn {
-        color: $black;
-        border-color: $light-grey;
+        color: vars.$black;
+        border-color: vars.$light-grey;
         background-color: rgb(232, 230, 230);
         &::before {
           background-image: url("../images/github-mark.svg");
         }
       }
       &__toast {
-        background-color: $dark-grey;
-        color: $light-grey;
+        background-color: vars.$dark-grey;
+        color: vars.$light-grey;
       }
     }
   }
 
   @media (prefers-color-scheme: dark) {
-    background-color: $darkest-grey;
-    color: $white;
+    background-color: vars.$darkest-grey;
+    color: vars.$white;
   }
   @media (prefers-color-scheme: light) {
-    background-color: $white;
-    color: $font-color;
+    background-color: vars.$white;
+    color: vars.$font-color;
   }
 }
 
@@ -101,11 +107,4 @@ body {
   width: 100vw;
   min-height: 100vh;
   height: 100%;
-
-  @import "components/progress";
-  @import "components/recorder";
-  @import "components/toggler";
-  @import "components/toast";
-  @import "components/footer";
-  @import "components/star-fork";
 }

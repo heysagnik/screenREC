@@ -6,7 +6,7 @@
   "license": "MIT",
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "scripts": {
-    "start": "del /s /q .parcel-cache && rmdir /s /q dist && parcel src/index.pug",
+    "start": "rimraf .parcel-cache dist && parcel src/index.pug",
     "build": "parcel build src/index.pug",
     "format": "prettier --write .",
     "check-format": "prettier --check .",
@@ -27,6 +27,6 @@
     "husky": "^7.0.0",
     "parcel": "^2.6.2",
     "prettier": "^2.4.1",
-    "sharp": "^0.29.2"
+    "sharp": "^0.33.5"
   }
 }

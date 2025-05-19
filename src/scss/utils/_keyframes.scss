@@ -1,3 +1,5 @@
+@use "variables" as vars;
+
 @keyframes fill {
   0% {
     width: 0;
@@ -9,14 +11,14 @@
 
 @keyframes pulse {
   0% {
-    box-shadow: inset 0 0 1px 1px rgba($white, 0.8);
+    box-shadow: inset 0 0 1px 1px rgba(vars.$white, 0.8);
   }
   50% {
-    box-shadow: inset 0 0 1px 1px rgba($white, 0.8);
+    box-shadow: inset 0 0 1px 1px rgba(vars.$white, 0.8);
   }
   to {
     transform: scale(2.6);
-    box-shadow: inset 0 0 1px 1px rgba($white, 0);
+    box-shadow: inset 0 0 1px 1px rgba(vars.$white, 0);
   }
 }
 
