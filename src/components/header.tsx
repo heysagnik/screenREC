@@ -3,7 +3,7 @@
 import { Input } from "@/components/ui/input"
 import { Search, Settings, LogOut, Library } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { CommandMenu } from "./command-menu"
 import Image from "next/image"
 import Link from "next/link"
@@ -18,7 +18,23 @@ import ZappdButton from "./zapd-button"
 
 export function Header() {
   const [open, setOpen] = useState(false)
-  const [inputValue, setInputValue] = useState('')
+  const [search, setSearch] = useState('')
+
+  const handleSearch = (value: string) => {
+    setSearch(value)
+  }
+
+  // Handle keyboard shortcut
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault()
+        setOpen(true)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
 
   return (
     <header className="bg-gradient-to-b from-white to-gray-50/90 border-b border-gray-100 sticky top-0 z-50 backdrop-blur-sm">
@@ -35,21 +51,21 @@ export function Header() {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
               <Input 
                 onClick={() => setOpen(true)}
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
+                value={search}
+                onChange={(e) => handleSearch(e.target.value)}
                 className="w-full pl-9 pr-12 py-2.5 bg-white border border-gray-200 rounded-full shadow-sm text-sm transition-all duration-200 group-hover:border-[#6938EF]/20 group-hover:shadow-md focus:ring-2 focus:ring-[#6938EF]/20 cursor-pointer" 
                 placeholder="Search recordings or type a command..."
               />
               <kbd className="absolute right-3 top-1/2 -translate-y-1/2 hidden md:inline-flex px-2 py-0.5 text-xs rounded bg-gray-100/80 text-gray-500 border border-gray-200/50 shadow-sm">
-                ⌘/
+                ⌘K
               </kbd>
             </div>
-            
+          
             <CommandMenu 
-              open={open} 
-              onOpenChange={setOpen}
-              search={inputValue}
-              onSearchChange={setInputValue}
+              open={open}
+              search={search}
+              onOpenChange={(isOpen) => setOpen(isOpen === 'true')}
+              onSearchChange={handleSearch}
             />
           </div>
         </div>

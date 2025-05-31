@@ -70,3 +70,13 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .dock-item {
+    @apply transition-all duration-200;
+  }
+  
+  .dock-item:hover {
+    @apply scale-110;
+  }
+}
