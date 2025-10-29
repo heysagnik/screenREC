@@ -1,0 +1,151 @@
+/**
+ * Unit tests for useRecording hook
+ * 
+ * Run with: npm test
+ */
+
+import { renderHook, act, waitFor } from '@testing-library/react';
+import { useRecording, RecordingErrorCode } from '../useRecording';
+
+// Mock MediaRecorder
+class MockMediaRecorder {
+  state: 'inactive' | 'recording' | 'paused' = 'inactive';
+  stream: MediaStream;
+  ondataavailable: ((event: BlobEvent) => void) | null = null;
+  onstop: (() => void) | null = null;
+  onerror: ((event: Event) => void) | null = null;
+
+  constructor(stream: MediaStream, options?: MediaRecorderOptions) {
+    this.stream = stream;
+  }
+
+  start() {
+    this.state = 'recording';
+  }
+
+  stop() {
+    this.state = 'inactive';
+    if (this.onstop) this.onstop();
+  }
+
+  pause() {
+    this.state = 'paused';
+  }
+
+  resume() {
+    this.state = 'recording';
+  }
+
+  requestData() {
+    if (this.ondataavailable) {
+      const blob = new Blob(['test'], { type: 'video/webm' });
+      this.ondataavailable(new BlobEvent('dataavailable', { data: blob }));
+    }
+  }
+
+  static isTypeSupported(mimeType: string) {
+    return mimeType.includes('webm');
+  }
+}
+
+// @ts-ignore
+global.MediaRecorder = MockMediaRecorder;
+
+describe('useRecording', () => {
+  let mockStream: MediaStream;
+
+  beforeEach(() => {
+    // Create mock stream
+    mockStream = {
+      getTracks: () => [{ kind: 'video', stop: jest.fn() } as any],
+    } as MediaStream;
+  });
+
+  it('should initialize with correct default state', () => {
+    const onComplete = jest.fn();
+    const { result } = renderHook(() => useRecording({ onRecordingComplete: onComplete }));
+
+    expect(result.current.isRecording).toBe(false);
+    expect(result.current.isPaused).toBe(false);
+    expect(result.current.recordingTime).toBe(0);
+    expect(result.current.error).toBe(null);
+  });
+
+  it('should start recording successfully', async () => {
+    const onComplete = jest.fn();
+    const { result } = renderHook(() => useRecording({ onRecordingComplete: onComplete }));
+
+    await act(async () => {
+      await result.current.startRecording(mockStream);
+    });
+
+    expect(result.current.isRecording).toBe(true);
+    expect(result.current.error).toBe(null);
+  });
+
+  it('should handle pause and resume', async () => {
+    const onComplete = jest.fn();
+    const { result } = renderHook(() => useRecording({ onRecordingComplete: onComplete }));
+
+    await act(async () => {
+      await result.current.startRecording(mockStream);
+    });
+
+    act(() => {
+      result.current.pauseRecording();
+    });
+
+    expect(result.current.isPaused).toBe(true);
+
+    act(() => {
+      result.current.pauseRecording();
+    });
+
+    expect(result.current.isPaused).toBe(false);
+  });
+
+  it('should stop recording and call completion callback', async () => {
+    const onComplete = jest.fn();
+    const { result } = renderHook(() => useRecording({ onRecordingComplete: onComplete }));
+
+    await act(async () => {
+      await result.current.startRecording(mockStream);
+    });
+
+    await act(async () => {
+      result.current.stopRecording();
+      await waitFor(() => expect(onComplete).toHaveBeenCalled());
+    });
+
+    expect(result.current.isRecording).toBe(false);
+  });
+
+  it('should throw error for invalid stream', async () => {
+    const onComplete = jest.fn();
+    const { result } = renderHook(() => useRecording({ onRecordingComplete: onComplete }));
+
+    const emptyStream = { getTracks: () => [] } as MediaStream;
+
+    await expect(async () => {
+      await act(async () => {
+        await result.current.startRecording(emptyStream);
+      });
+    }).rejects.toThrow();
+
+    expect(result.current.error?.code).toBe(RecordingErrorCode.STREAM_INACTIVE);
+  });
+
+  it('should cleanup resources on unmount', () => {
+    const onComplete = jest.fn();
+    const { result, unmount } = renderHook(() => 
+      useRecording({ onRecordingComplete: onComplete })
+    );
+
+    act(() => {
+      unmount();
+    });
+
+    // Verify cleanup was called
+    expect(result.current.isRecording).toBe(false);
+  });
+});

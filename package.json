@@ -1,32 +1,30 @@
 {
   "name": "screenrec",
-  "description": "A really simple web screen recorder",
-  "author": "SAGNIK SAHOO",
-  "version": "1.0.0",
-  "license": "MIT",
-  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "start": "rimraf .parcel-cache dist && parcel src/index.pug",
-    "build": "parcel build src/index.pug",
-    "format": "prettier --write .",
-    "check-format": "prettier --check .",
-    "check-lint": "eslint . --ext ts --ext tsx --ext js",
-    "test": "npm run check-format && npm run check-lint && npm run build",
-    "prepare": "husky install"
+    "dev": "next dev --turbopack",
+    "build": "next build --turbopack",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "lucide-react": "^0.546.0",
+    "next": "15.5.6",
+    "react": "19.1.0",
+    "react-dom": "19.1.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.8",
-    "@babel/eslint-parser": "^7.15.8",
-    "@parcel/packager-raw-url": "^2.6.2",
-    "@parcel/transformer-pug": "^2.6.2",
-    "@parcel/transformer-sass": "^2.6.2",
-    "@parcel/transformer-webmanifest": "^2.6.2",
-    "eslint": "^8.1.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.25.2",
-    "husky": "^7.0.0",
-    "parcel": "^2.6.2",
-    "prettier": "^2.4.1",
-    "sharp": "^0.33.5"
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.5.6",
+    "tailwindcss": "^4",
+    "typescript": "^5"
   }
 }
