@@ -1,6 +1,14 @@
 import { RecordingLayout } from '@/types/layout';
 import { RECORDING_CONFIG } from '@/config/recording';
 
+// Non-standard VideoFrameCallback helpers
+type RequestVFC = (callback: (now: number, metadata: VideoFrameCallbackMetadata) => void) => number;
+type CancelVFC = (handle: number) => void;
+type HTMLVideoElementVFC = HTMLVideoElement & {
+  requestVideoFrameCallback?: RequestVFC;
+  cancelVideoFrameCallback?: CancelVFC;
+};
+
 export enum RecordingState {
   IDLE = 'IDLE',
   PREPARING = 'PREPARING',
@@ -300,16 +308,17 @@ function combineScreenAndCamera(
   // Render loop using requestVideoFrameCallback when available for better temporal alignment
   let rafId: number | null = null;
   let vfcHandle: number | null = null;
-  const useVFC = typeof (screenVideo as any).requestVideoFrameCallback === 'function';
+  const vfcVideo = screenVideo as HTMLVideoElementVFC;
+  const useVFC = typeof vfcVideo.requestVideoFrameCallback === 'function';
   let hiddenTicker: number | null = null;
 
   const disposers: Array<() => void> = [];
   const cleanup = () => {
     if (rafId != null) cancelAnimationFrame(rafId);
     // cancelVideoFrameCallback is not standard everywhere, guard it
-    const cancelVFC = (screenVideo as any).cancelVideoFrameCallback;
+    const cancelVFC = vfcVideo.cancelVideoFrameCallback;
     if (useVFC && vfcHandle != null && typeof cancelVFC === 'function') {
-      try { cancelVFC.call(screenVideo, vfcHandle); } catch {}
+      try { cancelVFC.call(vfcVideo, vfcHandle); } catch {}
     }
     if (hiddenTicker != null) {
       clearInterval(hiddenTicker);
@@ -354,13 +363,13 @@ function combineScreenAndCamera(
   const screenFps = screenStream.getVideoTracks()[0]?.getSettings()?.frameRate;
   const fps = typeof screenFps === 'number' && screenFps > 0 ? Math.min(screenFps, 60) : 30;
   const capturedStream = canvas.captureStream(fps);
-  const canvasTrack = capturedStream.getVideoTracks()[0] as any;
+  const canvasTrack = capturedStream.getVideoTracks()[0] as MediaStreamTrack & { requestFrame?: () => void };
 
   const startRenderLoop = () => {
     console.log('Starting render loop at', fps, 'fps');
-    if (useVFC) {
-      const vfc = (screenVideo as any).requestVideoFrameCallback.bind(screenVideo);
-      const step = (_now: number, _metadata: any) => {
+    if (useVFC && vfcVideo.requestVideoFrameCallback) {
+      const vfc = vfcVideo.requestVideoFrameCallback.bind(vfcVideo) as RequestVFC;
+      const step = () => {
         render();
         vfcHandle = vfc(step);
         if (typeof onAnimationFrame === 'function' && vfcHandle != null) {
@@ -398,9 +407,10 @@ function combineScreenAndCamera(
 
   // Mix all audio sources into a single track to avoid multi-audio WebM playback issues
   try {
-    const AudioCtx = (window as any).AudioContext || (window as any).webkitAudioContext;
+    const AudioCtx = (window as unknown as { AudioContext?: typeof AudioContext; webkitAudioContext?: typeof AudioContext }).AudioContext
+      || (window as unknown as { AudioContext?: typeof AudioContext; webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
     if (AudioCtx) {
-      const audioCtx = new AudioCtx({ sampleRate: 48000 } as any);
+      const audioCtx = new AudioCtx({ sampleRate: 48000 });
       const destination = audioCtx.createMediaStreamDestination();
       const masterCompressor = audioCtx.createDynamicsCompressor();
       masterCompressor.threshold.value = -10;
@@ -602,7 +612,11 @@ export class AudioMixer {
   private compressor: DynamicsCompressorNode;
 
   constructor(sampleRate = 48000) {
-    const AudioCtx = (window as any).AudioContext || (window as any).webkitAudioContext;
+    const AudioCtx = (window as unknown as { AudioContext?: typeof AudioContext; webkitAudioContext?: typeof AudioContext }).AudioContext
+      || (window as unknown as { AudioContext?: typeof AudioContext; webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+    if (!AudioCtx) {
+      throw new Error('Web Audio API is not supported in this environment');
+    }
     this.audioContext = new AudioCtx({ sampleRate });
     this.destination = this.audioContext.createMediaStreamDestination();
     this.compressor = this.createCompressor();

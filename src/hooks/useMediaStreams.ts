@@ -52,19 +52,13 @@ export function useMediaStreams() {
       const [videoTrack] = stream.getVideoTracks();
       if (videoTrack && 'contentHint' in videoTrack) {
         try {
-          // @ts-ignore
-          videoTrack.contentHint = 'detail';
+          (videoTrack as MediaStreamTrack & { contentHint?: string }).contentHint = 'detail';
         } catch (e) {
           console.warn('Could not set contentHint:', e);
         }
       }
-
-      const disposeVideoEnded = videoTrack ? attachEnded(videoTrack, stopScreen) : undefined;
-      // clean listener when we stop
-      if (disposeVideoEnded) {
-        const prevStop = stopScreen;
-        // no-op: closure keeps dispose; when stopScreen called, dispose event handler beforehand
-        // leaving as local capture for simplicity
+      if (videoTrack) {
+        attachEnded(videoTrack, stopScreen);
       }
 
       setIsScreenShared(true);

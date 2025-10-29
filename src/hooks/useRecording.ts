@@ -65,8 +65,9 @@ export function useRecording({ onRecordingComplete }: UseRecordingOptions) {
         }
       };
 
-      mediaRecorder.onerror = (e: any) => {
-        const dom = e?.error as DOMException | undefined;
+      type RecorderErrorEvent = Event & { error?: DOMException };
+      mediaRecorder.onerror = (e: RecorderErrorEvent) => {
+        const dom = e.error;
         const recErr = dom ? RecordingError.fromDOMException(dom) : new RecordingError(
           RecordingErrorCode.RECORDER_FAILED,
           'MediaRecorder error',

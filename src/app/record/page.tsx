@@ -384,11 +384,17 @@ export default function RecordPage() {
       switch (key) {
         case 'r':
           event.preventDefault();
-          isRecording ? handleStopRecording() : handleStartRecording();
+          if (isRecording) {
+            handleStopRecording();
+          } else {
+            handleStartRecording();
+          }
           break;
         case 'p':
           event.preventDefault();
-          if (isRecording) pauseRecording();
+          if (isRecording) {
+            pauseRecording();
+          }
           break;
         case 'm':
           event.preventDefault();
@@ -396,11 +402,19 @@ export default function RecordPage() {
           break;
         case 'c':
           event.preventDefault();
-          isCameraOn ? stopCamera() : handleStartCamera();
+          if (isCameraOn) {
+            stopCamera();
+          } else {
+            handleStartCamera();
+          }
           break;
         case 's':
           event.preventDefault();
-          isScreenShared ? stopScreen() : handleShareScreen();
+          if (isScreenShared) {
+            stopScreen();
+          } else {
+            handleShareScreen();
+          }
           break;
       }
     };
@@ -465,10 +479,24 @@ export default function RecordPage() {
       const key = e.key.toLowerCase();
       const mod = e.ctrlKey || e.metaKey;
       if (!mod) return;
-      if (key === 'r') { e.preventDefault(); isRecording ? handleStopRecording() : handleStartRecording(); }
-      if (key === 'p') { e.preventDefault(); if (isRecording) pauseRecording(); }
+      if (key === 'r') {
+        e.preventDefault();
+        if (isRecording) {
+          handleStopRecording();
+        } else {
+          handleStartRecording();
+        }
+      }
+      if (key === 'p') { e.preventDefault(); if (isRecording) { pauseRecording(); } }
       if (key === 'm') { e.preventDefault(); handleToggleMic(); }
-      if (key === 's') { e.preventDefault(); isScreenShared ? stopScreen() : handleShareScreen(); }
+      if (key === 's') {
+        e.preventDefault();
+        if (isScreenShared) {
+          stopScreen();
+        } else {
+          handleShareScreen();
+        }
+      }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);

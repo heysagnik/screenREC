@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { ChevronLeft, Github, Star, Video } from "lucide-react";
+import { ChevronLeft, Star, Video } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 interface HeaderProps {
@@ -30,7 +30,8 @@ export default function Header({ showBack = false, backHref = "/" }: HeaderProps
     const loadStars = async () => {
       try {
         setLoading(true);
-        const res = await fetch("https://api.github.com/repos/heysagnik/screenREC", { next: { revalidate: 3600 } as any });
+        // Client components don't support Next.js revalidate options on fetch
+        const res = await fetch("https://api.github.com/repos/heysagnik/screenREC");
         if (!res.ok) throw new Error("Failed to fetch stars");
         const data = await res.json();
         if (mounted) setStars(typeof data.stargazers_count === "number" ? data.stargazers_count : null);

@@ -1,6 +1,6 @@
 'use client';
 
-import { Camera, Monitor, MonitorPlay } from 'lucide-react';
+import { Camera, Monitor } from 'lucide-react';
 
 interface EmptyStateProps {
   onShareScreen: () => void;
