@@ -31,13 +31,23 @@ RUN apk add --no-cache ffmpeg
 
 WORKDIR /app
 
-# Copy built files
-COPY --from=builder /app/apps/api/dist ./dist
-COPY --from=builder /app/apps/api/package.json ./
-
-# Install production dependencies only
+# Install pnpm for production install
 RUN corepack enable && corepack prepare pnpm@9.15.1 --activate
-RUN pnpm install --prod
+
+# Copy workspace config (needed for workspace: protocol)
+COPY pnpm-workspace.yaml ./
+COPY package.json ./
+
+# Copy packages/shared (needed as dependency)
+COPY --from=builder /app/packages/shared ./packages/shared
+
+# Copy apps/api with built files
+COPY --from=builder /app/apps/api/dist ./apps/api/dist
+COPY --from=builder /app/apps/api/package.json ./apps/api/
+
+# Create production lockfile and install
+WORKDIR /app/apps/api
+RUN pnpm install --prod --ignore-workspace
 
 # Create temp directory
 RUN mkdir -p /tmp/screenrec
