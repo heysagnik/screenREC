@@ -1,4 +1,4 @@
-# Build stage
+# Build stage - uses pnpm workspace for building
 FROM node:20-alpine AS builder
 
 WORKDIR /app
@@ -6,52 +6,48 @@ WORKDIR /app
 # Install pnpm
 RUN corepack enable && corepack prepare pnpm@9.15.1 --activate
 
-# Copy workspace files
+# Copy ALL workspace files needed for build
 COPY pnpm-workspace.yaml ./
 COPY package.json pnpm-lock.yaml* ./
-COPY apps/api/package.json ./apps/api/
-COPY packages/shared/package.json ./packages/shared/
-
-# Install dependencies
-RUN pnpm install --frozen-lockfile
-
-# Copy source
+COPY turbo.json ./
 COPY apps/api ./apps/api
 COPY packages/shared ./packages/shared
-COPY turbo.json ./
 
-# Build
+# Install ALL dependencies (including dev for build)
+RUN pnpm install --frozen-lockfile
+
+# Build the API
 RUN pnpm build:api
 
-# Production stage
-FROM node:20-alpine
+# =============================================
+# Production stage - COMPLETELY STANDALONE
+# No pnpm, no workspace, just node and the built files
+# =============================================
+FROM node:20-alpine AS production
 
-# Install FFmpeg
+# Install FFmpeg for video conversion
 RUN apk add --no-cache ffmpeg
 
 WORKDIR /app
 
-# Install pnpm for production install
-RUN corepack enable && corepack prepare pnpm@9.15.1 --activate
+# Copy only the compiled JavaScript
+COPY --from=builder /app/apps/api/dist ./dist
 
-# Copy workspace config (needed for workspace: protocol)
-COPY pnpm-workspace.yaml ./
-COPY package.json ./
+# Install ONLY runtime dependencies directly with npm
+# This avoids all pnpm workspace issues
+RUN npm init -y && \
+    npm install --save \
+    cors@^2.8.5 \
+    express@^4.21.2 \
+    express-rate-limit@^8.2.1 \
+    multer@^1.4.5-lts.1 \
+    sanitize-filename@^1.6.3
 
-# Copy packages/shared (needed as dependency)
-COPY --from=builder /app/packages/shared ./packages/shared
-
-# Copy apps/api with built files
-COPY --from=builder /app/apps/api/dist ./apps/api/dist
-COPY --from=builder /app/apps/api/package.json ./apps/api/
-
-# Create production lockfile and install
-WORKDIR /app/apps/api
-RUN pnpm install --prod --ignore-workspace
-
-# Create temp directory
+# Create temp directory for video processing
 RUN mkdir -p /tmp/screenrec
 
+# Expose API port
 EXPOSE 3001
 
+# Start the server
 CMD ["node", "dist/index.js"]
