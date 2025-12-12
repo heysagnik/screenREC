@@ -71,7 +71,6 @@ export default function RecordPage() {
         return;
       }
 
-      // Save raw WebM blob - conversion happens at download time if needed
       setRecordedBlob(blob);
       const url = URL.createObjectURL(blob);
       setRecordedVideoUrl(url);
@@ -118,7 +117,6 @@ export default function RecordPage() {
     }
   }, [isCameraOn, cameraStreamRef]);
 
-  // Update playback video when recorded URL changes
   useEffect(() => {
     const videoElement = playbackVideoRef.current;
 
@@ -174,7 +172,6 @@ export default function RecordPage() {
     [stopAllStreams, cleanup, recordedVideoUrl]
   );
 
-  // Check for media access issues
   useEffect(() => {
     if (isScreenShared && !screenStreamRef.current) {
       showNotification('Screen share failed. Please try again.', 'error');
@@ -193,7 +190,6 @@ export default function RecordPage() {
     }
   }, [isMicOn, audioStreamRef, showNotification]);
 
-  // Warn user before closing tab during recording
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       if (isRecording) {
@@ -213,7 +209,6 @@ export default function RecordPage() {
         return;
       }
 
-      // Combine streams into single canvas output (screen + camera PiP)
       const combinedStream = combineStreams({
         screenStream: screenStreamRef.current,
         cameraStream: cameraStreamRef.current,
@@ -311,7 +306,6 @@ export default function RecordPage() {
       return;
     }
 
-    // Start countdown immediately
     startCountdown();
   }, [
     isScreenShared,
@@ -325,11 +319,53 @@ export default function RecordPage() {
   ]);
 
   const handleStopRecording = useCallback(() => {
-    stopRecording();
-    stopAllStreams();
-  }, [stopRecording, stopAllStreams]);
+    console.log('[RecordPage] handleStopRecording called');
 
-  // Keyboard shortcuts - placed after handlers are defined
+    // Stop the MediaRecorder first
+    stopRecording();
+
+    // Stop all media streams via the hook
+    stopAllStreams();
+
+    // Force stop tracks on the refs and null them
+    const streamRefs = [
+      { ref: screenStreamRef, name: 'screen' },
+      { ref: cameraStreamRef, name: 'camera' },
+      { ref: audioStreamRef, name: 'audio' },
+    ];
+
+    streamRefs.forEach(({ ref, name }) => {
+      if (ref.current) {
+        console.log(`[RecordPage] Force stopping ${name} stream`);
+        ref.current.getTracks().forEach((track) => {
+          try {
+            console.log(`[RecordPage] Stopping ${name} track: ${track.kind}`);
+            track.stop();
+          } catch (e) {
+            console.warn(`[RecordPage] Failed to stop ${name} track:`, e);
+          }
+        });
+        ref.current = null;
+      }
+    });
+
+    // Also stop tracks on all video elements' srcObject (these hold the actual display streams)
+    document.querySelectorAll('video').forEach((video) => {
+      const stream = video.srcObject as MediaStream | null;
+      if (stream?.getTracks) {
+        console.log('[RecordPage] Stopping video element srcObject');
+        stream.getTracks().forEach((track) => {
+          try {
+            track.stop();
+          } catch (e) {
+            console.warn('[RecordPage] Failed to stop video srcObject track:', e);
+          }
+        });
+        video.srcObject = null;
+      }
+    });
+  }, [stopRecording, stopAllStreams, screenStreamRef, cameraStreamRef, audioStreamRef]);
+
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
       const target = event.target as HTMLElement;
@@ -401,7 +437,6 @@ export default function RecordPage() {
     if (!recordedBlob) return;
     setShowDownloadModal(false);
 
-    // Handle format conversion if needed
     let blobToDownload = recordedBlob;
     let extension = 'webm';
 
@@ -450,7 +485,6 @@ export default function RecordPage() {
   }, [recordedVideoUrl]);
 
   const handleOpenEditor = useCallback(() => {
-    // Editor is coming soon - just show notification
     showNotification('Editor coming soon!', 'success');
   }, [showNotification]);
 

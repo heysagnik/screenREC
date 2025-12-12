@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useReducer, useCallback, ReactNode, useRef } from 'react';
+import { createContext, useContext, useReducer, useCallback, ReactNode } from 'react';
 import { EditorState, EditorAction, Track, Clip } from '@/types/editor';
 
 const initialState: EditorState = {

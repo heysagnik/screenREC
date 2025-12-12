@@ -14,7 +14,7 @@ export default function ExportModal({ isOpen, onClose, videoUrl }: ExportModalPr
     const [quality, setQuality] = useState<'720p' | '1080p' | '4k'>('1080p');
     const [exporting, setExporting] = useState(false);
     const [done, setDone] = useState(false);
-    const { loading, progress, exportWithQuality, load } = useFFmpeg();
+    const { loading, progress, exportWithQuality } = useFFmpeg();
 
     const handleExport = async () => {
         if (!videoUrl) return;
@@ -23,15 +23,12 @@ export default function ExportModal({ isOpen, onClose, videoUrl }: ExportModalPr
         setDone(false);
 
         try {
-            // Fetch video blob from URL
             const response = await fetch(videoUrl);
             const videoBlob = await response.blob();
 
-            // Export with selected quality
             const exportedBlob = await exportWithQuality(videoBlob, quality);
 
             if (exportedBlob) {
-                // Use File System Access API if available
                 if ('showSaveFilePicker' in window) {
                     try {
                         const handle = await window.showSaveFilePicker({
@@ -47,7 +44,6 @@ export default function ExportModal({ isOpen, onClose, videoUrl }: ExportModalPr
                         setDone(true);
                     } catch (e) {
                         if ((e as Error).name !== 'AbortError') {
-                            // Fallback to download
                             const url = URL.createObjectURL(exportedBlob);
                             const a = document.createElement('a');
                             a.href = url;
@@ -58,7 +54,6 @@ export default function ExportModal({ isOpen, onClose, videoUrl }: ExportModalPr
                         }
                     }
                 } else {
-                    // Fallback to download
                     const url = URL.createObjectURL(exportedBlob);
                     const a = document.createElement('a');
                     a.href = url;
@@ -87,7 +82,6 @@ export default function ExportModal({ isOpen, onClose, videoUrl }: ExportModalPr
                     </button>
                 </div>
 
-                {/* Quality Selection */}
                 <div className="mb-6">
                     <label className="text-sm text-gray-600 font-medium mb-3 block">Quality</label>
                     <div className="grid grid-cols-3 gap-2">
@@ -107,7 +101,6 @@ export default function ExportModal({ isOpen, onClose, videoUrl }: ExportModalPr
                     </div>
                 </div>
 
-                {/* Progress */}
                 {(loading || exporting) && (
                     <div className="mb-6">
                         <div className="flex items-center justify-between text-sm mb-2">
@@ -125,7 +118,6 @@ export default function ExportModal({ isOpen, onClose, videoUrl }: ExportModalPr
                     </div>
                 )}
 
-                {/* Done Message */}
                 {done && (
                     <div className="mb-6 flex items-center gap-2 text-green-600 bg-green-50 px-4 py-3 rounded-xl">
                         <Check size={18} />
@@ -133,7 +125,6 @@ export default function ExportModal({ isOpen, onClose, videoUrl }: ExportModalPr
                     </div>
                 )}
 
-                {/* Export Button */}
                 <button
                     onClick={handleExport}
                     disabled={exporting || !videoUrl}

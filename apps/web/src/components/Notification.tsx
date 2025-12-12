@@ -13,7 +13,6 @@ interface NotificationProps {
 }
 
 export default function Notification({ message, type, onClose, actionLabel, onAction }: NotificationProps) {
-  // Match screenshot: dark toast, subtle border, rounded corners, inline action
   const styles = {
     error: 'bg-neutral-800 text-white border border-white/10',
     success: 'bg-neutral-800 text-white border border-white/10',

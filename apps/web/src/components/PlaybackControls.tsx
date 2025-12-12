@@ -27,14 +27,11 @@ export default function PlaybackControls({
   return (
     <div className="w-full bg-white border border-gray-200 rounded-xl shadow-sm p-4">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        {/* Left: Recording Info */}
         <div>
-          {/* Name */}
           <h3 className="text-base font-semibold text-gray-900 truncate max-w-[250px]">
             {recordingName || 'Recording'}
           </h3>
 
-          {/* Badges below name */}
           {videoBlob && (
             <div className="flex items-center gap-1.5 mt-1">
               <span className="px-2 py-0.5 bg-gray-100 rounded text-[10px] text-gray-500 font-medium">
@@ -47,9 +44,7 @@ export default function PlaybackControls({
           )}
         </div>
 
-        {/* Right: Action Buttons */}
         <div className="flex items-center gap-2 w-full sm:w-auto">
-          {/* Edit - Coming Soon */}
           {onOpenEditor && (
             <button
               onClick={onOpenEditor}
@@ -63,7 +58,6 @@ export default function PlaybackControls({
             </button>
           )}
 
-          {/* New */}
           <button
             onClick={onNewRecording}
             className="flex items-center justify-center gap-1.5 px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm font-medium transition"
@@ -72,7 +66,6 @@ export default function PlaybackControls({
             New
           </button>
 
-          {/* Download - Primary */}
           <button
             onClick={onDownload}
             className="flex items-center justify-center gap-1.5 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-medium transition shadow-sm"

@@ -60,7 +60,7 @@ const VideoPreview = forwardRef<HTMLDivElement, VideoPreviewProps>(
               autoPlay
               playsInline
               muted
-              className="w-full h-full object-cover pointer-events-none"
+              className="w-full h-full object-cover pointer-events-none [transform:scaleX(-1)]"
             />
             <button
               onClick={onStopCamera}
@@ -84,7 +84,7 @@ const VideoPreview = forwardRef<HTMLDivElement, VideoPreviewProps>(
             autoPlay
             playsInline
             muted
-            className="w-full h-full object-cover pointer-events-none"
+            className="w-full h-full object-cover pointer-events-none [transform:scaleX(-1)]"
           />
           <button
             onClick={onStopCamera}
@@ -103,12 +103,9 @@ const VideoPreview = forwardRef<HTMLDivElement, VideoPreviewProps>(
         className="relative w-full aspect-video rounded-2xl overflow-hidden bg-gradient-to-b from-black/90 via-slate-800/80 to-slate-700/70 border border-white/10 shadow-xl"
       >
         {!isScreenShared && !isCameraOn ? (
-          <>
-
-            <div className="absolute inset-0 flex items-center justify-center z-10">
-              <EmptyState onShareScreen={onShareScreen} onStartCamera={onStartCamera} />
-            </div>
-          </>
+          <div className="absolute inset-0 flex items-center justify-center z-10">
+            <EmptyState onShareScreen={onShareScreen} onStartCamera={onStartCamera} />
+          </div>
         ) : (
           <>
             {isScreenShared && (
@@ -126,7 +123,7 @@ const VideoPreview = forwardRef<HTMLDivElement, VideoPreviewProps>(
                 autoPlay
                 playsInline
                 muted
-                className="w-full h-full object-contain"
+                className="w-full h-full object-contain [transform:scaleX(-1)]"
               />
             )}
             {isScreenShared && isCameraOn && renderCameraOverlay}

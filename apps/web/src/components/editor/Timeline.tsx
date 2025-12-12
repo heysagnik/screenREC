@@ -7,7 +7,7 @@ import { Monitor, Camera, Mic, Music, Volume2, VolumeX, Plus, Minus, Play, Pause
 export default function Timeline() {
     const { state, setPlayhead, dispatch, togglePlay } = useEditor();
     const timelineRef = useRef<HTMLDivElement>(null);
-    const [isDragging, _setIsDragging] = useState(false);
+    const [isDragging] = useState(false);
 
     const pixelsPerSecond = 80 * state.zoom;
     const totalDuration = Math.max(state.duration, 10);
@@ -53,7 +53,6 @@ export default function Timeline() {
 
     return (
         <div className="bg-gray-50 border-t border-gray-200">
-            {/* Transport Controls */}
             <div className="flex items-center gap-3 px-4 py-2 bg-white border-b border-gray-100">
                 <button
                     onClick={togglePlay}
@@ -87,9 +86,7 @@ export default function Timeline() {
                 </div>
             </div>
 
-            {/* Timeline Tracks */}
             <div className="flex">
-                {/* Track Labels */}
                 <div className="w-[100px] flex-shrink-0 border-r border-gray-200 bg-white">
                     {state.tracks.map((track) => {
                         const Icon = trackIcons[track.type] || Monitor;
@@ -113,13 +110,11 @@ export default function Timeline() {
                     })}
                 </div>
 
-                {/* Tracks Area */}
                 <div
                     ref={timelineRef}
                     className="flex-1 overflow-x-auto cursor-pointer"
                     onClick={handleTimelineClick}
                 >
-                    {/* Time Ruler */}
                     <div className="h-6 bg-gray-100 border-b border-gray-200 relative">
                         {Array.from({ length: Math.ceil(totalDuration) + 1 }).map((_, i) => (
                             <div
@@ -133,7 +128,6 @@ export default function Timeline() {
                         ))}
                     </div>
 
-                    {/* Track Lanes */}
                     <div className="relative" style={{ width: Math.max(totalDuration * pixelsPerSecond + 200, 800) }}>
                         {state.tracks.map((track) => (
                             <div
@@ -162,7 +156,6 @@ export default function Timeline() {
                                                 {clip.name}
                                             </span>
                                         </div>
-                                        {/* Trim handles */}
                                         <div className="absolute left-0 top-0 bottom-0 w-2 cursor-ew-resize hover:bg-white/20 rounded-l-lg" />
                                         <div className="absolute right-0 top-0 bottom-0 w-2 cursor-ew-resize hover:bg-white/20 rounded-r-lg" />
                                     </div>
@@ -170,7 +163,6 @@ export default function Timeline() {
                             </div>
                         ))}
 
-                        {/* Playhead */}
                         <div
                             className="absolute top-0 bottom-0 w-0.5 bg-indigo-600 z-20 pointer-events-none"
                             style={{ left: state.playhead * pixelsPerSecond }}
@@ -181,7 +173,6 @@ export default function Timeline() {
                 </div>
             </div>
 
-            {/* Add Track */}
             <div className="flex items-center gap-2 px-4 py-2 bg-white border-t border-gray-100">
                 <button className="flex items-center gap-1.5 text-gray-500 hover:text-indigo-600 text-xs transition">
                     <Plus size={14} />

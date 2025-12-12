@@ -18,7 +18,6 @@ export default function MinimalVideoPlayer({ src, onLoadedMetadata }: MinimalVid
     const [isDragging, setIsDragging] = useState(false);
     const [isReady, setIsReady] = useState(false);
 
-    // Format time as MM:SS - handle NaN/Infinity
     const formatTime = (time: number) => {
         if (!isFinite(time) || isNaN(time)) return '0:00';
         const mins = Math.floor(time / 60);
@@ -26,7 +25,6 @@ export default function MinimalVideoPlayer({ src, onLoadedMetadata }: MinimalVid
         return `${mins}:${secs.toString().padStart(2, '0')}`;
     };
 
-    // Safely get duration (avoid Infinity/NaN)
     const getSafeDuration = useCallback(() => {
         const video = videoRef.current;
         if (!video) return 0;
@@ -35,7 +33,6 @@ export default function MinimalVideoPlayer({ src, onLoadedMetadata }: MinimalVid
         return dur;
     }, []);
 
-    // Handle play/pause toggle
     const togglePlay = useCallback(() => {
         const video = videoRef.current;
         if (!video) return;
@@ -48,25 +45,20 @@ export default function MinimalVideoPlayer({ src, onLoadedMetadata }: MinimalVid
         setIsPlaying(!isPlaying);
     }, [isPlaying]);
 
-    // Fix WebM duration issue by seeking to end briefly
     useEffect(() => {
         const video = videoRef.current;
         if (!video) return;
 
         const fixDuration = async () => {
-            // Wait for video to be ready
             if (video.readyState < 1) {
                 await new Promise(resolve => {
                     video.addEventListener('loadedmetadata', resolve, { once: true });
                 });
             }
 
-            // If duration is Infinity or NaN, seek to end to get real duration
             if (!isFinite(video.duration) || isNaN(video.duration)) {
-                // Save current state
                 const wasPlaying = !video.paused;
 
-                // Seek to a very large number to trigger buffering
                 video.currentTime = Number.MAX_SAFE_INTEGER;
 
                 await new Promise(resolve => {
@@ -74,11 +66,9 @@ export default function MinimalVideoPlayer({ src, onLoadedMetadata }: MinimalVid
                         video.removeEventListener('timeupdate', handler);
                         resolve(null);
                     });
-                    // Fallback timeout
                     setTimeout(resolve, 500);
                 });
 
-                // Now we have the real duration from currentTime
                 const realDuration = video.currentTime;
                 video.currentTime = 0;
 
@@ -87,7 +77,6 @@ export default function MinimalVideoPlayer({ src, onLoadedMetadata }: MinimalVid
                     onLoadedMetadata?.(realDuration);
                 }
 
-                // Restore play state
                 if (wasPlaying) {
                     video.play();
                 }
@@ -102,7 +91,6 @@ export default function MinimalVideoPlayer({ src, onLoadedMetadata }: MinimalVid
         fixDuration();
     }, [src, onLoadedMetadata]);
 
-    // Handle video events
     useEffect(() => {
         const video = videoRef.current;
         if (!video) return;
@@ -134,7 +122,6 @@ export default function MinimalVideoPlayer({ src, onLoadedMetadata }: MinimalVid
         };
     }, [getSafeDuration]);
 
-    // Handle seeking via progress bar - guard against NaN
     const handleProgressClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
         const video = videoRef.current;
         const progressBar = progressRef.current;
@@ -150,7 +137,6 @@ export default function MinimalVideoPlayer({ src, onLoadedMetadata }: MinimalVid
         }
     }, [duration]);
 
-    // Handle drag seeking
     const handleProgressDrag = useCallback((e: MouseEvent) => {
         if (!isDragging || duration <= 0) return;
         const video = videoRef.current;
@@ -183,13 +169,11 @@ export default function MinimalVideoPlayer({ src, onLoadedMetadata }: MinimalVid
 
     return (
         <div className="relative w-full aspect-video bg-black rounded-2xl overflow-hidden group shadow-xl border border-gray-200">
-            {/* Clickable Video Area */}
             <div
                 className="absolute inset-0 cursor-pointer z-10"
                 onClick={togglePlay}
             />
 
-            {/* Video Element */}
             <video
                 ref={videoRef}
                 src={src}
@@ -198,14 +182,12 @@ export default function MinimalVideoPlayer({ src, onLoadedMetadata }: MinimalVid
                 preload="auto"
             />
 
-            {/* Loading State */}
             {!isReady && (
                 <div className="absolute inset-0 flex items-center justify-center bg-black/60 z-20">
                     <div className="w-10 h-10 border-4 border-white/30 border-t-white rounded-full animate-spin" />
                 </div>
             )}
 
-            {/* Center Play Button - Always visible when paused */}
             {!isPlaying && isReady && (
                 <div
                     className="absolute inset-0 flex items-center justify-center z-10 cursor-pointer"
@@ -217,30 +199,24 @@ export default function MinimalVideoPlayer({ src, onLoadedMetadata }: MinimalVid
                 </div>
             )}
 
-            {/* Controls Overlay - Bottom */}
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-30">
-                {/* Progress Bar */}
                 <div
                     ref={progressRef}
                     className="relative h-1.5 bg-white/30 rounded-full cursor-pointer mb-3 group/progress"
                     onClick={handleProgressClick}
                     onMouseDown={() => duration > 0 && setIsDragging(true)}
                 >
-                    {/* Progress Fill */}
                     <div
                         className="absolute top-0 left-0 h-full bg-indigo-500 rounded-full transition-all"
                         style={{ width: `${Math.min(100, progress)}%` }}
                     />
-                    {/* Progress Handle */}
                     <div
                         className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full shadow-lg opacity-0 group-hover/progress:opacity-100 transition-opacity"
                         style={{ left: `calc(${Math.min(100, progress)}% - 8px)` }}
                     />
                 </div>
 
-                {/* Controls Row */}
                 <div className="flex items-center gap-4">
-                    {/* Play/Pause Button */}
                     <button
                         onClick={togglePlay}
                         className="w-10 h-10 flex items-center justify-center bg-white/20 hover:bg-white/30 rounded-full transition"
@@ -252,7 +228,6 @@ export default function MinimalVideoPlayer({ src, onLoadedMetadata }: MinimalVid
                         )}
                     </button>
 
-                    {/* Time Display */}
                     <span className="text-white text-sm font-medium tabular-nums">
                         {formatTime(currentTime)} / {formatTime(duration)}
                     </span>

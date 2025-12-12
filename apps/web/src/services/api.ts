@@ -1,5 +1,3 @@
-// API service for video conversion
-
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
 export interface ConvertOptions {
@@ -30,7 +28,6 @@ export async function convertToMp4(
             const error = await response.json().catch(() => ({ message: 'Conversion failed' }));
             const errorMsg = error.message || 'Conversion failed';
 
-            // Check if FFmpeg is not installed
             if (errorMsg.includes('ffmpeg') && errorMsg.includes('not recognized')) {
                 throw new Error('FFmpeg not installed on server. Please install FFmpeg or deploy to Railway.');
             }
@@ -46,7 +43,7 @@ export async function convertToMp4(
         return mp4Blob;
     } catch (error) {
         console.error('API conversion error:', error);
-        throw error; // Re-throw so caller can handle it
+        throw error;
     }
 }
 

@@ -17,7 +17,9 @@ export function useRecording({ onRecordingComplete }: UseRecordingOptions) {
   const isPausedRef = useRef(false);
   const startGuardRef = useRef(false);
 
-  useEffect(() => { isPausedRef.current = isPaused; }, [isPaused]);
+  useEffect(() => {
+    isPausedRef.current = isPaused;
+  }, [isPaused]);
 
   const startRecording = useCallback(async (stream: MediaStream) => {
     try {
@@ -30,7 +32,6 @@ export function useRecording({ onRecordingComplete }: UseRecordingOptions) {
 
       startGuardRef.current = true;
 
-      // Validate stream
       if (!stream || stream.getTracks().length === 0) {
         throw new RecordingError(
           RecordingErrorCode.STREAM_INACTIVE,
@@ -40,7 +41,6 @@ export function useRecording({ onRecordingComplete }: UseRecordingOptions) {
         );
       }
 
-      // Find supported codec
       const codec = findSupportedCodec();
       if (!codec) {
         throw new RecordingError(
@@ -83,7 +83,6 @@ export function useRecording({ onRecordingComplete }: UseRecordingOptions) {
           return;
         }
 
-        // Create a browser-playable Blob with safe fallbacks
         const tryTypes = [
           mediaRecorder.mimeType,
           'video/webm;codecs=vp8,opus',
@@ -102,28 +101,23 @@ export function useRecording({ onRecordingComplete }: UseRecordingOptions) {
               break;
             }
           } catch {
-            // Failed to create blob with this type, try next
           }
         }
 
         if (!finalBlob) {
-          // Last resort
           finalBlob = new Blob(chunksRef.current, { type: 'video/webm' });
         }
 
-        // Call completion handler
         onRecordingComplete(finalBlob);
 
-        // Clear chunks
         chunksRef.current = [];
         startGuardRef.current = false;
       };
 
-      mediaRecorder.start(1000); // keep timeslice; make configurable later
+      mediaRecorder.start(1000);
       setIsRecording(true);
       setRecordingTime(0);
 
-      // Increment only when not paused
       timerIntervalRef.current = setInterval(() => {
         if (!isPausedRef.current) {
           setRecordingTime((prev) => prev + 1);
@@ -181,14 +175,12 @@ export function useRecording({ onRecordingComplete }: UseRecordingOptions) {
       try { mediaRecorderRef.current?.stop(); } catch { }
     }
     if (timerIntervalRef.current) { clearInterval(timerIntervalRef.current); timerIntervalRef.current = null; }
-    // removed animationFrameRef cleanup (unused)
     mediaRecorderRef.current?.stream.getTracks().forEach(track => { try { track.stop(); } catch { } });
     mediaRecorderRef.current = null;
     chunksRef.current = [];
     startGuardRef.current = false;
   }, []);
 
-  // Add useEffect for cleanup on unmount
   useEffect(() => {
     return () => {
       cleanup();

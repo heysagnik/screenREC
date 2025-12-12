@@ -2,7 +2,6 @@
 
 import { useState, useCallback } from 'react';
 
-// Project manifest structure
 export interface ProjectManifest {
     id: string;
     name: string;
@@ -31,7 +30,6 @@ export function useVideoStorage() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    // Get OPFS root directory
     const getRoot = useCallback(async () => {
         try {
             return await navigator.storage.getDirectory();
@@ -41,7 +39,6 @@ export function useVideoStorage() {
         }
     }, []);
 
-    // Save a complete project with multiple streams
     const saveProject = useCallback(async (
         streams: ProjectStreams,
         duration: number,
@@ -57,7 +54,6 @@ export function useVideoStorage() {
             const projectId = `project-${Date.now()}`;
             const projectName = name || `Recording ${new Date().toLocaleString()}`;
 
-            // Create project directory
             const projectsDir = await root.getDirectoryHandle('projects', { create: true });
             const projectDir = await projectsDir.getDirectoryHandle(projectId, { create: true });
 
@@ -69,7 +65,6 @@ export function useVideoStorage() {
                 streams: {},
             };
 
-            // Save screen stream
             if (streams.screen) {
                 const filename = 'screen.webm';
                 const handle = await projectDir.getFileHandle(filename, { create: true });
@@ -83,7 +78,6 @@ export function useVideoStorage() {
                 };
             }
 
-            // Save camera stream
             if (streams.camera) {
                 const filename = 'camera.webm';
                 const handle = await projectDir.getFileHandle(filename, { create: true });
@@ -97,7 +91,6 @@ export function useVideoStorage() {
                 };
             }
 
-            // Save audio stream
             if (streams.audio) {
                 const filename = 'audio.webm';
                 const handle = await projectDir.getFileHandle(filename, { create: true });
@@ -111,7 +104,6 @@ export function useVideoStorage() {
                 };
             }
 
-            // Save manifest
             const manifestHandle = await projectDir.getFileHandle('manifest.json', { create: true });
             const manifestWritable = await manifestHandle.createWritable();
             await manifestWritable.write(JSON.stringify(manifest, null, 2));
@@ -126,7 +118,6 @@ export function useVideoStorage() {
         }
     }, [getRoot]);
 
-    // Load project manifest
     const loadProjectManifest = useCallback(async (projectId: string): Promise<ProjectManifest | null> => {
         try {
             const root = await getRoot();
@@ -142,7 +133,6 @@ export function useVideoStorage() {
         }
     }, [getRoot]);
 
-    // Load project streams as blobs
     const loadProjectStreams = useCallback(async (projectId: string): Promise<ProjectStreams | null> => {
         setLoading(true);
         try {
@@ -181,7 +171,6 @@ export function useVideoStorage() {
         }
     }, [getRoot, loadProjectManifest]);
 
-    // Get blob URLs for project streams
     const getProjectUrls = useCallback(async (projectId: string): Promise<ProjectUrls | null> => {
         const streams = await loadProjectStreams(projectId);
         if (!streams) return null;
@@ -193,7 +182,6 @@ export function useVideoStorage() {
         };
     }, [loadProjectStreams]);
 
-    // List all projects
     const listProjects = useCallback(async (): Promise<ProjectManifest[]> => {
         try {
             const root = await getRoot();
@@ -210,7 +198,6 @@ export function useVideoStorage() {
                     const manifest = JSON.parse(await file.text());
                     projects.push(manifest);
                 } catch {
-                    // Skip invalid projects
                 }
             }
 
@@ -220,7 +207,6 @@ export function useVideoStorage() {
         }
     }, [getRoot]);
 
-    // Delete project
     const deleteProject = useCallback(async (projectId: string): Promise<boolean> => {
         try {
             const root = await getRoot();
@@ -234,7 +220,6 @@ export function useVideoStorage() {
         }
     }, [getRoot]);
 
-    // Export using File System Access API
     const exportToFile = useCallback(async (
         blob: Blob,
         suggestedName: string = 'export.mp4'

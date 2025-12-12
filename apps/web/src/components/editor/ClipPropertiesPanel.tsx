@@ -29,13 +29,11 @@ export default function ClipPropertiesPanel() {
             <h3 className="text-gray-900 font-semibold text-lg mb-4">Clip Properties</h3>
 
             <div className="space-y-5">
-                {/* Clip Name */}
                 <div>
                     <label className="text-sm text-gray-600 mb-1 block">Name</label>
                     <div className="text-sm font-medium text-gray-900">{selectedClip.name}</div>
                 </div>
 
-                {/* Audio Controls */}
                 <div>
                     <label className="text-sm text-gray-600 mb-2 block">Audio</label>
                     <div className="space-y-3">
@@ -72,7 +70,6 @@ export default function ClipPropertiesPanel() {
                     </div>
                 </div>
 
-                {/* Speed Control */}
                 <div>
                     <label className="text-sm text-gray-600 mb-2 block flex items-center gap-1">
                         <Clock size={14} />
@@ -94,7 +91,6 @@ export default function ClipPropertiesPanel() {
                     </div>
                 </div>
 
-                {/* Duration Info */}
                 <div>
                     <label className="text-sm text-gray-600 mb-1 block">Duration</label>
                     <div className="text-sm font-medium text-gray-900">

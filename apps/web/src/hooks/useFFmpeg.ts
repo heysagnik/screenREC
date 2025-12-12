@@ -21,7 +21,6 @@ export function useFFmpeg() {
             setProgress(Math.round(event.progress * 100));
         });
 
-        // Load FFmpeg core from CDN
         const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm';
         await ffmpeg.load({
             coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
@@ -133,7 +132,6 @@ export function useFFmpeg() {
 
         await ffmpeg.writeFile(inputName, await fetchFile(webmBlob));
 
-        // Fast conversion using copy codec when possible, fallback to re-encode
         await ffmpeg.exec([
             '-i', inputName,
             '-c:v', 'libx264',

@@ -5,6 +5,25 @@ import {
   getMicrophoneCaptureConstraints,
 } from '@/config/recording';
 
+/**
+ * Helper to safely stop all tracks on a MediaStream
+ */
+function stopAllTracksOnStream(stream: MediaStream | null): void {
+  if (!stream) return;
+
+  try {
+    stream.getTracks().forEach((track) => {
+      try {
+        track.stop();
+      } catch (error) {
+        console.warn('Failed to stop track:', error);
+      }
+    });
+  } catch (error) {
+    console.warn('Failed to get tracks:', error);
+  }
+}
+
 export function useMediaStreams() {
   const [isScreenShared, setIsScreenShared] = useState(false);
   const [isCameraOn, setIsCameraOn] = useState(false);
@@ -14,10 +33,6 @@ export function useMediaStreams() {
   const cameraStreamRef = useRef<MediaStream | null>(null);
   const audioStreamRef = useRef<MediaStream | null>(null);
 
-  const stopTracks = (stream: MediaStream | null) => {
-    stream?.getTracks().forEach((track) => track.stop());
-  };
-
   const attachEnded = (track: MediaStreamTrack, onEnd: () => void) => {
     const handler = () => onEnd();
     track.addEventListener('ended', handler);
@@ -25,19 +40,22 @@ export function useMediaStreams() {
   };
 
   const stopScreen = useCallback(() => {
-    stopTracks(screenStreamRef.current);
+    console.log('[useMediaStreams] Stopping screen share');
+    stopAllTracksOnStream(screenStreamRef.current);
     screenStreamRef.current = null;
     setIsScreenShared(false);
   }, []);
 
   const stopCamera = useCallback(() => {
-    stopTracks(cameraStreamRef.current);
+    console.log('[useMediaStreams] Stopping camera');
+    stopAllTracksOnStream(cameraStreamRef.current);
     cameraStreamRef.current = null;
     setIsCameraOn(false);
   }, []);
 
   const stopMic = useCallback(() => {
-    stopTracks(audioStreamRef.current);
+    console.log('[useMediaStreams] Stopping microphone');
+    stopAllTracksOnStream(audioStreamRef.current);
     audioStreamRef.current = null;
     setIsMicOn(false);
   }, []);
@@ -46,7 +64,9 @@ export function useMediaStreams() {
     try {
       const constraints = getScreenCaptureConstraints();
       const stream = await navigator.mediaDevices.getDisplayMedia(constraints);
-      stopScreen();
+
+      // Stop any existing screen share first
+      stopAllTracksOnStream(screenStreamRef.current);
       screenStreamRef.current = stream;
 
       const [videoTrack] = stream.getVideoTracks();
@@ -75,8 +95,11 @@ export function useMediaStreams() {
       }
       const constraints = getCameraCaptureConstraints();
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
-      stopCamera();
+
+      // Stop any existing camera first
+      stopAllTracksOnStream(cameraStreamRef.current);
       cameraStreamRef.current = stream;
+
       const [videoTrack] = stream.getVideoTracks();
       if (videoTrack) attachEnded(videoTrack, stopCamera);
       setIsCameraOn(true);
@@ -90,8 +113,11 @@ export function useMediaStreams() {
       try {
         const constraints = getMicrophoneCaptureConstraints();
         const stream = await navigator.mediaDevices.getUserMedia(constraints);
-        stopMic();
+
+        // Stop any existing mic first
+        stopAllTracksOnStream(audioStreamRef.current);
         audioStreamRef.current = stream;
+
         const [audioTrack] = stream.getAudioTracks();
         if (audioTrack) attachEnded(audioTrack, stopMic);
         setIsMicOn(true);
@@ -104,10 +130,23 @@ export function useMediaStreams() {
   }, [isMicOn, stopMic]);
 
   const stopAllStreams = useCallback(() => {
-    stopScreen();
-    stopCamera();
-    stopMic();
-  }, [stopCamera, stopMic, stopScreen]);
+    console.log('[useMediaStreams] Stopping ALL streams');
+
+    // Stop screen share
+    stopAllTracksOnStream(screenStreamRef.current);
+    screenStreamRef.current = null;
+    setIsScreenShared(false);
+
+    // Stop camera
+    stopAllTracksOnStream(cameraStreamRef.current);
+    cameraStreamRef.current = null;
+    setIsCameraOn(false);
+
+    // Stop microphone
+    stopAllTracksOnStream(audioStreamRef.current);
+    audioStreamRef.current = null;
+    setIsMicOn(false);
+  }, []);
 
   return {
     isScreenShared,

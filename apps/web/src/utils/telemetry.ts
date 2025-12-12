@@ -43,7 +43,6 @@ class TelemetryService {
   private debug: boolean;
 
   constructor() {
-    // Only enable in production, disable in development
     this.enabled = process.env.NODE_ENV === 'production';
     this.debug = process.env.NODE_ENV === 'development';
   }
@@ -60,11 +59,6 @@ class TelemetryService {
     }
 
     try {
-      // Example: Send to your analytics provider
-      // window.gtag?.('event', event, properties);
-      // window.posthog?.capture(event, properties);
-      // window.mixpanel?.track(event, properties);
-      
       console.log('[Telemetry]', event, properties);
     } catch (error) {
       console.error('Telemetry error:', error);
@@ -104,7 +98,6 @@ class TelemetryService {
     if (!this.enabled) return;
 
     try {
-      // Store user preferences for analytics
       console.log('[Preference]', preference, value);
     } catch (error) {
       console.error('Preference tracking error:', error);

@@ -91,7 +91,6 @@ function KeyboardShortcuts() {
 function EditorContent() {
     const searchParams = useSearchParams();
 
-    // Get projectId or fallback to direct video URL
     const projectId = searchParams.get('projectId') || undefined;
     const videoUrl = searchParams.get('video') || searchParams.get('screen') || undefined;
     const webcamUrl = searchParams.get('webcam') || undefined;
@@ -105,7 +104,6 @@ function EditorContent() {
 
     const { getProjectUrls, loadProjectManifest } = useVideoStorage();
 
-    // Load project from OPFS if projectId is provided
     useEffect(() => {
         if (projectId) {
             setIsLoading(true);
@@ -122,13 +120,11 @@ function EditorContent() {
         }
     }, [projectId, getProjectUrls, loadProjectManifest]);
 
-    // Determine final video URLs (OPFS or direct)
     const screenUrl = projectUrls?.screen || videoUrl;
     const cameraUrl = projectUrls?.camera || webcamUrl;
     const audioUrl = projectUrls?.audio;
     const duration = projectManifest?.duration || (durationParam ? parseInt(durationParam, 10) : 10);
 
-    // Show loading state
     if (isLoading) {
         return (
             <div className="fixed inset-0 bg-white flex items-center justify-center">

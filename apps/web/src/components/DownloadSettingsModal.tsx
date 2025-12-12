@@ -40,8 +40,7 @@ export default function DownloadSettingsModal({
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 mx-4 animate-in fade-in zoom-in-95 duration-200">
-                {/* Header */}
+            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 mx-4 animate-fade-in">
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center">
@@ -62,7 +61,6 @@ export default function DownloadSettingsModal({
                     </button>
                 </div>
 
-                {/* Recording Name */}
                 <div className="mb-5">
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                         File Name
@@ -76,7 +74,6 @@ export default function DownloadSettingsModal({
                     />
                 </div>
 
-                {/* Format Selection */}
                 <div className="mb-6">
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                         Format
@@ -105,7 +102,6 @@ export default function DownloadSettingsModal({
                     </div>
                 </div>
 
-                {/* Actions */}
                 <div className="flex gap-3">
                     <button
                         onClick={onClose}

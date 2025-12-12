@@ -14,7 +14,6 @@ export default function PreviewPlayer({ screenVideoUrl, webcamVideoUrl }: Previe
     const webcamVideoRef = useRef<HTMLVideoElement>(null);
     const animationRef = useRef<number | undefined>(undefined);
 
-    // Auto-detect duration from video
     const handleLoadedMetadata = (e: React.SyntheticEvent<HTMLVideoElement>) => {
         const video = e.currentTarget;
         if (video.duration && video.duration !== Infinity) {

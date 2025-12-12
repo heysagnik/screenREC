@@ -1,6 +1,6 @@
 'use client';
 
-import { Scissors, Trash2, Clock } from 'lucide-react';
+import { Scissors, Trash2 } from 'lucide-react';
 import { useEditor } from '@/contexts/EditorContext';
 
 export default function EditPanel() {

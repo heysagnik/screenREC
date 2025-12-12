@@ -20,6 +20,18 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'unavatar.io',
+      },
+      {
+        protocol: 'https',
+        hostname: 'api.producthunt.com',
+      },
+    ],
+  },
 };
 
 export default nextConfig;
