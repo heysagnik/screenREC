@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "dev": "next dev --turbopack -p 3000",
-        "build": "next build --turbopack",
+        "build": "next build",
         "start": "next start",
         "lint": "eslint",
         "type-check": "tsc --noEmit"
