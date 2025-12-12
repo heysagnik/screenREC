@@ -1,17 +1,40 @@
-# Ignore Mac system files
-.DS_store
+# Dependencies
+node_modules/
+.pnpm-store/
 
-# Ignore node_modules & dist folder
-node_modules
-dist
+# Build outputs
+dist/
+.next/
+out/
+build/
 
-# Ignore all text files
-*.txt
-*.md
+# Turbo
+.turbo/
 
-# Ignore files related to API keys
+# Environment
 .env
+.env.local
+.env.*.local
 
-# Ignore SASS config files
-.sass-cache
-.parcel-cache
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Testing
+coverage/
+
+# Temp files
+*.tmp
+*.temp
+/tmp/
