@@ -108,20 +108,64 @@ router.post('/convert', convertLimiter, upload.single('video'), async (req, res)
     }
 
     try {
+        // Optimized FFmpeg args for Railway's limited memory (~512MB)
         const ffmpegArgs = [
             '-i', inputPath,
+            // Limit threads to prevent OOM on Railway
+            '-threads', '2',
+            // Video encoding - optimized for speed and low memory
             '-c:v', 'libx264',
-            '-preset', 'fast',
-            '-crf', '23',
+            '-preset', 'ultrafast',  // Fastest, lowest memory usage
+            '-tune', 'zerolatency',  // Minimize buffering
+            '-crf', '28',            // Slightly lower quality = faster + less memory
+            '-maxrate', '2M',        // Limit bitrate
+            '-bufsize', '1M',        // Small buffer
+            '-pix_fmt', 'yuv420p',   // Ensure compatible pixel format
+            // Audio encoding
             '-c:a', 'aac',
-            '-b:a', '192k',
+            '-b:a', '128k',          // Lower audio bitrate to save memory
+            '-ac', '2',              // Stereo
+            // Output options
             '-movflags', '+faststart',
-            '-y', // Overwrite output
+            '-y',                    // Overwrite output
             outputPath,
         ];
 
-        console.log(`Converting: ${req.file.originalname}`);
-        await execFileAsync('ffmpeg', ffmpegArgs);
+        console.log(`Converting: ${req.file.originalname} (optimized for low memory)`);
+
+        // Use spawn with timeout for better control
+        const { spawn } = await import('child_process');
+
+        await new Promise<void>((resolve, reject) => {
+            const ffmpeg = spawn('ffmpeg', ffmpegArgs, {
+                stdio: ['ignore', 'pipe', 'pipe'],
+            });
+
+            let stderr = '';
+            ffmpeg.stderr?.on('data', (data) => {
+                stderr += data.toString();
+            });
+
+            // 5 minute timeout
+            const timeout = setTimeout(() => {
+                ffmpeg.kill('SIGTERM');
+                reject(new Error('FFmpeg timeout - video may be too large'));
+            }, 5 * 60 * 1000);
+
+            ffmpeg.on('close', (code) => {
+                clearTimeout(timeout);
+                if (code === 0) {
+                    resolve();
+                } else {
+                    reject(new Error(`FFmpeg exited with code ${code}\n${stderr.slice(-500)}`));
+                }
+            });
+
+            ffmpeg.on('error', (err) => {
+                clearTimeout(timeout);
+                reject(err);
+            });
+        });
 
         res.setHeader('Content-Type', 'video/mp4');
         res.setHeader('Content-Disposition', `attachment; filename="${outputFilename}"`);
@@ -129,7 +173,9 @@ router.post('/convert', convertLimiter, upload.single('video'), async (req, res)
         const fileStream = await fs.readFile(outputPath);
         res.send(fileStream);
 
-        await fs.unlink(inputPath);
+        // Cleanup
+        await fs.unlink(inputPath).catch(() => { });
+        await fs.unlink(outputPath).catch(() => { });
         console.log(`Conversion complete: ${outputFilename}`);
 
     } catch (error) {
