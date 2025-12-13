@@ -1,28 +1,63 @@
 # Security Policy
 
-## Supported Browsers
+## Supported Versions
 
-Please use supported browsers only.
+| Version | Supported |
+|---------|-----------|
+| 2.x (Next.js) | ✅ Active |
+| 1.x (Legacy Parcel) | ❌ No longer maintained |
 
-| Browsers         | Supported          |
-| ---------------- | ------------------ |
-| Microsoft Edge   | :white_check_mark: |
-| Google Chrome    | :white_check_mark: |
-| Mozilla Firefox  | :white_check_mark: |
-| Android Browsers | :x:                |
+## Browser Support
+
+| Browser | Supported |
+|---------|-----------|
+| Chrome 90+ | ✅ |
+| Edge 90+ | ✅ |
+| Firefox 85+ | ✅ |
+| Safari 14+ | ✅ |
+| Mobile browsers | ❌ |
+
+## Privacy & Data Handling
+
+ScreenREC is designed with privacy in mind:
+
+- **Local Processing** — All recording happens in your browser
+- **No Data Collection** — We don't collect or store your recordings
+- **No Analytics** — No tracking scripts or analytics
+- **Optional Server** — MP4 conversion requires the API, but files are deleted immediately after processing
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability, we appreciate your cooperation in reporting it to us. Your efforts help us maintain a secure environment for our users.
+If you discover a security vulnerability, please report it responsibly:
 
-To report a vulnerability, please follow these steps:
+1. **Email**: [sahoosagnik1@gmail.com](mailto:sahoosagnik1@gmail.com)
+2. **Subject**: `[SECURITY] ScreenREC - Brief Description`
+3. **Include**:
+   - Description of the vulnerability
+   - Steps to reproduce
+   - Potential impact
+   - Suggested fix (if any)
 
-1. **Contact Us**: Send an email to (mailto:sahoosagnik1@gmail.com) with details about the vulnerability. Include as much information as possible.
+### Response Timeline
 
-2. **Response**: Once we receive your report, we will acknowledge it as soon as we verify.
+| Stage | Timeframe |
+|-------|-----------|
+| Acknowledgment | 48 hours |
+| Initial assessment | 7 days |
+| Resolution | 30 days (varies by severity) |
 
-3. **Resolution**: We will work to address the vulnerability promptly and will keep you informed of our progress and any necessary updates.
+### What to Expect
 
-We are committed to maintaining the security of our systems, and we appreciate responsible disclosure of any issues.
+- We will acknowledge your report within 48 hours
+- We will keep you informed of our progress
+- We will credit you in the fix (unless you prefer anonymity)
+- We will not take legal action for responsible disclosure
 
-Thank you for your assistance in keeping our community safe.
+## Security Best Practices for Users
+
+1. Use HTTPS when accessing ScreenREC
+2. Keep your browser updated
+3. Be cautious about what you share in recordings
+4. Review recordings before sharing
+
+Thank you for helping keep ScreenREC secure.

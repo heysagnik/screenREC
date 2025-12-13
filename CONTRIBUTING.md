@@ -1,98 +1,121 @@
-Thank you for your interest in becoming a contributor to screenREC. We appreciate all contributions, no matter how large or small. Please take a moment to review this document in order to make effective contributions.
+# Contributing to ScreenREC
 
-- Take a look at the existing [Issues](https://github.com/heysagnik/screenREC/issues) or [create a new issue](https://github.com/heysagnik/screenREC/issues/new/choose)!
-- [Fork the Repo](https://github.com/heysagnik/screenREC/fork). Then, create a branch for any issue that you are working on. Finally, commit your work.
-- Create a **[Pull Request](https://github.com/heysagnik/screenREC/compare)** (_PR_), which will be promptly reviewed and given suggestions for improvements by the community.
-- Add screenshots or screen captures to your Pull Request to help us understand the effects of the changes proposed in your PR.
+Thank you for your interest in contributing! This guide will help you get started.
 
-## <a name="issue"></a>Report a Bug here
+## Quick Start
 
-If you fiind a bug that can be fixed potentially by you or someone else, open an issue to let others know! Please add all the necessary information needed and how can the bug be traced and the steps to follow to reach to this bug.
+1. Fork the repository
+2. Clone your fork: `git clone https://github.com/<your-username>/screenREC.git`
+3. Install dependencies: `pnpm install`
+4. Create a branch: `git checkout -b feature/your-feature`
+5. Make changes and commit
+6. Push and open a Pull Request
+
+## Development Setup
+
+### Prerequisites
+
+- Node.js 18+
+- pnpm 9+ (`npm install -g pnpm`)
+
+### Running Locally
+
+```bash
+# Install dependencies
+pnpm install
+
+# Start development servers
+pnpm dev
+
+# Or run specific apps
+pnpm dev:web    # Frontend only
+pnpm dev:api    # Backend only
+```
+
+### Project Structure
+
+```
+apps/web/src/
+├── app/           # Next.js pages
+├── components/    # React components
+├── hooks/         # Custom React hooks
+├── config/        # Configuration constants
+├── services/      # API services
+├── utils/         # Utility functions
+└── types/         # TypeScript types
+```
+
+## Code Guidelines
+
+### TypeScript
+
+- Use strict TypeScript
+- Define interfaces for props and state
+- Avoid `any` — use `unknown` if type is truly unknown
+
+### React
+
+- Use functional components with hooks
+- Extract logic into custom hooks
+- Keep components focused and composable
+
+### Styling
+
+- Use Tailwind CSS utilities
+- Follow mobile-first responsive design
+
+### Naming Conventions
+
+| Type | Convention | Example |
+|------|------------|---------|
+| Components | PascalCase | `VideoPreview.tsx` |
+| Hooks | camelCase with `use` prefix | `useRecording.ts` |
+| Utils | camelCase | `streamCombiner.ts` |
+| Types | PascalCase | `RecordingLayout` |
+
+## Pull Request Process
+
+1. **Update tests** if applicable
+2. **Run linting**: `pnpm lint`
+3. **Run build**: `pnpm build`
+4. **Write clear commit messages**
+5. **Add screenshots** for UI changes
+6. **Link related issues** in PR description
+
+### Commit Message Format
+
+```
+type: short description
+
+- Detail 1
+- Detail 2
+```
+
+Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
+
+## Reporting Issues
+
+### Bug Reports
+
+Include:
+- Browser and version
+- Steps to reproduce
+- Expected vs actual behavior
+- Screenshots/recordings if applicable
+
+### Feature Requests
+
+Include:
+- Use case description
+- Proposed solution
+- Alternatives considered
 
 [Open an issue](https://github.com/heysagnik/screenREC/issues/new/choose)
 
-## <a name="feature"></a>Request a Feature
+## Code of Conduct
 
-Would you like to see a new feature added to Shoutify? Let's discuss it! Let us know what is in your mind and we would love to add it to the project if it fits with the project!
+Please read our [Code of Conduct](CODE_OF_CONDUCT.md) before contributing.
 
-[Open an issue](https://github.com/heysagnik/screenREC/issues/new/choose)
+## Questions?
 
-## Steps to open a Pull Request:
-
-**1.** Start by making a Fork of the [project](https://github.com/heysagnik/screenREC) repository. Click on the <a href="https://github.com/heysagnik/screenREC/fork"><img src="https://i.imgur.com/G4z1kEe.png" height="21" width="21"></a>Fork symbol at the top right corner.
-
-**2.** Clone your new fork for the terminal:
-
-```bash
-git clone https://github.com/<your-github-username>/screenREC
-```
-
-**3.** Move to the newly created screenREC project directory:
-
-```bash
-cd screenREC
-```
-
-**4.** Set upstream command:
-
-```bash
-git remote add upstream https://github.com/heysagnik/screenREC.git
-```
-
-**5.** Create a new branch:
-
-```bash
-git checkout -b YourBranchName
-```
-
-**6.** Sync your fork or your local repository with the origin repository:
-
-- In your forked repository, click on "Fetch upstream"
-- Click "Fetch and merge"
-
-### Alternatively, Git CLI way to Sync forked repository with origin repository:
-
-```bash
-git fetch upstream
-```
-
-```bash
-git merge upstream/main
-```
-
-### [Github Docs](https://docs.github.com/en/github/collaborating-with-pull-requests/addressing-merge-conflicts/resolving-a-merge-conflict-on-github) for Syncing
-
-**7.** Make your changes to the source code.
-
-**8.** Stage your changes:
-
-```bash
-git add public
-```
-
-_or_
-
-```bash
-git add "<files_you_have_changed>"
-```
-
-**9.** Commit your changes:
-
-```bash
-git commit -m "<your_commit_message>"
-```
-
-**10.** Push your local commits to the remote repository:
-
-```bash
-git push origin YourBranchName
-```
-
-**11.** Create a [Pull Request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request)!
-
----
-
-#### Commit Message Format
-
-- Add relevant heading
-- Provide short description with the change that has been done
+Feel free to open a discussion or reach out to [@heysagnik](https://twitter.com/heysagnik).
