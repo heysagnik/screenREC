@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { ChevronLeft, Star } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -35,36 +36,19 @@ function GitHubIcon({ className = 'h-5 w-5' }: { className?: string }) {
   );
 }
 
-/** Decorative screen recording logo frame */
+/** Logo with image and text */
 function ScreenLogo() {
   return (
-    <span className="relative inline-block align-baseline">
-      <span className="relative inline-block px-4 py-2">
-        <span className="relative z-10 text-xl font-black tracking-tight text-gray-900">
-          SCREEN
-        </span>
-        {/* Corner brackets */}
-        <span aria-hidden="true" className="pointer-events-none absolute left-0 top-0 z-0">
-          <span className="block h-[1px] w-3 bg-gray-900" />
-          <span className="block h-3 w-[1px] bg-gray-900" />
-        </span>
-        <span aria-hidden="true" className="pointer-events-none absolute right-0 top-0 z-0">
-          <span className="block h-[1px] w-3 bg-gray-900 ml-auto" />
-          <span className="block h-3 w-[1px] bg-gray-900 ml-auto" />
-        </span>
-        <span aria-hidden="true" className="pointer-events-none absolute left-0 bottom-0 z-0">
-          <span className="block h-3 w-[1px] bg-gray-900 mt-auto" />
-          <span className="block h-[1px] w-3 bg-gray-900" />
-        </span>
-        <span aria-hidden="true" className="pointer-events-none absolute right-0 bottom-0 z-0">
-          <span className="block h-3 w-[1px] bg-gray-900 ml-auto mt-auto" />
-          <span className="block h-[1px] w-3 bg-gray-900 ml-auto" />
-        </span>
-        {/* Recording indicator */}
-        <span
-          aria-hidden="true"
-          className="absolute top-1 right-1 z-10 h-2 w-2 rounded-full bg-red-500 shadow-[0_0_0_2px_#fff] animate-pulse"
-        />
+    <span className="flex items-center gap-2">
+      <Image 
+        src="/logo.png" 
+        alt="ScreenREC Logo" 
+        width={28} 
+        height={28} 
+        className="h-7 w-auto" 
+      />
+      <span className="text-lg font-bold tracking-tight text-gray-900">
+        ScreenREC
       </span>
     </span>
   );

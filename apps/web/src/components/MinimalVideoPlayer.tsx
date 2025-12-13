@@ -168,7 +168,7 @@ export default function MinimalVideoPlayer({ src, onLoadedMetadata }: MinimalVid
     const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
 
     return (
-        <div className="relative w-full aspect-video bg-black rounded-2xl overflow-hidden group shadow-xl border border-gray-200">
+        <div className="relative w-full aspect-video bg-black rounded-xl sm:rounded-2xl overflow-hidden group shadow-xl border border-gray-200">
             <div
                 className="absolute inset-0 cursor-pointer z-10"
                 onClick={togglePlay}
@@ -184,7 +184,7 @@ export default function MinimalVideoPlayer({ src, onLoadedMetadata }: MinimalVid
 
             {!isReady && (
                 <div className="absolute inset-0 flex items-center justify-center bg-black/60 z-20">
-                    <div className="w-10 h-10 border-4 border-white/30 border-t-white rounded-full animate-spin" />
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 border-4 border-white/30 border-t-white rounded-full animate-spin" />
                 </div>
             )}
 
@@ -193,16 +193,16 @@ export default function MinimalVideoPlayer({ src, onLoadedMetadata }: MinimalVid
                     className="absolute inset-0 flex items-center justify-center z-10 cursor-pointer"
                     onClick={togglePlay}
                 >
-                    <div className="w-20 h-20 flex items-center justify-center bg-white/90 hover:bg-white rounded-full shadow-2xl transition-transform hover:scale-105">
-                        <Play size={32} className="text-gray-900 ml-1" fill="currentColor" />
+                    <div className="w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center bg-white/90 hover:bg-white active:bg-white rounded-full shadow-2xl transition-transform hover:scale-105 active:scale-95">
+                        <Play size={28} className="sm:w-8 sm:h-8 text-gray-900 ml-1" fill="currentColor" />
                     </div>
                 </div>
             )}
 
-            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-30">
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3 sm:p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-30 touch-none pointer-events-none group-hover:pointer-events-auto">
                 <div
                     ref={progressRef}
-                    className="relative h-1.5 bg-white/30 rounded-full cursor-pointer mb-3 group/progress"
+                    className="relative h-2 sm:h-1.5 bg-white/30 rounded-full cursor-pointer mb-2 sm:mb-3 group/progress pointer-events-auto"
                     onClick={handleProgressClick}
                     onMouseDown={() => duration > 0 && setIsDragging(true)}
                 >
@@ -211,24 +211,24 @@ export default function MinimalVideoPlayer({ src, onLoadedMetadata }: MinimalVid
                         style={{ width: `${Math.min(100, progress)}%` }}
                     />
                     <div
-                        className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full shadow-lg opacity-0 group-hover/progress:opacity-100 transition-opacity"
-                        style={{ left: `calc(${Math.min(100, progress)}% - 8px)` }}
+                        className="absolute top-1/2 -translate-y-1/2 w-3.5 h-3.5 sm:w-4 sm:h-4 bg-white rounded-full shadow-lg opacity-0 group-hover/progress:opacity-100 transition-opacity"
+                        style={{ left: `calc(${Math.min(100, progress)}% - ${window.innerWidth < 640 ? '7px' : '8px'})` }}
                     />
                 </div>
 
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2 sm:gap-3 md:gap-4 pointer-events-auto">
                     <button
                         onClick={togglePlay}
-                        className="w-10 h-10 flex items-center justify-center bg-white/20 hover:bg-white/30 rounded-full transition"
+                        className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center bg-white/20 hover:bg-white/30 active:bg-white/40 rounded-full transition shrink-0"
                     >
                         {isPlaying ? (
-                            <Pause size={20} className="text-white" fill="white" />
+                            <Pause size={18} className="sm:w-5 sm:h-5 text-white" fill="white" />
                         ) : (
-                            <Play size={20} className="text-white ml-0.5" fill="white" />
+                            <Play size={18} className="sm:w-5 sm:h-5 text-white ml-0.5" fill="white" />
                         )}
                     </button>
 
-                    <span className="text-white text-sm font-medium tabular-nums">
+                    <span className="text-white text-xs sm:text-sm font-medium tabular-nums">
                         {formatTime(currentTime)} / {formatTime(duration)}
                     </span>
                 </div>

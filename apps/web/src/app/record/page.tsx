@@ -481,11 +481,11 @@ export default function RecordPage() {
         videoBlob={recordedBlob}
       />
 
-      <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 h-20">
+      <div className="fixed top-16 sm:top-20 left-1/2 -translate-x-1/2 z-50 h-20 px-4 w-full max-w-md">
         {notifications.slice().reverse().map((notification, index) => (
           <div
             key={notification.id}
-            className="absolute left-1/2 transition-all duration-200"
+            className="absolute left-1/2 transition-all duration-200 w-full"
             style={{
               zIndex: 100 - index,
               transform: `translateX(-50%) translateY(${index * -8}px)`,
@@ -503,33 +503,32 @@ export default function RecordPage() {
 
       {/* Converting Overlay */}
       {isConverting && (
-        <div className="fixed inset-0 z-40 bg-black/70 flex items-center justify-center">
-          <div className="bg-white rounded-2xl p-8 shadow-2xl flex flex-col items-center gap-4 max-w-sm">
-            <div className="w-16 h-16 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin" />
-            <h3 className="text-xl font-semibold text-gray-900">Converting to MP4</h3>
-            <p className="text-gray-500 text-center">Please wait while your recording is being converted...</p>
+        <div className="fixed inset-0 z-40 bg-black/70 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-2xl flex flex-col items-center gap-3 sm:gap-4 max-w-sm w-full mx-4">
+            <div className="w-12 h-12 sm:w-16 sm:h-16 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin" />
+            <h3 className="text-lg sm:text-xl font-semibold text-gray-900">Converting to MP4</h3>
+            <p className="text-sm sm:text-base text-gray-500 text-center">Please wait while your recording is being converted...</p>
             <div className="w-full bg-gray-200 rounded-full h-2">
               <div
                 className="bg-indigo-600 h-2 rounded-full transition-all duration-300"
                 style={{ width: `${conversionProgress}%` }}
               />
             </div>
-            <span className="text-sm text-gray-500">{conversionProgress}%</span>
+            <span className="text-xs sm:text-sm text-gray-500">{conversionProgress}%</span>
           </div>
         </div>
       )}
 
-      <main className="flex-1 flex items-center justify-center p-8">
-        <div className="flex flex-col items-center gap-8 w-full max-w-4xl">
+      <main className="flex-1 flex items-center justify-center p-4 sm:p-6 md:p-8">
+        <div className="flex flex-col items-center gap-4 sm:gap-6 md:gap-8 w-full max-w-4xl">
           {recordedVideoUrl ? (
-            <div className="w-full flex flex-col gap-6">
-              {/* Video Preview - Full Width */}
+            <div className="w-full flex flex-col gap-4 sm:gap-5 md:gap-6">
               <div className="w-full">
                 {isVideoLoading && (
-                  <div className="w-full aspect-video rounded-2xl bg-gray-900 border border-gray-200 shadow-lg flex items-center justify-center">
-                    <div className="flex flex-col items-center gap-3">
-                      <div className="w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin" />
-                      <p className="text-white text-sm font-medium">Loading video...</p>
+                  <div className="w-full aspect-video rounded-xl sm:rounded-2xl bg-gray-900 border border-gray-200 shadow-lg flex items-center justify-center">
+                    <div className="flex flex-col items-center gap-2 sm:gap-3">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 border-4 border-white/30 border-t-white rounded-full animate-spin" />
+                      <p className="text-white text-xs sm:text-sm font-medium">Loading video...</p>
                     </div>
                   </div>
                 )}

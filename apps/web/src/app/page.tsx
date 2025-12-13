@@ -104,54 +104,73 @@ function useMobileDetection() {
 }
 
 function MobileWarningModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   return (
     <div 
-      className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6"
-      style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}
+      className="fixed inset-0 z-[9999] overflow-y-auto"
+      style={{ 
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+      }}
     >
-      <div 
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm" 
-        onClick={onClose}
-        aria-hidden="true"
-      />
-      
-      <div
-        className="relative bg-white rounded-xl sm:rounded-2xl shadow-2xl max-w-md w-full p-5 sm:p-6 mx-auto"
-        onClick={(e) => e.stopPropagation()}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="modal-title"
-      >
-        <div className="flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-orange-100 rounded-full mx-auto mb-3 sm:mb-4">
-          <Smartphone className="w-7 h-7 sm:w-8 sm:h-8 text-orange-600" />
-        </div>
+      <div className="min-h-screen px-4 py-8 flex items-center justify-center">
+        <div 
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300" 
+          onClick={onClose}
+          aria-hidden="true"
+        />
         
-        <h2 id="modal-title" className="text-xl sm:text-2xl font-bold text-gray-900 text-center mb-2 sm:mb-3">
-          Desktop Required
-        </h2>
-        
-        <p className="text-sm sm:text-base text-gray-600 text-center mb-5 sm:mb-6 leading-relaxed">
-          ScreenREC uses advanced browser APIs that are only available on desktop browsers. Please visit this site on a desktop or laptop computer to start recording.
-        </p>
+        <div
+          className="relative bg-white rounded-xl sm:rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.3)] max-w-md w-full p-5 sm:p-6 animate-in fade-in zoom-in-95 duration-300"
+          onClick={(e) => e.stopPropagation()}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-title"
+        >
+          <div className="flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-orange-100 rounded-full mx-auto mb-3 sm:mb-4">
+            <Smartphone className="w-7 h-7 sm:w-8 sm:h-8 text-orange-600" />
+          </div>
+          
+          <h2 id="modal-title" className="text-xl sm:text-2xl font-bold text-gray-900 text-center mb-2 sm:mb-3">
+            Desktop Required
+          </h2>
+          
+          <p className="text-sm sm:text-base text-gray-600 text-center mb-5 sm:mb-6 leading-relaxed">
+            ScreenREC uses advanced browser APIs that are only available on desktop browsers. Please visit this site on a desktop or laptop computer to start recording.
+          </p>
 
-        <div className="bg-blue-50 border border-blue-100 rounded-lg sm:rounded-xl p-3 sm:p-4 mb-5 sm:mb-6">
-          <div className="flex items-start gap-2 sm:gap-3">
-            <Monitor className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-            <div className="text-xs sm:text-sm text-blue-900">
-              <p className="font-medium mb-0.5 sm:mb-1">Supported browsers:</p>
-              <p className="text-blue-700">Chrome, Edge, Firefox, Safari (desktop versions)</p>
+          <div className="bg-blue-50 border border-blue-100 rounded-lg sm:rounded-xl p-3 sm:p-4 mb-5 sm:mb-6">
+            <div className="flex items-start gap-2 sm:gap-3">
+              <Monitor className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+              <div className="text-xs sm:text-sm text-blue-900">
+                <p className="font-medium mb-0.5 sm:mb-1">Supported browsers:</p>
+                <p className="text-blue-700">Chrome, Edge, Firefox, Safari (desktop versions)</p>
+              </div>
             </div>
           </div>
-        </div>
 
-        <button
-          onClick={onClose}
-          className="w-full py-2.5 sm:py-3 bg-gray-900 hover:bg-black active:bg-black text-white rounded-lg sm:rounded-xl font-medium transition-colors text-sm sm:text-base"
-        >
-          Got it
-        </button>
+          <button
+            onClick={onClose}
+            className="w-full py-2.5 sm:py-3 bg-gray-900 hover:bg-black active:bg-black text-white rounded-lg sm:rounded-xl font-medium transition-colors text-sm sm:text-base"
+          >
+            Got it
+          </button>
+        </div>
       </div>
     </div>
   );
