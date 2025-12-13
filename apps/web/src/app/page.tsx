@@ -88,7 +88,7 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50">
       <header
         className="fixed left-0 right-0 z-50 flex justify-center px-3 sm:px-4 lg:px-6"
-        style={{ top: 12 }}
+        style={{ top: 24 }}
       >
         <nav
           className="flex h-[48px] sm:h-[52px] w-full max-w-3xl items-center justify-between rounded-[24px] sm:rounded-[26px] px-3 sm:px-4 backdrop-blur-2xl border border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.06),0_0_0_1px_rgba(255,255,255,0.3),inset_0_1px_0_rgba(255,255,255,0.8)]"
