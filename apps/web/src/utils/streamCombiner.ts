@@ -71,6 +71,26 @@ export interface CombineStreamsOptions {
   onAnimationFrame: (frameId: number) => void;
 }
 
+export interface CombineStreamsResult {
+  stream: MediaStream;
+  cleanup: () => void;
+}
+
+// Store active cleanup functions for forced cleanup
+let activeCleanupFn: (() => void) | null = null;
+
+/**
+ * Force cleanup of any active combineStreams resources
+ * Call this when stopping recording to ensure all tracks are released
+ */
+export function forceCleanupCombinedStreams(): void {
+  console.log('[streamCombiner] forceCleanupCombinedStreams called');
+  if (activeCleanupFn) {
+    activeCleanupFn();
+    activeCleanupFn = null;
+  }
+}
+
 export function combineStreams({
   screenStream,
   cameraStream,
@@ -79,10 +99,12 @@ export function combineStreams({
   cameraPositionKey,
   layout,
   onAnimationFrame,
-}: CombineStreamsOptions): MediaStream {
+}: CombineStreamsOptions): CombineStreamsResult {
+
+  let result: CombineStreamsResult;
 
   if (screenStream && cameraStream) {
-    return combineScreenAndCamera(
+    result = combineScreenAndCameraWithCleanup(
       screenStream,
       cameraStream,
       audioStream,
@@ -91,19 +113,107 @@ export function combineStreams({
       layout,
       onAnimationFrame
     );
+  } else if (screenStream) {
+    result = createScreenOnlyCanvasStreamWithCleanup(screenStream, audioStream, onAnimationFrame);
+  } else if (cameraStream) {
+    result = createCameraOnlyCanvasStreamWithCleanup(cameraStream, audioStream, onAnimationFrame);
+  } else {
+    console.warn('No video streams available');
+    result = { stream: new MediaStream(), cleanup: () => { } };
   }
 
-  if (screenStream) {
-    return createScreenOnlyCanvasStream(screenStream, audioStream, onAnimationFrame);
-  }
+  // Store the cleanup function globally for forced cleanup
+  activeCleanupFn = result.cleanup;
 
-  if (cameraStream) {
-    return createCameraOnlyCanvasStream(cameraStream, audioStream, onAnimationFrame);
-  }
-
-  console.warn('No video streams available');
-  return new MediaStream();
+  return result;
 }
+
+function createCameraOnlyCanvasStreamWithCleanup(
+  cameraStream: MediaStream,
+  audioStream: MediaStream | null,
+  onAnimationFrame: (frameId: number) => void
+): CombineStreamsResult {
+  const stream = createCameraOnlyCanvasStream(cameraStream, audioStream, onAnimationFrame);
+
+  const cleanup = () => {
+    console.log('[streamCombiner] Cleanup: stopping camera-only stream tracks');
+    // Stop all tracks on the captured stream
+    stream.getTracks().forEach(t => { try { t.stop(); } catch { } });
+    // Stop the original camera stream tracks
+    cameraStream.getTracks().forEach(t => {
+      console.log(`[streamCombiner] Stopping camera track: ${t.kind}, readyState=${t.readyState}`);
+      try { t.stop(); } catch { }
+    });
+    // Stop audio stream if present
+    audioStream?.getTracks().forEach(t => { try { t.stop(); } catch { } });
+  };
+
+  return { stream, cleanup };
+}
+
+function createScreenOnlyCanvasStreamWithCleanup(
+  screenStream: MediaStream,
+  audioStream: MediaStream | null,
+  onAnimationFrame: (frameId: number) => void
+): CombineStreamsResult {
+  const stream = createScreenOnlyCanvasStream(screenStream, audioStream, onAnimationFrame);
+
+  const cleanup = () => {
+    console.log('[streamCombiner] Cleanup: stopping screen-only stream tracks');
+    // Stop all tracks on the captured stream
+    stream.getTracks().forEach(t => { try { t.stop(); } catch { } });
+    // Stop the original screen stream tracks
+    screenStream.getTracks().forEach(t => {
+      console.log(`[streamCombiner] Stopping screen track: ${t.kind}, readyState=${t.readyState}`);
+      try { t.stop(); } catch { }
+    });
+    // Stop audio stream if present
+    audioStream?.getTracks().forEach(t => { try { t.stop(); } catch { } });
+  };
+
+  return { stream, cleanup };
+}
+
+function combineScreenAndCameraWithCleanup(
+  screenStream: MediaStream,
+  cameraStream: MediaStream,
+  audioStream: MediaStream | null,
+  cameraPosition: { x: number; y: number },
+  cameraPositionKey: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | undefined,
+  layout: RecordingLayout,
+  onAnimationFrame: (frameId: number) => void
+): CombineStreamsResult {
+  const stream = combineScreenAndCamera(
+    screenStream,
+    cameraStream,
+    audioStream,
+    cameraPosition,
+    cameraPositionKey,
+    layout,
+    onAnimationFrame
+  );
+
+  const cleanup = () => {
+    console.log('[streamCombiner] Cleanup: stopping screen+camera combined stream tracks');
+    // Stop all tracks on the captured/combined stream
+    stream.getTracks().forEach(t => { try { t.stop(); } catch { } });
+    // Stop the original screen stream tracks
+    screenStream.getTracks().forEach(t => {
+      console.log(`[streamCombiner] Stopping screen track: ${t.kind}, readyState=${t.readyState}`);
+      try { t.stop(); } catch { }
+    });
+    // Stop the original camera stream tracks
+    cameraStream.getTracks().forEach(t => {
+      console.log(`[streamCombiner] Stopping camera track: ${t.kind}, readyState=${t.readyState}`);
+      try { t.stop(); } catch { }
+    });
+    // Stop audio stream if present
+    audioStream?.getTracks().forEach(t => { try { t.stop(); } catch { } });
+  };
+
+  return { stream, cleanup };
+}
+
 
 function createCameraOnlyCanvasStream(
   cameraStream: MediaStream,

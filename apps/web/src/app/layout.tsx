@@ -19,6 +19,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
+  userScalable: false,
 };
 
 export const metadata: Metadata = {
@@ -31,14 +32,12 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/favicons/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-      { url: "/favicons/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicons/favicon.ico", sizes: "any" },
+      { url: "/favicons/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicons/favicon-96x96.png", sizes: "96x96", type: "image/png" },
     ],
     apple: [
-      { url: "/favicons/apple-touch-icon.png", sizes: "152x152" },
-    ],
-    other: [
-      { rel: "mask-icon", url: "/favicons/safari-pinned-tab.svg", color: "#2e2e2e" },
+      { url: "/favicons/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
     ],
   },
   manifest: "/favicons/site.webmanifest",

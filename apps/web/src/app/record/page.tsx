@@ -13,7 +13,7 @@ import { useMediaStreams } from '@/hooks/useMediaStreams';
 import { useRecording } from '@/hooks/useRecording';
 import { useCameraPosition } from '@/hooks/useCameraPosition';
 import { convertToMp4 as convertToMp4Api } from '@/services/api';
-import { combineStreams } from '@/utils/streamCombiner';
+import { combineStreams, forceCleanupCombinedStreams } from '@/utils/streamCombiner';
 import { RecordingLayout } from '@/types/layout';
 
 interface NotificationState {
@@ -209,7 +209,7 @@ export default function RecordPage() {
         return;
       }
 
-      const combinedStream = combineStreams({
+      const { stream: combinedStream } = combineStreams({
         screenStream: screenStreamRef.current,
         cameraStream: cameraStreamRef.current,
         audioStream: audioStreamRef.current,
@@ -324,47 +324,19 @@ export default function RecordPage() {
     // Stop the MediaRecorder first
     stopRecording();
 
-    // Stop all media streams via the hook
+    // Force cleanup of combined streams - this stops the ORIGINAL input tracks
+    forceCleanupCombinedStreams();
+
+    // Also stop via the hook to update state
     stopAllStreams();
-
-    // Force stop tracks on the refs and null them
-    const streamRefs = [
-      { ref: screenStreamRef, name: 'screen' },
-      { ref: cameraStreamRef, name: 'camera' },
-      { ref: audioStreamRef, name: 'audio' },
-    ];
-
-    streamRefs.forEach(({ ref, name }) => {
-      if (ref.current) {
-        console.log(`[RecordPage] Force stopping ${name} stream`);
-        ref.current.getTracks().forEach((track) => {
-          try {
-            console.log(`[RecordPage] Stopping ${name} track: ${track.kind}`);
-            track.stop();
-          } catch (e) {
-            console.warn(`[RecordPage] Failed to stop ${name} track:`, e);
-          }
-        });
-        ref.current = null;
-      }
-    });
-
-    // Also stop tracks on all video elements' srcObject (these hold the actual display streams)
+    
+    // Clear video element srcObjects to release references
     document.querySelectorAll('video').forEach((video) => {
-      const stream = video.srcObject as MediaStream | null;
-      if (stream?.getTracks) {
-        console.log('[RecordPage] Stopping video element srcObject');
-        stream.getTracks().forEach((track) => {
-          try {
-            track.stop();
-          } catch (e) {
-            console.warn('[RecordPage] Failed to stop video srcObject track:', e);
-          }
-        });
+      if (video.srcObject) {
         video.srcObject = null;
       }
     });
-  }, [stopRecording, stopAllStreams, screenStreamRef, cameraStreamRef, audioStreamRef]);
+  }, [stopRecording, stopAllStreams]);
 
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {

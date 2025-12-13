@@ -141,21 +141,37 @@ export function useRecording({ onRecordingComplete }: UseRecordingOptions) {
   const stopRecording = useCallback(() => {
     if (mediaRecorderRef.current && isRecording) {
       const recorder = mediaRecorderRef.current;
+      const recordingStream = recorder.stream;
+
+      // IMMEDIATELY stop all tracks on the recording stream
+      // This includes the CLONED tracks from combineStreams which keep the camera/screen active
+      console.log('[useRecording] Stopping recording stream tracks immediately');
+      recordingStream.getTracks().forEach((track) => {
+        console.log(`[useRecording] Stopping track: ${track.kind} - ${track.label}, readyState=${track.readyState}`);
+        try {
+          track.stop();
+          console.log(`[useRecording] After stop: readyState=${track.readyState}`);
+        } catch (e) {
+          console.warn('[useRecording] Failed to stop track:', e);
+        }
+      });
+
+      // Request any remaining data before stopping
       try { recorder.requestData(); } catch { }
+
+      // Stop the MediaRecorder
       setTimeout(() => {
         if (recorder.state !== 'inactive') {
           try { recorder.stop(); } catch (error) { console.error('Error stopping recorder:', error); }
         }
-      }, 150);
+      }, 100);
 
       setIsRecording(false);
       setIsPaused(false);
-      if (timerIntervalRef.current) { clearInterval(timerIntervalRef.current); timerIntervalRef.current = null; }
-      setTimeout(() => {
-        try {
-          recorder.stream.getTracks().forEach((track) => { try { track.stop(); } catch { } });
-        } catch { }
-      }, 300);
+      if (timerIntervalRef.current) {
+        clearInterval(timerIntervalRef.current);
+        timerIntervalRef.current = null;
+      }
     }
   }, [isRecording]);
 

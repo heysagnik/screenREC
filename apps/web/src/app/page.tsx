@@ -1,5 +1,9 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Smartphone, Monitor } from 'lucide-react';
 
 const COLORS = {
   hero: '#f5c896',
@@ -70,7 +74,7 @@ function FeatureCard({
   children: React.ReactNode;
 }) {
   return (
-    <article className="group relative rounded-3xl overflow-hidden min-h-[360px] md:min-h-[440px] flex flex-col shadow-[0_4px_24px_rgba(0,0,0,0.06)] hover:shadow-[0_8px_40px_rgba(0,0,0,0.1)] transition-all duration-300 hover:scale-[1.02]">
+    <article className="group relative rounded-2xl sm:rounded-3xl overflow-hidden min-h-[340px] sm:min-h-[380px] md:min-h-[420px] lg:min-h-[440px] flex flex-col shadow-[0_4px_24px_rgba(0,0,0,0.06)] hover:shadow-[0_8px_40px_rgba(0,0,0,0.1)] transition-all duration-300 hover:scale-[1.02] active:scale-[1.01]">
       <div className="absolute inset-0" style={{ backgroundColor: bgColor }} />
       <NoiseOverlay />
       {children}
@@ -78,90 +82,164 @@ function FeatureCard({
   );
 }
 
-/** Badge component for privacy card */
-function Badge({
-  children,
-  position,
-  hoverDirection = 'left',
-}: {
-  children: React.ReactNode;
-  position: string;
-  hoverDirection?: 'left' | 'right';
-}) {
-  const hoverClass = hoverDirection === 'left' ? 'group-hover:-translate-x-1' : 'group-hover:translate-x-1';
+function useMobileDetection() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      const ua = navigator.userAgent.toLowerCase();
+      const isMobileUA = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(ua);
+      const isSmallScreen = window.innerWidth < 768;
+      const isTouchOnly = navigator.maxTouchPoints > 0 && !window.matchMedia('(hover: hover)').matches;
+      
+      setIsMobile(isMobileUA || (isSmallScreen && isTouchOnly));
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  return isMobile;
+}
+
+function MobileWarningModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  if (!isOpen) return null;
+
   return (
-    <div
-      className={`absolute ${position} bg-white/95 backdrop-blur-sm rounded-lg shadow-lg px-3 py-2 text-xs font-medium text-gray-700 border border-white/50 flex items-center gap-2 ${hoverClass} transition-transform duration-300`}
+    <div 
+      className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6"
+      style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}
     >
-      {children}
+      <div 
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm" 
+        onClick={onClose}
+        aria-hidden="true"
+      />
+      
+      <div
+        className="relative bg-white rounded-xl sm:rounded-2xl shadow-2xl max-w-md w-full p-5 sm:p-6 mx-auto"
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
+      >
+        <div className="flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-orange-100 rounded-full mx-auto mb-3 sm:mb-4">
+          <Smartphone className="w-7 h-7 sm:w-8 sm:h-8 text-orange-600" />
+        </div>
+        
+        <h2 id="modal-title" className="text-xl sm:text-2xl font-bold text-gray-900 text-center mb-2 sm:mb-3">
+          Desktop Required
+        </h2>
+        
+        <p className="text-sm sm:text-base text-gray-600 text-center mb-5 sm:mb-6 leading-relaxed">
+          ScreenREC uses advanced browser APIs that are only available on desktop browsers. Please visit this site on a desktop or laptop computer to start recording.
+        </p>
+
+        <div className="bg-blue-50 border border-blue-100 rounded-lg sm:rounded-xl p-3 sm:p-4 mb-5 sm:mb-6">
+          <div className="flex items-start gap-2 sm:gap-3">
+            <Monitor className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+            <div className="text-xs sm:text-sm text-blue-900">
+              <p className="font-medium mb-0.5 sm:mb-1">Supported browsers:</p>
+              <p className="text-blue-700">Chrome, Edge, Firefox, Safari (desktop versions)</p>
+            </div>
+          </div>
+        </div>
+
+        <button
+          onClick={onClose}
+          className="w-full py-2.5 sm:py-3 bg-gray-900 hover:bg-black active:bg-black text-white rounded-lg sm:rounded-xl font-medium transition-colors text-sm sm:text-base"
+        >
+          Got it
+        </button>
+      </div>
     </div>
   );
 }
 
+function RecordingButton({ className, children }: { className: string; children: React.ReactNode }) {
+  const isMobile = useMobileDetection();
+  const [showModal, setShowModal] = useState(false);
+
+  const handleClick = (e: React.MouseEvent) => {
+    if (isMobile) {
+      e.preventDefault();
+      setShowModal(true);
+    }
+  };
+
+  return (
+    <>
+      <Link
+        href="/record"
+        onClick={handleClick}
+        className={className}
+      >
+        {children}
+      </Link>
+      <MobileWarningModal isOpen={showModal} onClose={() => setShowModal(false)} />
+    </>
+  );
+}
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50">
       <header
-        className="fixed left-0 right-0 z-50 flex justify-center px-4"
-        style={{ top: 20 }}
+        className="fixed left-0 right-0 z-50 flex justify-center px-3 sm:px-4 lg:px-6"
+        style={{ top: 12 }}
       >
         <nav
-          className="flex h-[52px] w-full max-w-3xl items-center justify-between rounded-[26px] px-4 backdrop-blur-2xl border border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.06),0_0_0_1px_rgba(255,255,255,0.3),inset_0_1px_0_rgba(255,255,255,0.8)]"
+          className="flex h-[48px] sm:h-[52px] w-full max-w-3xl items-center justify-between rounded-[24px] sm:rounded-[26px] px-3 sm:px-4 backdrop-blur-2xl border border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.06),0_0_0_1px_rgba(255,255,255,0.3),inset_0_1px_0_rgba(255,255,255,0.8)]"
           style={{ background: 'linear-gradient(180deg, #fff6 10%, #fffc)' }}
           aria-label="Main navigation"
         >
-          <Link href="/" className="flex items-center gap-2">
-            <Image src="/logo.png" alt="ScreenREC Logo" width={28} height={28} className="h-7 w-auto" />
-            <span className="text-[15px] font-bold tracking-tight text-gray-900">
+          <Link href="/" className="flex items-center gap-1.5 sm:gap-2">
+            <Image src="/logo.png" alt="ScreenREC Logo" width={28} height={28} className="h-6 sm:h-7 w-auto" />
+            <span className="text-sm sm:text-[15px] font-bold tracking-tight text-gray-900">
               ScreenREC
             </span>
           </Link>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <a
               href="https://github.com/heysagnik/screenREC"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-[15px] text-gray-900 hover:text-gray-600 transition-colors"
+              className="flex items-center gap-1.5 sm:gap-2 text-sm sm:text-[15px] text-gray-900 hover:text-gray-600 transition-colors"
               aria-label="View on GitHub"
             >
-              <GitHubIcon />
+              <GitHubIcon className="w-4 h-4 sm:w-5 sm:h-5" />
               <span className="hidden sm:inline">GitHub</span>
             </a>
-            <Link
-              href="/record"
-              className="inline-flex items-center justify-center rounded-full bg-black h-9 px-5 text-sm font-medium text-white hover:bg-neutral-800 transition-colors"
-            >
+            <RecordingButton className="inline-flex items-center justify-center rounded-full bg-black h-8 sm:h-9 px-3.5 sm:px-5 text-xs sm:text-sm font-medium text-white hover:bg-neutral-800 transition-colors whitespace-nowrap">
               Start Recording
-            </Link>
+            </RecordingButton>
           </div>
         </nav>
       </header>
 
-      {/* ====== Hero Section ====== */}
       <section
-        className="relative flex min-h-[92vh] flex-col items-center justify-center overflow-hidden rounded-3xl mx-4 md:mx-6 mt-4"
+        className="relative flex min-h-[85vh] sm:min-h-[88vh] md:min-h-[92vh] flex-col items-center justify-center overflow-hidden rounded-2xl sm:rounded-3xl mx-3 sm:mx-4 md:mx-6 mt-3 sm:mt-4 py-20 sm:py-24"
         style={{ backgroundColor: COLORS.hero }}
         aria-labelledby="hero-heading"
       >
         <NoiseOverlay opacity={0.35} />
 
-        {/* Gradient overlay for depth */}
         <div
           aria-hidden="true"
           className="absolute inset-0 pointer-events-none"
           style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.15) 0%, transparent 60%)' }}
         />
 
-        {/* Decorative brush strokes */}
         <svg
           aria-hidden="true"
-          className="absolute bottom-0 left-1/2 -translate-x-1/2 opacity-15 pointer-events-none"
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 opacity-15 pointer-events-none w-full max-w-[1200px] h-auto"
           width="1200"
           height="400"
           viewBox="0 0 1200 400"
           fill="none"
+          preserveAspectRatio="xMidYMid slice"
         >
           <path
             d="M50 350 Q200 150 400 280 T750 200 T1000 300 T1150 250"
@@ -178,118 +256,105 @@ export default function Home() {
           />
         </svg>
 
-        {/* Hero Content */}
-        <div className="z-20 flex flex-col items-center gap-6 text-center px-6">
+        <div className="z-20 flex flex-col items-center gap-4 sm:gap-5 md:gap-6 text-center px-4 sm:px-6">
           <h1
             id="hero-heading"
-            className="font-display text-[56px] md:text-[80px] lg:text-[100px] leading-[0.95] text-gray-900 max-w-4xl uppercase"
+            className="font-display text-[clamp(2.5rem,10vw,6.25rem)] sm:text-[clamp(3.5rem,8vw,5rem)] md:text-[clamp(4rem,7vw,6.25rem)] leading-[0.95] text-gray-900 max-w-5xl uppercase"
           >
             Record Crazy Videos
             <br /> in secs
           </h1>
-          <p className="text-gray-700/80 text-lg md:text-xl max-w-md mt-2">
+          <p className="text-gray-700/80 text-base sm:text-lg md:text-xl max-w-md sm:max-w-lg mt-1 sm:mt-2 leading-relaxed">
             No installs. No accounts. Just record.
           </p>
 
-          <Link
-            href="/record"
-            className="mt-6 inline-flex items-center justify-center rounded-full h-14 px-10 text-lg font-medium text-gray-900 transition-all hover:scale-[1.02] bg-white/90 backdrop-blur-sm border border-white/60 shadow-[0_8px_32px_rgba(0,0,0,0.1),0_2px_8px_rgba(0,0,0,0.05),inset_0_1px_0_rgba(255,255,255,0.9)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.15)]"
-          >
-            <PlayIcon className="w-6 h-6 mr-2" />
+          <RecordingButton className="mt-4 sm:mt-6 inline-flex items-center justify-center rounded-full h-12 sm:h-14 px-8 sm:px-10 text-base sm:text-lg font-medium text-gray-900 transition-all hover:scale-[1.02] active:scale-[0.98] bg-white/90 backdrop-blur-sm border border-white/60 shadow-[0_8px_32px_rgba(0,0,0,0.1),0_2px_8px_rgba(0,0,0,0.05),inset_0_1px_0_rgba(255,255,255,0.9)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.15)]">
+            <PlayIcon className="w-5 h-5 sm:w-6 sm:h-6 mr-2" />
             Start Recording
-          </Link>
+          </RecordingButton>
         </div>
       </section>
 
-      {/* ====== Features Section ====== */}
-      <section id="features" className="px-4 md:px-6 py-20 md:py-32" aria-labelledby="features-heading">
+      <section id="features" className="px-3 sm:px-4 md:px-6 py-16 sm:py-20 md:py-28 lg:py-32" aria-labelledby="features-heading">
         <div className="mx-auto max-w-6xl">
-          {/* Section Header */}
-          <header className="text-center mb-14">
-            <span className="text-sm font-medium tracking-[0.2em] text-gray-500 uppercase">
+          <header className="text-center mb-10 sm:mb-12 md:mb-14">
+            <span className="text-xs sm:text-sm font-medium tracking-[0.15em] sm:tracking-[0.2em] text-gray-500 uppercase">
               Features
             </span>
             <h2
               id="features-heading"
-              className="font-display mt-4 text-[36px] md:text-[48px] lg:text-[56px] leading-[1.05] tracking-tight text-gray-900 uppercase"
+              className="font-display mt-3 sm:mt-4 text-[clamp(1.75rem,6vw,3.5rem)] sm:text-[clamp(2.25rem,5vw,3rem)] md:text-[clamp(2.5rem,4.5vw,3.5rem)] leading-[1.05] tracking-tight text-gray-900 uppercase px-4"
             >
               Everything You Need
               <br className="hidden sm:block" /> to Create Amazing Videos
             </h2>
-            <p className="mt-5 text-gray-600 max-w-xl mx-auto text-base md:text-lg">
+            <p className="mt-4 sm:mt-5 text-gray-600 max-w-xl mx-auto text-sm sm:text-base md:text-lg leading-relaxed px-4">
               Record your screen, add your camera, and share with the world — all from your browser
             </p>
           </header>
 
-          {/* Feature Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Card 1: Recording Modes */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
             <FeatureCard bgColor={COLORS.cardBlue}>
-              <div className="relative z-10 p-6 pt-8 text-center">
-                <h3 className="text-xl font-semibold text-gray-900">Recording Modes</h3>
-                <p className="mt-2 text-sm text-gray-700">
+              <div className="relative z-10 p-4 sm:p-5 md:p-6 pt-6 sm:pt-7 md:pt-8 text-center">
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-900">Recording Modes</h3>
+                <p className="mt-1.5 sm:mt-2 text-xs sm:text-sm text-gray-700 leading-relaxed">
                   Screen, camera, or both —
                   <br />picture-in-picture made easy
                 </p>
               </div>
 
-              <div className="relative z-10 flex-1 flex items-center justify-center px-6 pb-6">
-                <div className="relative w-full max-w-[260px] aspect-[4/3] bg-white/60 backdrop-blur-md rounded-xl border border-white/60 shadow-2xl overflow-hidden group-hover:scale-[1.03] transition-transform duration-500">
-                  {/* Mock screen content */}
-                  <div className="p-4 space-y-3 opacity-80">
-                    <div className="flex gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-blue-600/10" />
-                      <div className="flex-1 space-y-2 py-1">
-                        <div className="h-2 w-2/3 bg-blue-900/10 rounded-full" />
-                        <div className="h-2 w-full bg-blue-900/5 rounded-full" />
+              <div className="relative z-10 flex-1 flex items-center justify-center px-4 sm:px-5 md:px-6 pb-4 sm:pb-5 md:pb-6">
+                <div className="relative w-full max-w-[220px] sm:max-w-[240px] md:max-w-[260px] aspect-[4/3] bg-white/60 backdrop-blur-md rounded-lg sm:rounded-xl border border-white/60 shadow-2xl overflow-hidden group-hover:scale-[1.03] transition-transform duration-500">
+                  <div className="p-3 sm:p-4 space-y-2 sm:space-y-3 opacity-80">
+                    <div className="flex gap-2 sm:gap-3">
+                      <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-blue-600/10" />
+                      <div className="flex-1 space-y-1.5 sm:space-y-2 py-0.5 sm:py-1">
+                        <div className="h-1.5 sm:h-2 w-2/3 bg-blue-900/10 rounded-full" />
+                        <div className="h-1.5 sm:h-2 w-full bg-blue-900/5 rounded-full" />
                       </div>
                     </div>
-                    <div className="h-20 rounded-lg bg-blue-600/5 border border-blue-600/10" />
+                    <div className="h-16 sm:h-20 rounded-lg bg-blue-600/5 border border-blue-600/10" />
                   </div>
 
-                  {/* PiP camera overlay */}
-                  <div className="absolute bottom-3 right-3 w-20 h-14 bg-gray-900 rounded-lg shadow-[0_4px_12px_rgba(0,0,0,0.2)] border-2 border-white flex items-center justify-center overflow-hidden group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300">
-                    <div className="w-8 h-8 rounded-full bg-gray-700 flex items-end justify-center overflow-hidden">
-                      <div className="w-6 h-3 bg-gray-500 rounded-t-full" />
+                  <div className="absolute bottom-2 right-2 sm:bottom-3 sm:right-3 w-16 h-12 sm:w-20 sm:h-14 bg-gray-900 rounded-md sm:rounded-lg shadow-[0_4px_12px_rgba(0,0,0,0.2)] border-2 border-white flex items-center justify-center overflow-hidden group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300">
+                    <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-gray-700 flex items-end justify-center overflow-hidden">
+                      <div className="w-5 h-2.5 sm:w-6 sm:h-3 bg-gray-500 rounded-t-full" />
                     </div>
-                    <div className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" />
+                    <div className="absolute top-1 right-1 sm:top-1.5 sm:right-1.5 w-1 h-1 sm:w-1.5 sm:h-1.5 bg-red-500 rounded-full animate-pulse" />
                   </div>
                 </div>
               </div>
             </FeatureCard>
 
-            {/* Card 2: Resolution & Export */}
             <FeatureCard bgColor={COLORS.cardPurple}>
-              <div className="relative z-10 p-6 pt-8 text-center">
-                <h3 className="text-xl font-semibold text-gray-900">Resolution & Export</h3>
-                <p className="mt-2 text-sm text-gray-700">
+              <div className="relative z-10 p-4 sm:p-5 md:p-6 pt-6 sm:pt-7 md:pt-8 text-center">
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-900">Resolution & Export</h3>
+                <p className="mt-1.5 sm:mt-2 text-xs sm:text-sm text-gray-700 leading-relaxed">
                   Up to 4K quality with
                   <br />multiple export formats
                 </p>
               </div>
 
-              <div className="relative z-10 flex-1 flex items-center justify-center px-6 pb-6">
-                <div className="relative w-full max-w-[240px] h-[160px]">
-                  {/* Resolution options */}
-                  <div className="absolute left-0 top-2 bg-white/95 backdrop-blur-sm rounded-xl shadow-xl p-4 w-[140px] -rotate-3 border border-white/50 group-hover:-rotate-1 group-hover:-translate-y-1 transition-all duration-300">
-                    <p className="text-xs font-semibold text-gray-900 mb-3">Resolution</p>
-                    <div className="space-y-2">
+              <div className="relative z-10 flex-1 flex items-center justify-center px-4 sm:px-5 md:px-6 pb-4 sm:pb-5 md:pb-6">
+                <div className="relative w-full max-w-[200px] sm:max-w-[220px] md:max-w-[240px] h-[140px] sm:h-[150px] md:h-[160px]">
+                  <div className="absolute left-0 top-1 sm:top-2 bg-white/95 backdrop-blur-sm rounded-lg sm:rounded-xl shadow-xl p-3 sm:p-4 w-[120px] sm:w-[130px] md:w-[140px] -rotate-3 border border-white/50 group-hover:-rotate-1 group-hover:-translate-y-1 transition-all duration-300">
+                    <p className="text-[10px] sm:text-xs font-semibold text-gray-900 mb-2 sm:mb-3">Resolution</p>
+                    <div className="space-y-1.5 sm:space-y-2">
                       {['720p HD', '1080p Full HD', '4K Ultra HD'].map((item, i) => (
-                        <div key={item} className="flex items-center gap-2 text-xs">
-                          <span className={`h-2.5 w-2.5 rounded-full ${i === 2 ? 'bg-violet-500' : 'bg-gray-200'}`} />
+                        <div key={item} className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs">
+                          <span className={`h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full ${i === 2 ? 'bg-violet-500' : 'bg-gray-200'}`} />
                           <span className={i === 2 ? 'text-gray-900 font-medium' : 'text-gray-500'}>{item}</span>
                         </div>
                       ))}
                     </div>
                   </div>
 
-                  {/* Export formats */}
-                  <div className="absolute right-0 bottom-0 bg-white/95 backdrop-blur-sm rounded-xl shadow-xl p-4 w-[140px] rotate-3 border border-white/50 group-hover:rotate-1 group-hover:-translate-y-1 transition-all duration-300">
-                    <p className="text-xs font-semibold text-gray-900 mb-3">Export Format</p>
-                    <div className="space-y-2">
+                  <div className="absolute right-0 bottom-0 bg-white/95 backdrop-blur-sm rounded-lg sm:rounded-xl shadow-xl p-3 sm:p-4 w-[120px] sm:w-[130px] md:w-[140px] rotate-3 border border-white/50 group-hover:rotate-1 group-hover:-translate-y-1 transition-all duration-300">
+                    <p className="text-[10px] sm:text-xs font-semibold text-gray-900 mb-2 sm:mb-3">Export Format</p>
+                    <div className="space-y-1.5 sm:space-y-2">
                       {['MP4 (H.264)', 'WebM (VP9)', 'GIF'].map((item, i) => (
-                        <div key={item} className="flex items-center gap-2 text-xs">
-                          <span className={`h-2.5 w-2.5 rounded ${i === 0 ? 'bg-violet-500' : 'bg-gray-200'}`} />
+                        <div key={item} className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs">
+                          <span className={`h-2 w-2 sm:h-2.5 sm:w-2.5 rounded ${i === 0 ? 'bg-violet-500' : 'bg-gray-200'}`} />
                           <span className={i === 0 ? 'text-gray-900 font-medium' : 'text-gray-500'}>{item}</span>
                         </div>
                       ))}
@@ -299,34 +364,35 @@ export default function Home() {
               </div>
             </FeatureCard>
 
-            {/* Card 3: Privacy & Open Source */}
             <FeatureCard bgColor={COLORS.cardGreen}>
-              <div className="relative z-10 p-6 pt-8 text-center">
-                <h3 className="text-xl font-semibold text-gray-900">Privacy & Open Source</h3>
-                <p className="mt-2 text-sm text-gray-700">
-                  100% client-side processing —
-                  <br />your data never leaves your browser
+              <div className="relative z-10 p-4 sm:p-5 md:p-6 pt-6 sm:pt-7 md:pt-8 text-center">
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-900">Privacy & Open Source</h3>
+                <p className="mt-1.5 sm:mt-2 text-xs sm:text-sm text-gray-700/90 leading-relaxed max-w-xs mx-auto">
+                  100% client-side processing — your data never leaves your browser
                 </p>
               </div>
 
-              <div className="relative z-10 flex-1 flex items-center justify-center px-6 pb-6">
-                <div className="relative flex items-center justify-center">
-                  {/* Left badge */}
-                  <Badge position="-left-28 top-[30%] -translate-y-1/2">
-                    <GitHubIcon className="w-4 h-4" />
-                    Open source
-                  </Badge>
+              <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-4 sm:px-5 md:px-6 pb-6 sm:pb-7 md:pb-8 gap-5 sm:gap-6">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-emerald-400/20 rounded-[20px] sm:rounded-[24px] blur-xl group-hover:bg-emerald-400/30 transition-colors duration-500" />
+                  <div className="relative w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-white to-emerald-50/50 backdrop-blur-sm rounded-[18px] sm:rounded-[22px] shadow-[0_8px_32px_rgba(16,185,129,0.15),0_2px_8px_rgba(0,0,0,0.05)] border-2 border-white/80 flex items-center justify-center group-hover:scale-110 group-hover:-translate-y-2 group-hover:shadow-[0_16px_48px_rgba(16,185,129,0.25),0_4px_16px_rgba(0,0,0,0.08)] transition-all duration-500">
+                    <ShieldIcon className="w-9 h-9 sm:w-11 sm:h-11 text-emerald-600 group-hover:text-emerald-700 transition-colors duration-300" />
+                  </div>
+                </div>
 
-                  {/* Shield icon */}
-                  <div className="w-20 h-20 bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-white/60 flex items-center justify-center group-hover:scale-105 group-hover:-translate-y-1 transition-all duration-300">
-                    <ShieldIcon className="w-8 h-8 text-emerald-600" />
+                <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 w-full max-w-[280px]">
+                  <div className="inline-flex items-center gap-1.5 sm:gap-2 bg-white/95 backdrop-blur-sm rounded-lg sm:rounded-xl shadow-[0_2px_12px_rgba(0,0,0,0.08)] px-3 py-2 sm:px-3.5 sm:py-2.5 border border-white/60 group-hover:shadow-[0_4px_20px_rgba(0,0,0,0.12)] group-hover:-translate-y-0.5 transition-all duration-300">
+                    <GitHubIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-700" />
+                    <span className="text-[11px] sm:text-xs font-medium text-gray-700">Open source</span>
                   </div>
 
-                  {/* Right badge */}
-                  <Badge position="-right-24 bottom-[10%]" hoverDirection="right">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                    Local only
-                  </Badge>
+                  <div className="inline-flex items-center gap-1.5 sm:gap-2 bg-emerald-50/90 backdrop-blur-sm rounded-lg sm:rounded-xl shadow-[0_2px_12px_rgba(16,185,129,0.08)] px-3 py-2 sm:px-3.5 sm:py-2.5 border border-emerald-100/60 group-hover:shadow-[0_4px_20px_rgba(16,185,129,0.15)] group-hover:-translate-y-0.5 transition-all duration-300">
+                    <span className="relative flex h-2 w-2 sm:h-2.5 sm:w-2.5">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                      <span className="relative inline-flex rounded-full h-2 w-2 sm:h-2.5 sm:w-2.5 bg-emerald-500" />
+                    </span>
+                    <span className="text-[11px] sm:text-xs font-medium text-emerald-900">Local only</span>
+                  </div>
                 </div>
               </div>
             </FeatureCard>

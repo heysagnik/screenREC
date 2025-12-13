@@ -158,7 +158,10 @@ export default function RecordingControls({
             </button>
 
             <button
-              onClick={onStopRecording}
+              onClick={() => {
+                console.log('[RecordingControls] Stop button clicked');
+                onStopRecording?.();
+              }}
               className="flex items-center gap-2 px-6 py-3 rounded-full bg-gray-900 hover:bg-black text-white font-medium transition-all"
               aria-label="Stop recording"
             >
