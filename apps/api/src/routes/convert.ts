@@ -35,11 +35,25 @@ const upload = multer({
         fileSize: 500 * 1024 * 1024, // 500MB max
     },
     fileFilter: (req, file, cb) => {
+        // Accept video/* mimetypes
         if (file.mimetype.startsWith('video/')) {
             cb(null, true);
-        } else {
-            cb(new Error('Only video files are allowed'));
+            return;
         }
+        // Also accept application/octet-stream (browsers sometimes send this)
+        if (file.mimetype === 'application/octet-stream') {
+            cb(null, true);
+            return;
+        }
+        // Accept files with video extensions
+        const videoExtensions = ['.webm', '.mp4', '.mkv', '.avi', '.mov', '.wmv'];
+        const ext = path.extname(file.originalname).toLowerCase();
+        if (videoExtensions.includes(ext)) {
+            cb(null, true);
+            return;
+        }
+        console.error(`Rejected file: ${file.originalname} (mimetype: ${file.mimetype})`);
+        cb(new Error(`Only video files are allowed. Received: ${file.mimetype}`));
     },
 });
 

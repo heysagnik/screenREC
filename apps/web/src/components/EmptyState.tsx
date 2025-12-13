@@ -17,16 +17,16 @@ export default function EmptyState({ onShareScreen, onStartCamera }: EmptyStateP
       <div className="flex flex-col sm:flex-row gap-3 justify-center items-stretch sm:items-center max-w-sm mx-auto">
         <button
           onClick={onShareScreen}
-          className="flex items-center justify-center gap-2 px-5 sm:px-6 py-3 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white rounded-lg font-medium transition text-sm sm:text-base"
+          className="flex items-center justify-center gap-1.5 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-medium transition shadow-sm"
         >
-          <Monitor size={18} className="sm:w-5 sm:h-5" />
+          <Monitor size={18} />
           Share Screen
         </button>
         <button
           onClick={onStartCamera}
-          className="flex items-center justify-center gap-2 px-5 sm:px-6 py-3 bg-gray-700 hover:bg-gray-600 active:bg-gray-800 text-white rounded-lg font-medium transition text-sm sm:text-base"
+          className="flex items-center justify-center gap-1.5 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-medium transition shadow-sm"
         >
-          <Camera size={18} className="sm:w-5 sm:h-5" />
+          <Camera size={18} />
           Start Camera
         </button>
       </div>
