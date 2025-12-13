@@ -1,4 +1,6 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+// Ensure API_URL is an absolute URL with protocol
+const rawApiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+const API_URL = rawApiUrl.startsWith('http') ? rawApiUrl : `https://${rawApiUrl}`;
 
 export interface ConvertOptions {
     onProgress?: (progress: number) => void;
