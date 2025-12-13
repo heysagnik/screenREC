@@ -1,9 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Smartphone, Monitor } from 'lucide-react';
 
 const COLORS = {
   hero: '#f5c896',
@@ -15,7 +13,6 @@ const COLORS = {
 const NOISE_TEXTURE_SVG = `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`;
 
 
-/** Noise texture overlay for premium backgrounds */
 function NoiseOverlay({ opacity = 0.4 }: { opacity?: number }) {
   return (
     <div
@@ -26,7 +23,6 @@ function NoiseOverlay({ opacity = 0.4 }: { opacity?: number }) {
   );
 }
 
-/** GitHub icon SVG */
 function GitHubIcon({ className = 'w-5 h-5' }: { className?: string }) {
   return (
     <svg className={className} fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -39,7 +35,6 @@ function GitHubIcon({ className = 'w-5 h-5' }: { className?: string }) {
   );
 }
 
-/** Shield icon for privacy section */
 function ShieldIcon({ className = 'w-8 h-8' }: { className?: string }) {
   return (
     <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
@@ -52,7 +47,6 @@ function ShieldIcon({ className = 'w-8 h-8' }: { className?: string }) {
   );
 }
 
-/** Play icon for CTA button */
 function PlayIcon({ className = 'w-6 h-6' }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -65,7 +59,6 @@ function PlayIcon({ className = 'w-6 h-6' }: { className?: string }) {
   );
 }
 
-/** Feature card wrapper with consistent styling */
 function FeatureCard({
   bgColor,
   children,
@@ -82,122 +75,11 @@ function FeatureCard({
   );
 }
 
-function useMobileDetection() {
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      const ua = navigator.userAgent.toLowerCase();
-      const isMobileUA = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(ua);
-      const isSmallScreen = window.innerWidth < 768;
-      const isTouchOnly = navigator.maxTouchPoints > 0 && !window.matchMedia('(hover: hover)').matches;
-      
-      setIsMobile(isMobileUA || (isSmallScreen && isTouchOnly));
-    };
-
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  return isMobile;
-}
-
-function MobileWarningModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isOpen]);
-
-  if (!isOpen) return null;
-
-  return (
-    <div 
-      className="fixed inset-0 z-[9999] overflow-y-auto"
-      style={{ 
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-      }}
-    >
-      <div className="min-h-screen px-4 py-8 flex items-center justify-center">
-        <div 
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300" 
-          onClick={onClose}
-          aria-hidden="true"
-        />
-        
-        <div
-          className="relative bg-white rounded-xl sm:rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.3)] max-w-md w-full p-5 sm:p-6 animate-in fade-in zoom-in-95 duration-300"
-          onClick={(e) => e.stopPropagation()}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="modal-title"
-        >
-          <div className="flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-orange-100 rounded-full mx-auto mb-3 sm:mb-4">
-            <Smartphone className="w-7 h-7 sm:w-8 sm:h-8 text-orange-600" />
-          </div>
-          
-          <h2 id="modal-title" className="text-xl sm:text-2xl font-bold text-gray-900 text-center mb-2 sm:mb-3">
-            Desktop Required
-          </h2>
-          
-          <p className="text-sm sm:text-base text-gray-600 text-center mb-5 sm:mb-6 leading-relaxed">
-            ScreenREC uses advanced browser APIs that are only available on desktop browsers. Please visit this site on a desktop or laptop computer to start recording.
-          </p>
-
-          <div className="bg-blue-50 border border-blue-100 rounded-lg sm:rounded-xl p-3 sm:p-4 mb-5 sm:mb-6">
-            <div className="flex items-start gap-2 sm:gap-3">
-              <Monitor className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-              <div className="text-xs sm:text-sm text-blue-900">
-                <p className="font-medium mb-0.5 sm:mb-1">Supported browsers:</p>
-                <p className="text-blue-700">Chrome, Edge, Firefox, Safari (desktop versions)</p>
-              </div>
-            </div>
-          </div>
-
-          <button
-            onClick={onClose}
-            className="w-full py-2.5 sm:py-3 bg-gray-900 hover:bg-black active:bg-black text-white rounded-lg sm:rounded-xl font-medium transition-colors text-sm sm:text-base"
-          >
-            Got it
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function RecordingButton({ className, children }: { className: string; children: React.ReactNode }) {
-  const isMobile = useMobileDetection();
-  const [showModal, setShowModal] = useState(false);
-
-  const handleClick = (e: React.MouseEvent) => {
-    if (isMobile) {
-      e.preventDefault();
-      setShowModal(true);
-    }
-  };
-
   return (
-    <>
-      <Link
-        href="/record"
-        onClick={handleClick}
-        className={className}
-      >
-        {children}
-      </Link>
-      <MobileWarningModal isOpen={showModal} onClose={() => setShowModal(false)} />
-    </>
+    <Link href="/record" className={className}>
+      {children}
+    </Link>
   );
 }
 

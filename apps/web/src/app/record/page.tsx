@@ -31,6 +31,7 @@ export default function RecordPage() {
   const [isVideoLoading, setIsVideoLoading] = useState(false);
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [isConverting, setIsConverting] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const notificationIdRef = useRef(0);
 
   const [conversionProgress, setConversionProgress] = useState(0);
@@ -40,6 +41,20 @@ export default function RecordPage() {
   const playbackVideoRef = useRef<HTMLVideoElement>(null);
   const previewContainerRef = useRef<HTMLDivElement>(null);
   const countdownIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Mobile detection
+  useEffect(() => {
+    const checkMobile = () => {
+      const ua = navigator.userAgent.toLowerCase();
+      const isMobileUA = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(ua);
+      const isSmallScreen = window.innerWidth < 768;
+      const isTouchOnly = navigator.maxTouchPoints > 0 && !window.matchMedia('(hover: hover)').matches;
+      setIsMobile(isMobileUA || (isSmallScreen && isTouchOnly));
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const {
     isScreenShared,
@@ -98,6 +113,14 @@ export default function RecordPage() {
       setNotifications((prev) => prev.filter((n) => n.id !== id));
     }, 5000);
   }, []);
+
+  const handleShareScreenWithMobileCheck = useCallback(() => {
+    if (isMobile) {
+      showNotification('Screen sharing requires a desktop browser. Please use Chrome, Edge, Firefox, or Safari on a computer.', 'error');
+      return;
+    }
+    handleShareScreen();
+  }, [isMobile, showNotification, handleShareScreen]);
 
   const removeNotification = useCallback((id: number) => {
     setNotifications((prev) => prev.filter((n) => n.id !== id));
@@ -329,7 +352,7 @@ export default function RecordPage() {
 
     // Also stop via the hook to update state
     stopAllStreams();
-    
+
     // Clear video element srcObjects to release references
     document.querySelectorAll('video').forEach((video) => {
       if (video.srcObject) {
@@ -378,7 +401,7 @@ export default function RecordPage() {
           if (isScreenShared) {
             stopScreen();
           } else {
-            handleShareScreen();
+            handleShareScreenWithMobileCheck();
           }
           break;
       }
@@ -561,7 +584,7 @@ export default function RecordPage() {
                 cameraPositionClasses={getCameraPositionClasses()}
                 isDragging={isDragging}
                 selectedLayout={selectedLayout}
-                onShareScreen={handleShareScreen}
+                onShareScreen={handleShareScreenWithMobileCheck}
                 onStartCamera={handleStartCamera}
                 onStopCamera={stopCamera}
                 onCameraDragStart={handleCameraDragStart}
@@ -574,7 +597,7 @@ export default function RecordPage() {
               onStartRecording={handleStartRecording}
               onStopRecording={handleStopRecording}
               onPauseRecording={pauseRecording}
-              onShareScreen={handleShareScreen}
+              onShareScreen={handleShareScreenWithMobileCheck}
               onStopScreen={stopScreen}
               onStartCamera={handleStartCamera}
               onStopCamera={stopCamera}

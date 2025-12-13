@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { HelpCircle, X, ExternalLink } from 'lucide-react';
+import { HelpCircle, X, ExternalLink, Bug, Lightbulb } from 'lucide-react';
 import Image from 'next/image';
 import { GitHubIcon, LinkedInIcon, XIcon } from './icons/SocialIcons';
 
@@ -163,7 +163,33 @@ export default function InfoButton() {
                                 </div>
                             </div>
 
-                            {/* Legacy link */}
+                            <div className="mb-4 space-y-2">
+                                <a
+                                    href="https://github.com/heysagnik/screenREC/issues/new?labels=bug&template=bug_report.md"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center justify-between p-3 bg-red-50 hover:bg-red-100 rounded-xl transition-all group"
+                                >
+                                    <div className="flex items-center gap-2.5">
+                                        <Bug className="w-4 h-4 text-red-600" />
+                                        <span className="text-sm font-medium text-red-900">Report a Bug</span>
+                                    </div>
+                                    <ExternalLink className="w-3.5 h-3.5 text-red-400 group-hover:text-red-600" />
+                                </a>
+                                <a
+                                    href="https://github.com/heysagnik/screenREC/issues/new?labels=enhancement&template=feature_request.md"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center justify-between p-3 bg-indigo-50 hover:bg-indigo-100 rounded-xl transition-all group"
+                                >
+                                    <div className="flex items-center gap-2.5">
+                                        <Lightbulb className="w-4 h-4 text-indigo-600" />
+                                        <span className="text-sm font-medium text-indigo-900">Request Feature</span>
+                                    </div>
+                                    <ExternalLink className="w-3.5 h-3.5 text-indigo-400 group-hover:text-indigo-600" />
+                                </a>
+                            </div>
+
                             <a
                                 href="https://screen-rec-legacy.vercel.app/"
                                 target="_blank"

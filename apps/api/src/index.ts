@@ -5,12 +5,23 @@ import { convertRouter } from './routes/convert';
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Trust proxy for Railway/reverse proxy deployments
-// This fixes the X-Forwarded-For header validation error in express-rate-limit
 app.set('trust proxy', 1);
 
+const allowedOrigins = [
+    'http://localhost:3000',
+    'https://screen-rec.vercel.app',
+    'https://screen-rec-web.vercel.app',
+    process.env.FRONTEND_URL,
+].filter(Boolean) as string[];
+
 app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type'],
 }));
