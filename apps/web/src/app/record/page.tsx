@@ -7,40 +7,34 @@ import VideoPreview from '@/components/VideoPreview';
 import MinimalVideoPlayer from '@/components/MinimalVideoPlayer';
 import PlaybackControls from '@/components/PlaybackControls';
 import CountdownOverlay from '@/components/CountdownOverlay';
-import Notification, { NotificationType } from '@/components/Notification';
+import Notification from '@/components/Notification';
 import DownloadSettingsModal, { DownloadSettings } from '@/components/DownloadSettingsModal';
 import { useMediaStreams } from '@/hooks/useMediaStreams';
 import { useRecording } from '@/hooks/useRecording';
 import { useCameraPosition } from '@/hooks/useCameraPosition';
+import { useNotifications } from '@/hooks/useNotifications';
+import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
 import { convertToMp4 as convertToMp4Api } from '@/services/api';
 import { combineStreams, forceCleanupCombinedStreams } from '@/utils/streamCombiner';
 import { RecordingLayout } from '@/types/layout';
-
-interface NotificationState {
-  message: string;
-  type: NotificationType;
-  id: number;
-}
 
 export default function RecordPage() {
   const [recordedBlob, setRecordedBlob] = useState<Blob | null>(null);
   const [recordedVideoUrl, setRecordedVideoUrl] = useState<string | null>(null);
   const [selectedLayout, setSelectedLayout] = useState<RecordingLayout>('pip');
   const [countdown, setCountdown] = useState<number | null>(null);
-  const [notifications, setNotifications] = useState<NotificationState[]>([]);
   const [isVideoLoading, setIsVideoLoading] = useState(false);
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [isConverting, setIsConverting] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const notificationIdRef = useRef(0);
-
   const [conversionProgress, setConversionProgress] = useState(0);
 
   const screenVideoRef = useRef<HTMLVideoElement>(null);
   const cameraVideoRef = useRef<HTMLVideoElement>(null);
-  const playbackVideoRef = useRef<HTMLVideoElement>(null);
   const previewContainerRef = useRef<HTMLDivElement>(null);
   const countdownIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  const { notifications, showNotification, removeNotification } = useNotifications();
 
   // Mobile detection
   useEffect(() => {
@@ -68,6 +62,7 @@ export default function RecordPage() {
     handleToggleMic,
     stopCamera,
     stopScreen,
+    stopMic,
     stopAllStreams,
   } = useMediaStreams();
 
@@ -103,28 +98,23 @@ export default function RecordPage() {
     getCameraCanvasPosition,
   } = useCameraPosition();
 
-  const showNotification = useCallback((message: string, type: NotificationType) => {
-    notificationIdRef.current += 1;
-    const id = notificationIdRef.current;
-
-    setNotifications((prev) => [...prev, { message, type, id }]);
-
-    setTimeout(() => {
-      setNotifications((prev) => prev.filter((n) => n.id !== id));
-    }, 5000);
-  }, []);
-
   const handleShareScreenWithMobileCheck = useCallback(() => {
     if (isMobile) {
-      showNotification('Screen sharing requires a desktop browser. Please use Chrome, Edge, Firefox, or Safari on a computer.', 'error');
+      showNotification('Screen sharing requires a desktop browser.', 'error');
       return;
     }
     handleShareScreen();
   }, [isMobile, showNotification, handleShareScreen]);
 
-  const removeNotification = useCallback((id: number) => {
-    setNotifications((prev) => prev.filter((n) => n.id !== id));
-  }, []);
+  useKeyboardShortcuts({
+    isRecording,
+    isCameraOn,
+    isScreenShared,
+    onPause: pauseRecording,
+    onToggleMic: handleToggleMic,
+    onToggleCamera: () => isCameraOn ? stopCamera() : handleStartCamera(),
+    onToggleScreen: () => isScreenShared ? stopScreen() : handleShareScreenWithMobileCheck(),
+  });
 
   useEffect(() => {
     const videoElement = screenVideoRef.current;
@@ -141,45 +131,12 @@ export default function RecordPage() {
   }, [isCameraOn, cameraStreamRef]);
 
   useEffect(() => {
-    const videoElement = playbackVideoRef.current;
-
-    if (!videoElement || !recordedVideoUrl) {
+    if (!recordedVideoUrl) {
       setIsVideoLoading(false);
       return;
     }
-
-    setIsVideoLoading(true);
-
-    const handleError = (e: Event) => {
-      const target = e.target as HTMLVideoElement;
-      const error = target.error;
-
-      let errorMessage = 'Failed to load recorded video';
-      if (error?.code === 4) {
-        errorMessage = 'Video format not supported by browser';
-      } else if (error?.code === 3) {
-        errorMessage = 'Video file is corrupted or incomplete';
-      }
-
-      showNotification(errorMessage, 'error');
-      setIsVideoLoading(false);
-    };
-
-    const handleLoadedData = () => {
-      setIsVideoLoading(false);
-    };
-
-    videoElement.addEventListener('error', handleError);
-    videoElement.addEventListener('loadeddata', handleLoadedData);
-
-    videoElement.load();
-    videoElement.src = recordedVideoUrl;
-
-    return () => {
-      videoElement.removeEventListener('error', handleError);
-      videoElement.removeEventListener('loadeddata', handleLoadedData);
-    };
-  }, [recordedVideoUrl, recordedBlob, showNotification]);
+    setIsVideoLoading(false);
+  }, [recordedVideoUrl]);
 
   useEffect(
     () => () => {
@@ -344,84 +301,20 @@ export default function RecordPage() {
   const handleStopRecording = useCallback(() => {
     console.log('[RecordPage] handleStopRecording called');
 
-    // Stop the MediaRecorder first
+    // Stop the MediaRecorder first - this triggers onstop which creates the blob
     stopRecording();
 
-    // Force cleanup of combined streams - this stops the ORIGINAL input tracks
-    forceCleanupCombinedStreams();
-
-    // Also stop via the hook to update state
-    stopAllStreams();
-
-    // Clear video element srcObjects to release references
-    document.querySelectorAll('video').forEach((video) => {
-      if (video.srcObject) {
-        video.srcObject = null;
-      }
-    });
+    // Delay cleanup to allow MediaRecorder to finish processing
+    // The recorder needs time to:
+    // 1. Request remaining data
+    // 2. Fire onstop callback
+    // 3. Create the blob from chunks
+    // Browser tab capture may need more time than window/screen capture
+    setTimeout(() => {
+      forceCleanupCombinedStreams();
+      stopAllStreams();
+    }, 500);
   }, [stopRecording, stopAllStreams]);
-
-  useEffect(() => {
-    const handleKeyPress = (event: KeyboardEvent) => {
-      const target = event.target as HTMLElement;
-      if (
-        target.tagName === 'INPUT' ||
-        target.tagName === 'TEXTAREA' ||
-        target.isContentEditable
-      ) {
-        return;
-      }
-
-      const key = event.key.toLowerCase();
-      const hasModifier = event.ctrlKey || event.metaKey;
-
-      if (!hasModifier) return;
-
-      switch (key) {
-        case 'p':
-          event.preventDefault();
-          if (isRecording) {
-            pauseRecording();
-          }
-          break;
-        case 'm':
-          event.preventDefault();
-          handleToggleMic();
-          break;
-        case 'c':
-          event.preventDefault();
-          if (isCameraOn) {
-            stopCamera();
-          } else {
-            handleStartCamera();
-          }
-          break;
-        case 's':
-          event.preventDefault();
-          if (isScreenShared) {
-            stopScreen();
-          } else {
-            handleShareScreenWithMobileCheck();
-          }
-          break;
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [
-    isRecording,
-    isCameraOn,
-    isScreenShared,
-    handleStartRecording,
-    handleStopRecording,
-    pauseRecording,
-    handleToggleMic,
-    handleStartCamera,
-    stopCamera,
-    handleShareScreen,
-    stopScreen,
-  ]);
 
   const handleDownload = useCallback(() => {
     if (!recordedBlob) return;

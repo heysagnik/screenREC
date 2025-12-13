@@ -18,14 +18,13 @@ const UPLOAD_CONFIG = {
 } as const;
 
 const FFMPEG_CONFIG = {
-    timeoutMs: 5 * 60 * 1000,
+    timeoutMs: 8 * 60 * 1000,
     threads: 2,
-    preset: 'ultrafast',
-    tune: 'zerolatency',
-    crf: 28,
-    maxVideoBitrate: '2M',
-    bufferSize: '1M',
-    audioBitrate: '128k',
+    preset: 'veryfast',
+    crf: 23,
+    maxVideoBitrate: '5M',
+    bufferSize: '2M',
+    audioBitrate: '192k',
     audioChannels: 2,
 } as const;
 
@@ -106,7 +105,7 @@ function buildFFmpegArgs(inputPath: string, outputPath: string): string[] {
         '-threads', String(FFMPEG_CONFIG.threads),
         '-c:v', 'libx264',
         '-preset', FFMPEG_CONFIG.preset,
-        '-tune', FFMPEG_CONFIG.tune,
+        '-tune', 'film',
         '-crf', String(FFMPEG_CONFIG.crf),
         '-maxrate', FFMPEG_CONFIG.maxVideoBitrate,
         '-bufsize', FFMPEG_CONFIG.bufferSize,

@@ -136,16 +136,7 @@ function createCameraOnlyCanvasStreamWithCleanup(
   const stream = createCameraOnlyCanvasStream(cameraStream, audioStream, onAnimationFrame);
 
   const cleanup = () => {
-    console.log('[streamCombiner] Cleanup: stopping camera-only stream tracks');
-    // Stop all tracks on the captured stream
-    stream.getTracks().forEach(t => { try { t.stop(); } catch { } });
-    // Stop the original camera stream tracks
-    cameraStream.getTracks().forEach(t => {
-      console.log(`[streamCombiner] Stopping camera track: ${t.kind}, readyState=${t.readyState}`);
-      try { t.stop(); } catch { }
-    });
-    // Stop audio stream if present
-    audioStream?.getTracks().forEach(t => { try { t.stop(); } catch { } });
+    stream.getTracks().forEach(t => { try { t.stop(); } catch { /* ignore */ } });
   };
 
   return { stream, cleanup };
@@ -159,16 +150,7 @@ function createScreenOnlyCanvasStreamWithCleanup(
   const stream = createScreenOnlyCanvasStream(screenStream, audioStream, onAnimationFrame);
 
   const cleanup = () => {
-    console.log('[streamCombiner] Cleanup: stopping screen-only stream tracks');
-    // Stop all tracks on the captured stream
-    stream.getTracks().forEach(t => { try { t.stop(); } catch { } });
-    // Stop the original screen stream tracks
-    screenStream.getTracks().forEach(t => {
-      console.log(`[streamCombiner] Stopping screen track: ${t.kind}, readyState=${t.readyState}`);
-      try { t.stop(); } catch { }
-    });
-    // Stop audio stream if present
-    audioStream?.getTracks().forEach(t => { try { t.stop(); } catch { } });
+    stream.getTracks().forEach(t => { try { t.stop(); } catch { /* ignore */ } });
   };
 
   return { stream, cleanup };
@@ -194,21 +176,7 @@ function combineScreenAndCameraWithCleanup(
   );
 
   const cleanup = () => {
-    console.log('[streamCombiner] Cleanup: stopping screen+camera combined stream tracks');
-    // Stop all tracks on the captured/combined stream
-    stream.getTracks().forEach(t => { try { t.stop(); } catch { } });
-    // Stop the original screen stream tracks
-    screenStream.getTracks().forEach(t => {
-      console.log(`[streamCombiner] Stopping screen track: ${t.kind}, readyState=${t.readyState}`);
-      try { t.stop(); } catch { }
-    });
-    // Stop the original camera stream tracks
-    cameraStream.getTracks().forEach(t => {
-      console.log(`[streamCombiner] Stopping camera track: ${t.kind}, readyState=${t.readyState}`);
-      try { t.stop(); } catch { }
-    });
-    // Stop audio stream if present
-    audioStream?.getTracks().forEach(t => { try { t.stop(); } catch { } });
+    stream.getTracks().forEach(t => { try { t.stop(); } catch { /* ignore */ } });
   };
 
   return { stream, cleanup };
