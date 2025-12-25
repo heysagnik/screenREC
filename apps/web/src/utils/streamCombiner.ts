@@ -1,6 +1,8 @@
 import { RecordingLayout } from '@/types/layout';
 import { RECORDING_CONFIG } from '@/config/recording';
 
+export { createWorkerCombinedStream } from './workerStreamCombiner';
+
 // Non-standard VideoFrameCallback helpers
 type RequestVFC = (callback: (now: number, metadata: VideoFrameCallbackMetadata) => void) => number;
 type CancelVFC = (handle: number) => void;
@@ -633,7 +635,7 @@ function combineScreenAndCamera(
             }
           } catch { }
           render();
-        }, 1000 / 15);
+        }, 1000 / 60);  // Use 60 FPS for maximum quality when tab is hidden
       }
     } else {
       if (hiddenTicker != null) {

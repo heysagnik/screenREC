@@ -15,7 +15,8 @@ import { useCameraPosition } from '@/hooks/useCameraPosition';
 import { useNotifications } from '@/hooks/useNotifications';
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
 import { convertToMp4 as convertToMp4Api } from '@/services/api';
-import { combineStreams, forceCleanupCombinedStreams } from '@/utils/streamCombiner';
+import { forceCleanupCombinedStreams } from '@/utils/streamCombiner';
+import { createWorkerCombinedStream } from '@/utils/workerStreamCombiner';
 import { RecordingLayout } from '@/types/layout';
 
 export default function RecordPage() {
@@ -189,18 +190,19 @@ export default function RecordPage() {
         return;
       }
 
-      const { stream: combinedStream } = combineStreams({
+      // Use worker-based stream combiner for consistent frame rate when tab is hidden
+      const { stream: combinedStream, cleanup: workerCleanup } = await createWorkerCombinedStream({
         screenStream: screenStreamRef.current,
         cameraStream: cameraStreamRef.current,
         audioStream: audioStreamRef.current,
         cameraPosition: getCameraCanvasPosition(),
         cameraPositionKey: cameraPosition,
         layout: selectedLayout,
-        onAnimationFrame: () => { },
       });
 
       if (combinedStream.getTracks().length === 0) {
         showNotification('No tracks available to record', 'error');
+        workerCleanup();
         return;
       }
 
