@@ -4,7 +4,15 @@
  */
 
 export const RECORDING_CONFIG = {
-  // Video quality presets
+  CHUNK_INTERVAL: 1000,
+
+  QUALITY_PRESETS: {
+    LOW: { width: 1280, height: 720, frameRate: 30, bitrate: 4_000_000 },
+    MEDIUM: { width: 1920, height: 1080, frameRate: 30, bitrate: 8_000_000 },
+    HIGH: { width: 1920, height: 1080, frameRate: 60, bitrate: 14_000_000 },
+    ULTRA: { width: 3840, height: 2160, frameRate: 30, bitrate: 25_000_000 },
+  },
+
   VIDEO: {
     SCREEN: {
       MAX_WIDTH: 7680,
@@ -24,6 +32,7 @@ export const RECORDING_CONFIG = {
       WEBM_FALLBACK: 8_000_000,
     },
   },
+
 
   // Audio settings
   AUDIO: {
@@ -107,9 +116,9 @@ export function getScreenCaptureConstraints() {
       displaySurface: 'monitor' as const,
       width: { ideal: maxW, max: maxW },
       height: { ideal: maxH, max: maxH },
-      frameRate: { 
-        ideal: RECORDING_CONFIG.VIDEO.SCREEN.IDEAL_FRAMERATE, 
-        max: RECORDING_CONFIG.VIDEO.SCREEN.MAX_FRAMERATE 
+      frameRate: {
+        ideal: RECORDING_CONFIG.VIDEO.SCREEN.IDEAL_FRAMERATE,
+        max: RECORDING_CONFIG.VIDEO.SCREEN.MAX_FRAMERATE
       },
     },
     audio: {
@@ -129,9 +138,9 @@ export function getCameraCaptureConstraints() {
       width: { ideal: RECORDING_CONFIG.VIDEO.CAMERA.IDEAL_WIDTH },
       height: { ideal: RECORDING_CONFIG.VIDEO.CAMERA.IDEAL_HEIGHT },
       facingMode: 'user' as const,
-      frameRate: { 
-        ideal: RECORDING_CONFIG.VIDEO.CAMERA.FRAMERATE, 
-        max: RECORDING_CONFIG.VIDEO.CAMERA.FRAMERATE 
+      frameRate: {
+        ideal: RECORDING_CONFIG.VIDEO.CAMERA.FRAMERATE,
+        max: RECORDING_CONFIG.VIDEO.CAMERA.FRAMERATE
       },
     },
     audio: false,

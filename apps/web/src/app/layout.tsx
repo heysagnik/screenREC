@@ -167,6 +167,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+
         {/* Structured Data */}
         <script
           type="application/ld+json"

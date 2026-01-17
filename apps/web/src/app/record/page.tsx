@@ -1,35 +1,154 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import RecordingControls from '@/components/RecordingControls';
 import Header from '@/components/Header';
 import VideoPreview from '@/components/VideoPreview';
 import MinimalVideoPlayer from '@/components/MinimalVideoPlayer';
-import PlaybackControls from '@/components/PlaybackControls';
 import CountdownOverlay from '@/components/CountdownOverlay';
 import Notification from '@/components/Notification';
 import DownloadSettingsModal, { DownloadSettings } from '@/components/DownloadSettingsModal';
 import { useMediaStreams } from '@/hooks/useMediaStreams';
-import { useRecording } from '@/hooks/useRecording';
+import { useMultiStreamRecording, RecordingResult } from '@/hooks/useMultiStreamRecording';
 import { useCameraPosition } from '@/hooks/useCameraPosition';
 import { useNotifications } from '@/hooks/useNotifications';
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
 import { convertToMp4 as convertToMp4Api } from '@/services/api';
-import { forceCleanupCombinedStreams } from '@/utils/streamCombiner';
-import { createWorkerCombinedStream } from '@/utils/workerStreamCombiner';
 import { RecordingLayout } from '@/types/layout';
+import { Download, Edit3, RefreshCw, Play, Film } from 'lucide-react';
+
+
+interface PostRecordingPreviewProps {
+  result: RecordingResult;
+  onDownload: () => void;
+  onOpenEditor: () => void;
+  onNewRecording: () => void;
+  isConverting: boolean;
+  conversionProgress: number;
+}
+
+function PostRecordingPreview({
+  result,
+  onDownload,
+  onOpenEditor,
+  onNewRecording,
+  isConverting,
+  conversionProgress,
+}: PostRecordingPreviewProps) {
+  // Use screen video for preview, fallback to camera
+  const previewUrl = result.screenUrl || result.cameraUrl;
+  const hasVideo = !!previewUrl;
+  const hasAudio = !!result.audioUrl;
+
+  const formatDuration = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  return (
+    <div className="w-full flex flex-col gap-4 sm:gap-6">
+      {/* Video Preview */}
+      {hasVideo ? (
+        <div className="w-full">
+          <MinimalVideoPlayer src={previewUrl!} />
+        </div>
+      ) : hasAudio ? (
+        <div className="w-full aspect-video rounded-xl sm:rounded-2xl bg-gradient-to-br from-indigo-900 to-purple-900 border border-gray-200 shadow-lg flex flex-col items-center justify-center gap-3">
+          <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
+            <Film className="w-8 h-8 text-white" />
+          </div>
+          <p className="text-white text-lg font-medium">Audio Only Recording</p>
+          <audio controls src={result.audioUrl!} className="mt-2" />
+        </div>
+      ) : (
+        <div className="w-full aspect-video rounded-xl bg-gray-100 flex items-center justify-center">
+          <p className="text-gray-500">No preview available</p>
+        </div>
+      )}
+
+      {/* Recording Info */}
+      <div className="flex items-center justify-center gap-4 text-sm text-gray-500">
+        <span className="flex items-center gap-1.5">
+          <Play className="w-4 h-4" />
+          {formatDuration(result.duration)}
+        </span>
+        {result.screenBlob && (
+          <span>Screen: {(result.screenBlob.size / 1024 / 1024).toFixed(1)} MB</span>
+        )}
+        {result.cameraBlob && (
+          <span>Camera: {(result.cameraBlob.size / 1024 / 1024).toFixed(1)} MB</span>
+        )}
+      </div>
+
+      {/* Converting Overlay */}
+      {isConverting && (
+        <div className="bg-gray-50 rounded-xl p-4 flex items-center gap-4">
+          <div className="w-8 h-8 border-3 border-indigo-200 border-t-indigo-600 rounded-full animate-spin" />
+          <div className="flex-1">
+            <p className="text-sm font-medium text-gray-700">Converting to MP4...</p>
+            <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2">
+              <div
+                className="bg-indigo-600 h-1.5 rounded-full transition-all duration-300"
+                style={{ width: `${conversionProgress}%` }}
+              />
+            </div>
+          </div>
+          <span className="text-sm text-gray-500">{conversionProgress}%</span>
+        </div>
+      )}
+
+      {/* Action Buttons */}
+      <div className="flex flex-wrap items-center justify-center gap-3">
+        <button
+          onClick={onDownload}
+          disabled={isConverting}
+          className="flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition disabled:opacity-50"
+        >
+          <Download className="w-4 h-4" />
+          Download
+        </button>
+
+        <button
+          onClick={onOpenEditor}
+          disabled={isConverting}
+          className="flex items-center gap-2 px-5 py-2.5 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-lg font-medium transition disabled:opacity-50"
+        >
+          <Edit3 className="w-4 h-4" />
+          Open in Editor
+        </button>
+
+        <button
+          onClick={onNewRecording}
+          disabled={isConverting}
+          className="flex items-center gap-2 px-5 py-2.5 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-lg font-medium transition disabled:opacity-50"
+        >
+          <RefreshCw className="w-4 h-4" />
+          New Recording
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ============================================================================
+// Main Record Page
+// ============================================================================
 
 export default function RecordPage() {
-  const [recordedBlob, setRecordedBlob] = useState<Blob | null>(null);
-  const [recordedVideoUrl, setRecordedVideoUrl] = useState<string | null>(null);
+  const router = useRouter();
+
+  // UI State
   const [selectedLayout, setSelectedLayout] = useState<RecordingLayout>('pip');
   const [countdown, setCountdown] = useState<number | null>(null);
-  const [isVideoLoading, setIsVideoLoading] = useState(false);
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [isConverting, setIsConverting] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [conversionProgress, setConversionProgress] = useState(0);
+  const [recordingResult, setRecordingResult] = useState<RecordingResult | null>(null);
 
+  // Refs
   const screenVideoRef = useRef<HTMLVideoElement>(null);
   const cameraVideoRef = useRef<HTMLVideoElement>(null);
   const previewContainerRef = useRef<HTMLDivElement>(null);
@@ -51,6 +170,7 @@ export default function RecordPage() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // Media Streams
   const {
     isScreenShared,
     isCameraOn,
@@ -63,11 +183,12 @@ export default function RecordPage() {
     handleToggleMic,
     stopCamera,
     stopScreen,
-    stopMic,
     stopAllStreams,
   } = useMediaStreams();
 
+  // Recording Hook
   const {
+    recordingState,
     isRecording,
     isPaused,
     recordingTime,
@@ -75,30 +196,35 @@ export default function RecordPage() {
     stopRecording,
     pauseRecording,
     cleanup,
-  } = useRecording({
-    onRecordingComplete: async (blob: Blob) => {
-      if (blob.size === 0) {
+    resetState,
+    getProjectId,
+  } = useMultiStreamRecording({
+    onRecordingComplete: (result: RecordingResult) => {
+      const hasData = result.screenBlob || result.cameraBlob || result.audioBlob;
+      if (!hasData) {
         showNotification('Recording failed: no data captured', 'error');
         return;
       }
 
-      setRecordedBlob(blob);
-      const url = URL.createObjectURL(blob);
-      setRecordedVideoUrl(url);
-      showNotification('Recording saved!', 'success');
+      // Show preview instead of auto-navigating to editor
+      setRecordingResult(result);
+      showNotification('Recording complete!', 'success');
+    },
+    onError: (error: Error) => {
+      showNotification(error.message, 'error');
     },
   });
 
+  // Camera position for PiP
   const {
-    cameraPosition,
     isDragging,
     handleCameraDragStart,
     handleCameraDrag,
     handleCameraDragEnd,
     getCameraPositionClasses,
-    getCameraCanvasPosition,
   } = useCameraPosition();
 
+  // Keyboard shortcuts
   const handleShareScreenWithMobileCheck = useCallback(() => {
     if (isMobile) {
       showNotification('Screen sharing requires a desktop browser.', 'error');
@@ -117,60 +243,32 @@ export default function RecordPage() {
     onToggleScreen: () => isScreenShared ? stopScreen() : handleShareScreenWithMobileCheck(),
   });
 
+  // Sync video elements with streams
   useEffect(() => {
-    const videoElement = screenVideoRef.current;
-    if (videoElement) {
-      videoElement.srcObject = screenStreamRef.current;
+    if (screenVideoRef.current) {
+      screenVideoRef.current.srcObject = screenStreamRef.current;
     }
   }, [isScreenShared, screenStreamRef]);
 
   useEffect(() => {
-    const videoElement = cameraVideoRef.current;
-    if (videoElement) {
-      videoElement.srcObject = cameraStreamRef.current;
+    if (cameraVideoRef.current) {
+      cameraVideoRef.current.srcObject = cameraStreamRef.current;
     }
   }, [isCameraOn, cameraStreamRef]);
 
+  // Cleanup on unmount only (empty deps or minimal deps)
   useEffect(() => {
-    if (!recordedVideoUrl) {
-      setIsVideoLoading(false);
-      return;
-    }
-    setIsVideoLoading(false);
-  }, [recordedVideoUrl]);
-
-  useEffect(
-    () => () => {
+    return () => {
       stopAllStreams();
       cleanup();
-      if (recordedVideoUrl) {
-        URL.revokeObjectURL(recordedVideoUrl);
-      }
       if (countdownIntervalRef.current) {
         clearInterval(countdownIntervalRef.current);
       }
-    },
-    [stopAllStreams, cleanup, recordedVideoUrl]
-  );
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  useEffect(() => {
-    if (isScreenShared && !screenStreamRef.current) {
-      showNotification('Screen share failed. Please try again.', 'error');
-    }
-  }, [isScreenShared, screenStreamRef, showNotification]);
-
-  useEffect(() => {
-    if (isCameraOn && !cameraStreamRef.current) {
-      showNotification('Camera access failed. Please check permissions.', 'error');
-    }
-  }, [isCameraOn, cameraStreamRef, showNotification]);
-
-  useEffect(() => {
-    if (isMicOn && !audioStreamRef.current) {
-      showNotification('Microphone access failed. Please check permissions.', 'error');
-    }
-  }, [isMicOn, audioStreamRef, showNotification]);
-
+  // Warn if leaving during recording
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       if (isRecording) {
@@ -183,6 +281,10 @@ export default function RecordPage() {
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, [isRecording]);
 
+  // ========================================================================
+  // Recording Actions
+  // ========================================================================
+
   const actuallyStartRecording = useCallback(async () => {
     try {
       if (!screenStreamRef.current && !cameraStreamRef.current && !audioStreamRef.current) {
@@ -190,26 +292,14 @@ export default function RecordPage() {
         return;
       }
 
-      // Use worker-based stream combiner for consistent frame rate when tab is hidden
-      const { stream: combinedStream, cleanup: workerCleanup } = await createWorkerCombinedStream({
+      setRecordingResult(null);
+
+      startRecording({
         screenStream: screenStreamRef.current,
         cameraStream: cameraStreamRef.current,
         audioStream: audioStreamRef.current,
-        cameraPosition: getCameraCanvasPosition(),
-        cameraPositionKey: cameraPosition,
-        layout: selectedLayout,
       });
 
-      if (combinedStream.getTracks().length === 0) {
-        showNotification('No tracks available to record', 'error');
-        workerCleanup();
-        return;
-      }
-
-      setRecordedBlob(null);
-      setRecordedVideoUrl(null);
-
-      startRecording(combinedStream);
       showNotification('Recording started!', 'success');
     } catch (error) {
       console.error('Error starting recording:', error);
@@ -219,9 +309,6 @@ export default function RecordPage() {
     screenStreamRef,
     cameraStreamRef,
     audioStreamRef,
-    getCameraCanvasPosition,
-    cameraPosition,
-    selectedLayout,
     startRecording,
     showNotification,
   ]);
@@ -274,8 +361,13 @@ export default function RecordPage() {
       }
     }
 
-    if (isMicOn && !audioStreamRef.current) {
-      errorMessages.push('Microphone is not working');
+    // Allow mic-only recording (audio only)
+    if (isMicOn && !hasValidSource) {
+      if (audioStreamRef.current) {
+        hasValidSource = true;
+      } else {
+        errorMessages.push('Microphone is not working');
+      }
     }
 
     if (errorMessages.length > 0) {
@@ -284,7 +376,7 @@ export default function RecordPage() {
     }
 
     if (!hasValidSource) {
-      showNotification('Please enable screen share or camera before recording', 'info');
+      showNotification('Please enable screen share, camera, or microphone before recording', 'info');
       return;
     }
 
@@ -302,40 +394,41 @@ export default function RecordPage() {
 
   const handleStopRecording = useCallback(() => {
     console.log('[RecordPage] handleStopRecording called');
-
-    // Stop the MediaRecorder first - this triggers onstop which creates the blob
     stopRecording();
-
-    // Delay cleanup to allow MediaRecorder to finish processing
-    // The recorder needs time to:
-    // 1. Request remaining data
-    // 2. Fire onstop callback
-    // 3. Create the blob from chunks
-    // Browser tab capture may need more time than window/screen capture
     setTimeout(() => {
-      forceCleanupCombinedStreams();
       stopAllStreams();
     }, 500);
   }, [stopRecording, stopAllStreams]);
 
+  // ========================================================================
+  // Post-Recording Actions
+  // ========================================================================
+
   const handleDownload = useCallback(() => {
-    if (!recordedBlob) return;
+    if (!recordingResult) return;
     setShowDownloadModal(true);
-  }, [recordedBlob]);
+  }, [recordingResult]);
 
   const handleDownloadConfirm = useCallback(async (settings: DownloadSettings) => {
-    if (!recordedBlob) return;
+    if (!recordingResult) return;
     setShowDownloadModal(false);
 
-    let blobToDownload = recordedBlob;
-    let extension = 'webm';
+    // Get the primary blob to download
+    let blobToDownload = recordingResult.screenBlob || recordingResult.cameraBlob || recordingResult.audioBlob;
+    if (!blobToDownload) {
+      showNotification('No recording data to download', 'error');
+      return;
+    }
 
-    if (settings.format === 'mp4') {
+    let extension = blobToDownload.type.includes('audio') ? 'webm' : 'webm';
+
+    if (settings.format === 'mp4' && !blobToDownload.type.includes('audio')) {
       setIsConverting(true);
       setConversionProgress(0);
       showNotification('Converting to MP4 via server...', 'info');
+
       try {
-        const mp4Blob = await convertToMp4Api(recordedBlob, {
+        const mp4Blob = await convertToMp4Api(blobToDownload, {
           onProgress: setConversionProgress,
         });
         if (mp4Blob) {
@@ -364,19 +457,31 @@ export default function RecordPage() {
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
     showNotification('Recording downloaded successfully', 'success');
-  }, [recordedBlob, showNotification]);
-
-  const handleNewRecording = useCallback(() => {
-    if (recordedVideoUrl) {
-      URL.revokeObjectURL(recordedVideoUrl);
-    }
-    setRecordedBlob(null);
-    setRecordedVideoUrl(null);
-  }, [recordedVideoUrl]);
+  }, [recordingResult, showNotification]);
 
   const handleOpenEditor = useCallback(() => {
-    showNotification('Editor coming soon!', 'success');
-  }, [showNotification]);
+    if (!recordingResult) return;
+    const projectId = getProjectId();
+    if (projectId) {
+      router.push(`/editor?projectId=${projectId}`);
+    } else if (recordingResult.screenUrl) {
+      router.push(`/editor?video=${encodeURIComponent(recordingResult.screenUrl)}`);
+    } else {
+      showNotification('No recording to edit', 'error');
+    }
+  }, [recordingResult, router, showNotification, getProjectId]);
+
+  const handleNewRecording = useCallback(() => {
+    // Revoke old URLs
+    if (recordingResult) {
+      if (recordingResult.screenUrl) URL.revokeObjectURL(recordingResult.screenUrl);
+      if (recordingResult.cameraUrl) URL.revokeObjectURL(recordingResult.cameraUrl);
+      if (recordingResult.audioUrl) URL.revokeObjectURL(recordingResult.audioUrl);
+    }
+
+    setRecordingResult(null);
+    resetState();
+  }, [recordingResult, resetState]);
 
   const handleCameraDragMove = useCallback(
     (e: React.MouseEvent) => {
@@ -385,7 +490,12 @@ export default function RecordPage() {
     [handleCameraDrag]
   );
 
+  // ========================================================================
+  // Render
+  // ========================================================================
 
+  // Show preview when we have a result and are NOT actively recording
+  const showPreview = !!recordingResult && !isRecording;
 
   return (
     <div className="fixed inset-0 bg-gray-50 flex flex-col">
@@ -396,9 +506,10 @@ export default function RecordPage() {
         isOpen={showDownloadModal}
         onClose={() => setShowDownloadModal(false)}
         onDownload={handleDownloadConfirm}
-        videoBlob={recordedBlob}
+        videoBlob={recordingResult?.screenBlob || recordingResult?.cameraBlob || null}
       />
 
+      {/* Notifications */}
       <div className="fixed top-16 sm:top-20 left-1/2 -translate-x-1/2 z-50 h-20 px-4 w-full max-w-md">
         {notifications.slice().reverse().map((notification, index) => (
           <div
@@ -419,93 +530,63 @@ export default function RecordPage() {
         ))}
       </div>
 
-      {/* Converting Overlay */}
-      {isConverting && (
-        <div className="fixed inset-0 z-40 bg-black/70 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-2xl flex flex-col items-center gap-3 sm:gap-4 max-w-sm w-full mx-4">
-            <div className="w-12 h-12 sm:w-16 sm:h-16 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin" />
-            <h3 className="text-lg sm:text-xl font-semibold text-gray-900">Converting to MP4</h3>
-            <p className="text-sm sm:text-base text-gray-500 text-center">Please wait while your recording is being converted...</p>
-            <div className="w-full bg-gray-200 rounded-full h-2">
-              <div
-                className="bg-indigo-600 h-2 rounded-full transition-all duration-300"
-                style={{ width: `${conversionProgress}%` }}
-              />
-            </div>
-            <span className="text-xs sm:text-sm text-gray-500">{conversionProgress}%</span>
-          </div>
-        </div>
-      )}
-
+      {/* Main Content */}
       <main className="flex-1 flex items-center justify-center p-4 sm:p-6 md:p-8">
         <div className="flex flex-col items-center gap-4 sm:gap-6 md:gap-8 w-full max-w-4xl">
-          {recordedVideoUrl ? (
-            <div className="w-full flex flex-col gap-4 sm:gap-5 md:gap-6">
-              <div className="w-full">
-                {isVideoLoading && (
-                  <div className="w-full aspect-video rounded-xl sm:rounded-2xl bg-gray-900 border border-gray-200 shadow-lg flex items-center justify-center">
-                    <div className="flex flex-col items-center gap-2 sm:gap-3">
-                      <div className="w-10 h-10 sm:w-12 sm:h-12 border-4 border-white/30 border-t-white rounded-full animate-spin" />
-                      <p className="text-white text-xs sm:text-sm font-medium">Loading video...</p>
-                    </div>
-                  </div>
-                )}
-                {!isVideoLoading && recordedVideoUrl && (
-                  <MinimalVideoPlayer src={recordedVideoUrl} />
-                )}
+          {showPreview ? (
+            // Post-Recording Preview
+            <PostRecordingPreview
+              result={recordingResult}
+              onDownload={handleDownload}
+              onOpenEditor={handleOpenEditor}
+              onNewRecording={handleNewRecording}
+              isConverting={isConverting}
+              conversionProgress={conversionProgress}
+            />
+          ) : (
+            // Recording UI
+            <>
+              <div className="relative w-full" onMouseMove={handleCameraDragMove} onMouseUp={handleCameraDragEnd}>
+                {countdown !== null && <CountdownOverlay count={countdown} />}
+
+                <VideoPreview
+                  ref={previewContainerRef}
+                  isScreenShared={isScreenShared}
+                  isCameraOn={isCameraOn}
+                  isRecording={isRecording}
+                  isPaused={isPaused}
+                  recordingTime={recordingTime}
+                  screenVideoRef={screenVideoRef}
+                  cameraVideoRef={cameraVideoRef}
+                  cameraPositionClasses={getCameraPositionClasses()}
+                  isDragging={isDragging}
+                  selectedLayout={selectedLayout}
+                  onShareScreen={handleShareScreenWithMobileCheck}
+                  onStartCamera={handleStartCamera}
+                  onStopCamera={stopCamera}
+                  onCameraDragStart={handleCameraDragStart}
+                />
               </div>
 
-              {/* Controls - Bottom */}
-              <PlaybackControls
-                onDownload={handleDownload}
-                onNewRecording={handleNewRecording}
-                onOpenEditor={handleOpenEditor}
-                videoBlob={recordedBlob}
-              />
-            </div>
-          ) : (
-            <div className="relative w-full" onMouseMove={handleCameraDragMove} onMouseUp={handleCameraDragEnd}>
-              {countdown !== null && <CountdownOverlay count={countdown} />}
-
-              <VideoPreview
-                ref={previewContainerRef}
-                isScreenShared={isScreenShared}
-                isCameraOn={isCameraOn}
-                isRecording={isRecording}
-                isPaused={isPaused}
-                recordingTime={recordingTime}
-                screenVideoRef={screenVideoRef}
-                cameraVideoRef={cameraVideoRef}
-                cameraPositionClasses={getCameraPositionClasses()}
-                isDragging={isDragging}
-                selectedLayout={selectedLayout}
+              <RecordingControls
+                onStartRecording={handleStartRecording}
+                onStopRecording={handleStopRecording}
+                onPauseRecording={pauseRecording}
                 onShareScreen={handleShareScreenWithMobileCheck}
+                onStopScreen={stopScreen}
                 onStartCamera={handleStartCamera}
                 onStopCamera={stopCamera}
-                onCameraDragStart={handleCameraDragStart}
+                onToggleMic={handleToggleMic}
+                onLayoutChange={setSelectedLayout}
+                isRecording={isRecording}
+                isPaused={isPaused}
+                isCameraActive={isCameraOn}
+                isMicActive={isMicOn}
+                isScreenSharing={isScreenShared}
+                canRecord={isScreenShared || isCameraOn || isMicOn}
+                selectedLayout={selectedLayout}
               />
-            </div>
-          )}
-
-          {!recordedVideoUrl && (
-            <RecordingControls
-              onStartRecording={handleStartRecording}
-              onStopRecording={handleStopRecording}
-              onPauseRecording={pauseRecording}
-              onShareScreen={handleShareScreenWithMobileCheck}
-              onStopScreen={stopScreen}
-              onStartCamera={handleStartCamera}
-              onStopCamera={stopCamera}
-              onToggleMic={handleToggleMic}
-              onLayoutChange={setSelectedLayout}
-              isRecording={isRecording}
-              isPaused={isPaused}
-              isCameraActive={isCameraOn}
-              isMicActive={isMicOn}
-              isScreenSharing={isScreenShared}
-              canRecord={isScreenShared || isCameraOn}
-              selectedLayout={selectedLayout}
-            />
+            </>
           )}
         </div>
       </main>

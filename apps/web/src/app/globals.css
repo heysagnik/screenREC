@@ -13,6 +13,16 @@
 :root {
   --background: #ffffff;
   --foreground: #1a1a1a;
+  --surface: #ffffff;
+  --surface-secondary: #f9fafb;
+  --surface-hover: #f3f4f6;
+  --border: #e5e7eb;
+  --border-light: #f3f4f6;
+  --text-primary: #1f2937;
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
+  --accent: #6366f1;
+  --accent-hover: #4f46e5;
 }
 
 body {
