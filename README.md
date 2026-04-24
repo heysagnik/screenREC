@@ -29,7 +29,7 @@ The project was initially developed by [Sagnik Sahoo](https://twitter.com/heysag
 
 ## Demo
 
-<a href="https://screen-rec.vercel.app/" target="_blank"><img src="https://img.shields.io/badge/Try%20ScreenREC-Live%20Demo-5F27CD?style=for-the-badge&logo=vercel&logoColor=white" alt="Live Demo" /></a>
+<a href="https://screen-rec-web.vercel.app/" target="_blank"><img src="https://img.shields.io/badge/Try%20ScreenREC-Live%20Demo-5F27CD?style=for-the-badge&logo=vercel&logoColor=white" alt="Live Demo" /></a>
 
 ## Tech Stack
 

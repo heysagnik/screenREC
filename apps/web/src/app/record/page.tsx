@@ -228,6 +228,10 @@ export default function RecordPage() {
 
   const startCountdown = useCallback(() => {
     setCountdown(3);
+    
+    if (countdownIntervalRef.current) {
+      clearInterval(countdownIntervalRef.current);
+    }
 
     countdownIntervalRef.current = setInterval(() => {
       setCountdown((prev) => {
